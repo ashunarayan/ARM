@@ -1,0 +1,35 @@
+const express = require('express');
+const router = express.Router();
+const roadController = require('../controllers/roadController');
+const { validateQuery } = require('../middleware/validation');
+const { optionalAuthenticate } = require('../middleware/auth');
+
+/**
+ * @route   GET /api/roads/region/:regionId
+ * @desc    Get road segments in a region
+ * @access  Public
+ */
+router.get('/region/:regionId', optionalAuthenticate, roadController.getRoadSegmentsByRegion);
+
+/**
+ * @route   GET /api/roads/nearby
+ * @desc    Get nearby road segments
+ * @access  Public
+ */
+router.get('/nearby', optionalAuthenticate, validateQuery('nearbyQuery'), roadController.getNearbyRoadSegments);
+
+/**
+ * @route   GET /api/roads/segment/:segmentId
+ * @desc    Get specific road segment details
+ * @access  Public
+ */
+router.get('/segment/:segmentId', optionalAuthenticate, roadController.getRoadSegmentDetails);
+
+/**
+ * @route   GET /api/roads/region/:regionId/stats
+ * @desc    Get road quality statistics for a region
+ * @access  Public
+ */
+router.get('/region/:regionId/stats', optionalAuthenticate, roadController.getRegionStatistics);
+
+module.exports = router;
