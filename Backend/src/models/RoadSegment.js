@@ -14,8 +14,19 @@ const roadSegmentSchema = new mongoose.Schema({
       default: "LineString"
     },
     coordinates: {
-      type: [[Number]], // [[lng, lat], ...]
+      type: [[Number]],
       required: true
+    }
+  },
+
+  centerPoint: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point"
+    },
+    coordinates: {
+      type: [Number] // [lng, lat]
     }
   },
 
@@ -37,13 +48,11 @@ const roadSegmentSchema = new mongoose.Schema({
     index: true
   },
 
-  lastUpdated: {
-    type: Date
-  }
+  lastUpdated: Date
 
 }, { timestamps: true });
 
-roadSegmentSchema.index({ geometry: "2dsphere" });
+roadSegmentSchema.index({ centerPoint: "2dsphere" });
 roadSegmentSchema.index({ regionId: 1 });
 
 module.exports = mongoose.model("RoadSegment", roadSegmentSchema);

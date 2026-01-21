@@ -8,7 +8,6 @@ const observationSchema = new mongoose.Schema({
     index: true
   },
 
-  // GeoJSON location 
   location: {
     type: {
       type: String,
@@ -21,11 +20,20 @@ const observationSchema = new mongoose.Schema({
     }
   },
 
-  // ML output
   roadQuality: {
     type: Number,
     enum: [0, 1, 2, 3],
     required: true
+  },
+
+  speed: {
+    type: Number // km/h (optional but useful)
+  },
+
+  matchingConfidence: {
+    type: Number,
+    min: 0,
+    max: 1
   },
 
   timestamp: {
@@ -44,6 +52,12 @@ const observationSchema = new mongoose.Schema({
     type: String,
     required: true,
     index: true
+  },
+
+  deviceMetadata: {
+    model: String,
+    os: String,
+    appVersion: String
   }
 
 }, { timestamps: true });

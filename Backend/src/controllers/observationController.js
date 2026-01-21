@@ -10,7 +10,15 @@ const { getRegionId } = require('../utils/geohash');
  */
 exports.submitObservation = async (req, res, next) => {
     try {
+
+        console.log("📩 Observation API HIT");
+        console.log("👉 req.body:", req.body);
+        console.log("👉 req.userId:", req.userId);
+
         const { latitude, longitude, roadQuality, speed, timestamp, deviceMetadata } = req.validatedData;
+
+        console.log("✅ validatedData:", req.validatedData);
+
         const userId = req.userId;
 
         // Get region ID from coordinates
@@ -18,6 +26,7 @@ exports.submitObservation = async (req, res, next) => {
 
         // Perform map matching
         const matchResult = await mapMatchingService.matchPoint(latitude, longitude);
+        console.log("🛣️ Map Matching Result:", matchResult);
 
         if (!matchResult) {
             return res.status(400).json({
@@ -29,44 +38,45 @@ exports.submitObservation = async (req, res, next) => {
         // Create observation
         const observation = await Observation.create({
             userId,
-            latitude,
-            longitude,
+            location: {
+                type: "Point",
+                coordinates: [longitude, latitude]
+            },
             roadQuality,
-            speed,
             timestamp: new Date(timestamp),
-            regionId,
             roadSegmentId: matchResult.roadSegmentId,
-            matchingDistance: matchResult.distance,
-            matchingConfidence: matchResult.confidence,
-            deviceMetadata
+            regionId
         });
 
+
         // Update or create road segment
-        let roadSegment = await RoadSegment.findOne({ roadSegmentId: matchResult.roadSegmentId });
+        let roadSegment = await RoadSegment.create({
+            roadSegmentId: matchResult.roadSegmentId,
+            geometry: {
+                type: "LineString",
+                coordinates: [
+                    [matchResult.matchedLongitude, matchResult.matchedLatitude],
+                    [longitude, latitude]
+                ]
+            },
+            centerPoint: {
+                type: "Point",
+                coordinates: [longitude, latitude]
+            },
+            regionId,
+            roadName: matchResult.roadName,
+            observationCount: 1,
+            lastUpdated: new Date()
+        });
 
-        if (!roadSegment) {
-            // Create new road segment
-            roadSegment = await RoadSegment.create({
-                roadSegmentId: matchResult.roadSegmentId,
-                geometry: {
-                    type: 'LineString',
-                    coordinates: [
-                        [matchResult.matchedLongitude, matchResult.matchedLatitude],
-                        [longitude, latitude]
-                    ]
-                },
-                regionId,
-                roadName: matchResult.roadName,
-                observationCount: 1,
-                lastUpdated: new Date()
-            });
-        }
-
+        console.log("🟦 RoadSegment saved:", roadSegment.roadSegmentId);
         // Trigger aggregation (async, don't wait)
         setImmediate(async () => {
             try {
+                console.log("⚙️ Aggregation started for:", matchResult.roadSegmentId);
                 const oldScore = roadSegment.aggregatedQualityScore;
                 const aggregationResult = await aggregationService.aggregateRoadSegment(matchResult.roadSegmentId);
+                console.log("📊 Aggregation Result:", aggregationResult);
 
                 if (aggregationResult && aggregationService.shouldBroadcastUpdate(oldScore, aggregationResult.aggregatedQualityScore, aggregationResult.confidenceScore)) {
                     // Broadcast update via Socket.IO (handled in socket server)
