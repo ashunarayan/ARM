@@ -3,29 +3,22 @@ import { getCurrentLocation } from "./locationService";
 import { getRoadQualityFromML } from "./mlService";
 
 export const sendObservation = async () => {
-  console.log("🚀 sendObservation() CALLED");
+  console.log(" sendObservation() CALLED");
 
-  try {
-    const location = await getCurrentLocation();
-    console.log("📍 Location:", location);
+  const location = await getCurrentLocation();
+  const roadQuality = await getRoadQualityFromML();
 
-    const roadQuality = await getRoadQualityFromML();
-    console.log("🧠 Road Quality:", roadQuality);
+  const payload = {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    roadQuality,
+    speed: location.speed ?? 0,
+    timestamp: new Date().toISOString(),
+  };
 
-    const payload = {
-      latitude: location.latitude,
-      longitude: location.longitude,
-      roadQuality,
-      timestamp: new Date().toISOString(),
-    };
+  console.log(" Payload:", payload);
 
-    console.log("📦 Payload:", payload);
+  await apiRequest("/observations", "POST", payload);
 
-    await apiRequest("/observations", "POST", payload);
-
-    console.log("✅ Observation SENT SUCCESSFULLY");
-  } catch (err) {
-    console.log("❌ sendObservation FAILED:", err.message);
-  }
+  console.log(" Observation SENT");
 };
-
