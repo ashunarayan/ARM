@@ -9,11 +9,11 @@ export const setAuthToken = (token) => {
 export const apiRequest = async (endpoint, method = "GET", body) => {
   const url = `${CONFIG.BASE_URL}${endpoint}`;
 
-  console.log("🌐 API REQUEST");
-  console.log("➡️ URL:", url);
-  console.log("➡️ METHOD:", method);
-  console.log("➡️ BODY:", body);
-  console.log("➡️ TOKEN:", authToken);
+  console.log(" API REQUEST");
+  console.log(" URL:", url);
+  console.log(" METHOD:", method);
+  console.log(" BODY:", body);
+  console.log(" TOKEN:", authToken);
 
   try {
     const res = await fetch(url, {
@@ -27,8 +27,8 @@ export const apiRequest = async (endpoint, method = "GET", body) => {
 
     const data = await res.json();
 
-    console.log("⬅️ API RESPONSE STATUS:", res.status);
-    console.log("⬅️ API RESPONSE DATA:", data);
+    console.log("⬅ API RESPONSE STATUS:", res.status);
+    console.log("⬅ API RESPONSE DATA:", data);
 
     if (!res.ok) {
       throw new Error(data.message || "API Error");
@@ -36,7 +36,7 @@ export const apiRequest = async (endpoint, method = "GET", body) => {
 
     return data;
   } catch (err) {
-    console.log("❌ API REQUEST FAILED:", err.message);
+    console.log(" API REQUEST FAILED:", err.message);
     throw err;
   }
 };
