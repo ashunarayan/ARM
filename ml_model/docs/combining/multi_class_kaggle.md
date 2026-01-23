@@ -86,7 +86,7 @@ Instead of simply taking every 10th row (which might drift if the sampling rate 
 
 ## 9. Combining Data
 
-I merged the processed `dataset_gps_mpu_mid.csv` files from all PVS folders into a single unified dataset: `data/combined/multi_class_kaggle.csv`.
+I merged the processed `dataset_gps_mpu_mid.csv` files from all PVS folders into two files: first 6 columns into train and rest 3 into test at `ml_model\data\combined\multi_class_kaggle`
 
 ## 10. Unit Conversion
 
