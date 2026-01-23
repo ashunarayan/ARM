@@ -11,13 +11,13 @@ const { getRegionId } = require('../utils/geohash');
 exports.submitObservation = async (req, res, next) => {
     try {
 
-        console.log("📩 Observation API HIT");
-        console.log("👉 req.body:", req.body);
-        console.log("👉 req.userId:", req.userId);
+        console.log(" Observation API HIT");
+        console.log(" req.body:", req.body);
+        console.log(" req.userId:", req.userId);
 
         const { latitude, longitude, roadQuality, speed, timestamp, deviceMetadata } = req.validatedData;
 
-        console.log("✅ validatedData:", req.validatedData);
+        console.log(" validatedData:", req.validatedData);
 
         const userId = req.userId;
 
@@ -26,7 +26,7 @@ exports.submitObservation = async (req, res, next) => {
 
         // Perform map matching
         const matchResult = await mapMatchingService.matchPoint(latitude, longitude);
-        console.log("🛣️ Map Matching Result:", matchResult);
+        console.log(" Map Matching Result:", matchResult);
 
         if (!matchResult) {
             return res.status(400).json({
@@ -69,14 +69,14 @@ exports.submitObservation = async (req, res, next) => {
             lastUpdated: new Date()
         });
 
-        console.log("🟦 RoadSegment saved:", roadSegment.roadSegmentId);
+        console.log(" RoadSegment saved:", roadSegment.roadSegmentId);
         // Trigger aggregation (async, don't wait)
         setImmediate(async () => {
             try {
-                console.log("⚙️ Aggregation started for:", matchResult.roadSegmentId);
+                console.log(" Aggregation started for:", matchResult.roadSegmentId);
                 const oldScore = roadSegment.aggregatedQualityScore;
                 const aggregationResult = await aggregationService.aggregateRoadSegment(matchResult.roadSegmentId);
-                console.log("📊 Aggregation Result:", aggregationResult);
+                console.log(" Aggregation Result:", aggregationResult);
 
                 if (aggregationResult && aggregationService.shouldBroadcastUpdate(oldScore, aggregationResult.aggregatedQualityScore, aggregationResult.confidenceScore)) {
                     // Broadcast update via Socket.IO (handled in socket server)
