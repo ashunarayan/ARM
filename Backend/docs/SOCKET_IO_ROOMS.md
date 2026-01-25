@@ -273,9 +273,9 @@ socket.on('disconnect', async () => {
 ## Scalability Considerations
 
 ### Single Server (Current Implementation)
-✅ Works perfectly for thousands of users
-✅ In-memory rooms (fast)
-✅ No external dependencies
+ Works perfectly for thousands of users
+ In-memory rooms (fast)
+ No external dependencies
 
 ### Multi-Server (Future with Redis Adapter)
 

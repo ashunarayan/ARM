@@ -65,5 +65,6 @@ const observationSchema = new mongoose.Schema({
 observationSchema.index({ location: "2dsphere" });
 observationSchema.index({ roadSegmentId: 1, timestamp: -1 });
 observationSchema.index({ regionId: 1, timestamp: -1 });
+observationSchema.index({ createdAt: 1 }, { expireAfterSeconds: 2592000 });
 
 module.exports = mongoose.model("Observation", observationSchema);

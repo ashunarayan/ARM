@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
  */
 const connectDB = async () => {
     try {
+        if (!process.env.MONGODB_URI) {
+            throw new Error('MONGODB_URI environment variable is not set');
+        }
+
         const options = {
             // Use new URL parser
             useNewUrlParser: true,

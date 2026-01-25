@@ -1,20 +1,7 @@
 const socketIO = require('socket.io');
 const { authenticateSocket } = require('../middleware/socketAuth');
-const ActiveSession = require('../models/ActiveSession');
 const { getRegionId } = require('../utils/geohash');
-
-/**
- * Helper: update active session safely
- */
-const updateSession = (socket, data = {}) => {
-    return ActiveSession.findOneAndUpdate(
-        { socketId: socket.id },
-        {
-            ...data,
-            lastActivityAt: new Date()
-        }
-    );
-};
+const sessionService = require('../services/sessionService');
 
 function isValidCoordinate(lat, lng) {
     return (
@@ -39,8 +26,13 @@ function initializeSocketServer(server) {
 
     io.use(authenticateSocket);
 
-    io.on('connection', (socket) => {
+    io.on('connection', async (socket) => {
         console.log(` Socket connected: ${socket.id} (User: ${socket.userId})`);
+
+        // Create session in Redis
+        await sessionService.createSession(socket.id, socket.userId, {
+            userAgent: socket.handshake.headers['user-agent']
+        });
 
         socket.currentRegion = null;
 
@@ -62,9 +54,10 @@ function initializeSocketServer(server) {
                 socket.join(regionId);
                 socket.currentRegion = regionId;
 
-                await updateSession(socket, {
-                    currentRegionId: regionId,
-                    lastLocation: { latitude, longitude }
+                // Update Redis session with region
+                await sessionService.joinRegion(socket.id, regionId, {
+                    latitude,
+                    longitude
                 });
 
                 socket.emit('region-joined', { regionId });
@@ -93,6 +86,8 @@ function initializeSocketServer(server) {
                 if (oldRegion !== newRegionId) {
                     if (oldRegion) {
                         socket.leave(oldRegion);
+                        await sessionService.leaveRegion(socket.id, oldRegion);
+
                         socket.to(oldRegion).emit('user-left-region', {
                             userId: socket.userId,
                             regionId: oldRegion
@@ -101,6 +96,11 @@ function initializeSocketServer(server) {
 
                     socket.join(newRegionId);
                     socket.currentRegion = newRegionId;
+
+                    await sessionService.joinRegion(socket.id, newRegionId, {
+                        latitude,
+                        longitude
+                    });
 
                     socket.to(newRegionId).emit('user-joined-region', {
                         userId: socket.userId,
@@ -113,8 +113,8 @@ function initializeSocketServer(server) {
                     });
                 }
 
-                await updateSession(socket, {
-                    currentRegionId: newRegionId,
+                // Update location in session
+                await sessionService.updateSession(socket.id, {
                     lastLocation: { latitude, longitude }
                 });
 
@@ -128,7 +128,7 @@ function initializeSocketServer(server) {
          */
         socket.on('ping', async () => {
             socket.emit('pong');
-            await updateSession(socket);
+            await sessionService.recordHeartbeat(socket.id);
         });
 
         /**
@@ -139,16 +139,15 @@ function initializeSocketServer(server) {
 
             try {
                 if (socket.currentRegion) {
+                    await sessionService.leaveRegion(socket.id, socket.currentRegion);
                     socket.to(socket.currentRegion).emit('user-left-region', {
                         userId: socket.userId,
                         regionId: socket.currentRegion
                     });
                 }
 
-                await ActiveSession.findOneAndUpdate(
-                    { socketId: socket.id },
-                    { disconnectedAt: new Date() }
-                );
+                // Delete session from Redis
+                await sessionService.deleteSession(socket.id);
 
             } catch (err) {
                 console.error('disconnect cleanup error:', err);

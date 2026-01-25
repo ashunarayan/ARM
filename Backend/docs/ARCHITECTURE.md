@@ -48,19 +48,26 @@
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        MongoDB Database                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────────┐  │
-│  │    users     │  │ observations │  │     roadSegments         │  │
-│  │              │  │              │  │                          │  │
-│  │ - deviceId   │  │ - location   │  │ - roadSegmentId          │  │
-│  │ - email      │  │ - roadQuality│  │ - geometry (GeoJSON)     │  │
-│  │ - isAnonymous│  │ - timestamp  │  │ - aggregatedQualityScore │  │
-│  │              │  │ - regionId   │  │ - regionId (geohash)     │  │
-│  │              │  │ - userId     │  │ - observationCount       │  │
-│  └──────────────┘  └──────────────┘  └──────────────────────────┘  │
+┌─────────────────────────────────────────────────────────────────────┐
+│                        Data Storage Layer                            │
 │  ┌──────────────────────────────────────────────────────────────┐  │
-│  │              activeSessions (TTL collection)                  │  │
-│  │  - socketId, userId, currentRegionId, lastLocation           │  │
+│  │  MongoDB (Persistent Domain Data)                            │  │
+│  │  ┌──────────┐  ┌──────────────┐  ┌──────────────────────┐  │  │
+│  │  │  users   │  │ observations │  │   roadSegments       │  │  │
+│  │  │          │  │              │  │                      │  │  │
+│  │  │ deviceId │  │ location     │  │ roadSegmentId        │  │  │
+│  │  │ email    │  │ roadQuality  │  │ geometry (GeoJSON)   │  │  │
+│  │  │ isAnon   │  │ timestamp    │  │ qualityScore         │  │  │
+│  │  │          │  │ regionId     │  │ observationCount     │  │  │
+│  │  └──────────┘  └──────────────┘  └──────────────────────┘  │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │  Redis (Ephemeral Session State - TTL Auto-Expire)          │  │
+│  │  ┌────────────────┐  ┌────────────────┐  ┌──────────────┐  │  │
+│  │  │ Active Sessions│  │ Region Members │  │  Heartbeats  │  │  │
+│  │  │ session:{id}   │  │ region:{id}    │  │ heartbeat:*  │  │  │
+│  │  │ (1h TTL)       │  │ (1h TTL)       │  │ (5min TTL)   │  │  │
+│  │  └────────────────┘  └────────────────┘  └──────────────┘  │  │
 │  └──────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────┘
                                │

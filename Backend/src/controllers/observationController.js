@@ -50,24 +50,30 @@ exports.submitObservation = async (req, res, next) => {
 
 
         // Update or create road segment
-        let roadSegment = await RoadSegment.create({
-            roadSegmentId: matchResult.roadSegmentId,
-            geometry: {
-                type: "LineString",
-                coordinates: [
-                    [matchResult.matchedLongitude, matchResult.matchedLatitude],
-                    [longitude, latitude]
-                ]
+        let roadSegment = await RoadSegment.findOneAndUpdate(
+            { roadSegmentId: matchResult.roadSegmentId },
+            {
+                $setOnInsert: {
+                    roadSegmentId: matchResult.roadSegmentId,
+                    geometry: {
+                        type: "LineString",
+                        coordinates: [
+                            [matchResult.matchedLongitude, matchResult.matchedLatitude],
+                            [longitude, latitude]
+                        ]
+                    },
+                    centerPoint: {
+                        type: "Point",
+                        coordinates: [longitude, latitude]
+                    },
+                    regionId,
+                    roadName: matchResult.roadName
+                },
+                $inc: { observationCount: 1 },
+                $set: { lastUpdated: new Date() }
             },
-            centerPoint: {
-                type: "Point",
-                coordinates: [longitude, latitude]
-            },
-            regionId,
-            roadName: matchResult.roadName,
-            observationCount: 1,
-            lastUpdated: new Date()
-        });
+            { upsert: true, new: true }
+        );
 
         console.log(" RoadSegment saved:", roadSegment.roadSegmentId);
         // Trigger aggregation (async, don't wait)

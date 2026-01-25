@@ -23,12 +23,16 @@ const authenticateSocket = async (socket, next) => {
         socket.isAnonymous = decoded.isAnonymous || false;
 
         // Create active session
-        await ActiveSession.create({
-            userId: decoded.userId,
-            socketId: socket.id,
-            connectedAt: new Date(),
-            lastActivityAt: new Date()
-        });
+        await ActiveSession.findOneAndUpdate(
+            { socketId: socket.id },
+            {
+                userId: decoded.userId,
+                socketId: socket.id,
+                connectedAt: new Date(),
+                lastActivityAt: new Date()
+            },
+            { upsert: true, new: true }
+        );
 
         next();
     } catch (error) {
