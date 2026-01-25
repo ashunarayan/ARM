@@ -2,14 +2,28 @@
 // 🧪 TEMPORARY TEST ONLY - REMOVE AFTER TESTING
 // ============================================
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { apiRequest } from "../src/api/client";
 import { MapView } from "../src/components/MapView";
+import { AuthScreen } from "../src/components/AuthScreen";
+import { getCurrentUser, onAuthChange } from "../src/services/firebaseAuth";
 import type { MapMarker } from "../src/types";
 
 export default function Index() {
   const [testResult, setTestResult] = useState<string>("");
   const [markers, setMarkers] = useState<MapMarker[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthChange((user) => {
+      setIsAuthenticated(!!user);
+    });
+    return unsubscribe;
+  }, []);
+
+  if (!isAuthenticated) {
+    return <AuthScreen onAuthSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   // 🧪 TEST: Send fake observation to backend
   const runEndToEndTest = async () => {

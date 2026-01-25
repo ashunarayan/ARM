@@ -1,0 +1,28 @@
+# node
+node_modules/
+npm-debug.log*
+
+# env files
+.env
+Backend/.env
+mobile-app/src/.env
+
+# build
+android/
+ios/
+dist/
+build/
+
+# expo
+.expo/
+.expo-shared/
+
+# vscode
+.vscode/
+
+# logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

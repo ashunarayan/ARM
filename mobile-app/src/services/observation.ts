@@ -38,7 +38,7 @@ class ObservationService {
                 longitude: result.location.longitude,
                 roadQuality: result.roadQuality,
                 speed: result.speed,
-                timestamp: result.timestamp,
+                timestamp: new Date(result.timestamp).toISOString(),
                 sessionId: this.sessionId || undefined,
             };
 
@@ -57,7 +57,7 @@ class ObservationService {
                 longitude: result.location.longitude,
                 roadQuality: result.roadQuality,
                 speed: result.speed,
-                timestamp: result.timestamp,
+                timestamp: new Date(result.timestamp).toISOString(),
                 sessionId: this.sessionId || undefined,
             });
         }

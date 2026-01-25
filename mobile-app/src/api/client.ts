@@ -11,6 +11,7 @@
  */
 
 import { ENV } from '../config/env';
+import { getIdToken } from '../services/firebaseAuth';
 
 let authToken: string | null = null;
 
@@ -47,6 +48,8 @@ export const apiRequest = async <T = any>(
         console.log(' BODY:', body);
     }
 
+    const token = await getIdToken();
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -55,7 +58,7 @@ export const apiRequest = async <T = any>(
             method,
             headers: {
                 'Content-Type': 'application/json',
-                ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 ...headers,
             },
             body: body ? JSON.stringify(body) : undefined,

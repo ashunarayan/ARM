@@ -51,7 +51,7 @@ export interface ObservationPayload {
     longitude: number;
     roadQuality: RoadQuality;
     speed: number;
-    timestamp: number;
+    timestamp: string;
     sessionId?: string;
 }
 

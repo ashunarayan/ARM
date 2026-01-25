@@ -13,8 +13,13 @@ const userSchema = new mongoose.Schema({
   name: String,
   deviceId: {
     type: String,
-    required: true,
-    unique: true
+    unique: true,
+    sparse: true
+  },
+  firebaseUid: {
+    type: String,
+    unique: true,
+    sparse: true
   },
   isAnonymous: {
     type: Boolean,
@@ -28,6 +33,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.index({ email: 1 });
 userSchema.index({ deviceId: 1 });
+userSchema.index({ firebaseUid: 1 });
 userSchema.index({ lastActive: -1 });
 
 module.exports = mongoose.model("User", userSchema);
