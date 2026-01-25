@@ -1,53 +1,59 @@
-# Road Quality Detection - Mobile App 🛣️
+# Road Quality Monitoring Mobile App 🛣️
 
-An Expo React Native mobile application with **on-device TinyML** for real-time road quality classification.
+**Updated:** Clean architecture with Mapbox integration and TypeScript service layer
 
-## 🚀 Features
+React Native mobile app for real-time road quality detection using ML and sensor data.
 
-- **On-Device ML Inference**: TensorFlow Lite model runs entirely on device
-- **Real-time Sensor Collection**: 10Hz accelerometer, gyroscope, and GPS data
-- **Sliding Window Processing**: 2-second windows for accurate detection
-- **Backend Integration**: Sends classifications to REST API
-- **Privacy-First**: No raw sensor data sent to server
+## ✨ Features
 
-## 📋 Quick Start
+- 🗺️ **Mapbox Integration** - Interactive maps with user location tracking
+- 🤖 **ML Road Quality Detection** - Real-time inference using TensorFlow Lite
+- 📡 **Backend Sync** - Automatic observation uploads
+- 📱 **Sensor Fusion** - Accelerometer + Gyroscope @ 10Hz
+- 🎯 **Clean Architecture** - TypeScript, service layer, isolated concerns
+- 🔒 **Production-Ready** - No hardcoded values, type-safe, well-documented
 
-### 1. Install Dependencies
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
+npm start
+
+# Run on Android
+npm run android
+
+# Run on iOS  
+npm run ios
 ```
 
-Required packages:
-- TensorFlow.js for React Native
-- Expo Sensors (accelerometer, gyroscope)
-- Expo Location (GPS)
+See **[QUICK_START.md](./QUICK_START.md)** for detailed setup instructions.
 
-### 2. Setup ML Model
+## 📖 Documentation
 
-Convert your `.tflite` model to TensorFlow.js format:
+- **[INTEGRATION_SUMMARY.md](./INTEGRATION_SUMMARY.md)** - ⭐ Start here! What's new and what changed
+- **[MAPBOX_ML_INTEGRATION.md](./docs/MAPBOX_ML_INTEGRATION.md)** - Complete architecture guide
+- **[MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md)** - Migrating from old code
+- **[Backend API Docs](../Backend/docs/API.md)** - Backend API documentation
 
-```bash
-pip install tensorflowjs
-tensorflowjs_converter \
-  --input_format=tf_saved_model \
-  ../ml_model/src/model/saved_model \
-  ./assets/ml-model/
+## 🏗️ Architecture
+
 ```
-
-Place the converted files in `assets/ml-model/`:
-- `model.json`
-- `group1-shard1of1.bin`
-
-### 3. Run the App
-
-```bash
-npx expo start
+UI Layer (React Components)
+          ↓
+Service Layer (Business Logic)
+    - mlService         (ML orchestration)
+    - mapboxService     (Map utilities)
+    - observationService (Backend sync)
+          ↓
+Infrastructure
+    - TensorFlow (ML inference)
+    - Mapbox (Maps)
+    - Backend API
+    - Device Sensors
 ```
-
-**Important**: Test on a real device (simulators lack motion sensors)
-
-## 📱 Usage
 
 ### Basic Integration
 

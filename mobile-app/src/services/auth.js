@@ -1,7 +1,7 @@
 import * as SecureStore from "expo-secure-store";
-import { setAuthToken } from "../api/apiClient";
+import { setAuthToken } from "../api/client";
 
-const API = "http://10.66.175.173:5000/api"; 
+const API = "http://10.66.175.173:5000/api";
 
 export async function initAuth() {
   console.log(" INIT AUTH START");

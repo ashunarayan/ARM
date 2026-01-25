@@ -12,7 +12,7 @@
  * Prevents backend spam while keeping map-ready data
  */
 
-import { apiRequest } from "../api/apiClient";
+import { apiRequest } from "../api/client";
 import { mlService } from "./mlService";
 import { observationManager } from "./observationManager";
 
