@@ -52,7 +52,7 @@ const roadSegmentSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+// centerPoint 2dsphere index (regionId already indexed in schema field)
 roadSegmentSchema.index({ centerPoint: "2dsphere" });
-roadSegmentSchema.index({ regionId: 1 });
 
 module.exports = mongoose.model("RoadSegment", roadSegmentSchema);

@@ -10,10 +10,6 @@ const connectDB = async () => {
         }
 
         const options = {
-            // Use new URL parser
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-
             // Connection pool size
             maxPoolSize: 10,
             minPoolSize: 2,

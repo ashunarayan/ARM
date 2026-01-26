@@ -6,9 +6,9 @@
  */
 
 // Load environment variables
-// In production, use expo-constants or expo-env
-const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN || 'pk.eyJ1IjoiYXNodS1zcmkiLCJhIjoiY21rdG9mNjM0MXFpZTNscW5tdGhhN212aCJ9.ODYbCtFkoMBaKakX-3sHWw';
-const BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://10.66.175.173:5000/api';
+// In Expo, env vars must be prefixed with EXPO_PUBLIC_ to be accessible
+const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1IjoiYXNodS1zcmkiLCJhIjoiY21rdG9mNjM0MXFpZTNscW5tdGhhN212aCJ9.ODYbCtFkoMBaKakX-3sHWw';
+const BACKEND_BASE_URL = process.env.EXPO_PUBLIC_BACKEND_BASE_URL || 'http://10.66.175.173:5000/api';
 
 export const ENV = {
     // Mapbox configuration

@@ -12,33 +12,32 @@ const initializeRedis = async () => {
             socket: {
                 reconnectStrategy: (retries) => {
                     if (retries > 10) {
-                        console.error(' Redis: Max reconnection attempts reached');
+                        console.error('⚠ Redis: Max reconnection attempts reached');
                         return new Error('Redis reconnection failed');
                     }
-                    const delay = Math.min(retries * 100, 3000);
-                    console.log(` Redis: Reconnecting in ${delay}ms (attempt ${retries})`);
-                    return delay;
+                    // Reduce logging spam - only log every 3rd attempt
+                    if (retries % 3 === 0) {
+                        const delay = Math.min(retries * 100, 3000);
+                        console.log(`⚡ Redis: Reconnecting (attempt ${retries})`);
+                    }
+                    return Math.min(retries * 100, 3000);
                 }
             }
         });
 
         redisClient.on('error', (err) => {
-            console.error(' Redis Client Error:', err.message);
+            // Only log unique error messages to avoid spam
+            if (!redisClient._lastError || redisClient._lastError !== err.message) {
+                console.error(' Redis Client Error:', err.message);
+                redisClient._lastError = err.message;
+            }
             isConnected = false;
-        });
-
-        redisClient.on('connect', () => {
-            console.log(' Redis: Connecting...');
         });
 
         redisClient.on('ready', () => {
             console.log(' Redis: Connected and ready');
             isConnected = true;
-        });
-
-        redisClient.on('reconnecting', () => {
-            console.log(' Redis: Reconnecting...');
-            isConnected = false;
+            delete redisClient._lastError;
         });
 
         redisClient.on('end', () => {

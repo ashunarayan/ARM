@@ -62,6 +62,7 @@ const observationSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+// Keep compound indexes and special indexes (individual field indexes already in schema)
 observationSchema.index({ location: "2dsphere" });
 observationSchema.index({ roadSegmentId: 1, timestamp: -1 });
 observationSchema.index({ regionId: 1, timestamp: -1 });
