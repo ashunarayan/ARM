@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-const { generateToken } = require('../utils/jwt');
 
 /**
  * Register new user
+ * Note: This endpoint is deprecated. Use Firebase Authentication on the client side.
+ * This is kept for backward compatibility but should not be used for new implementations.
  */
 exports.register = async (req, res, next) => {
     try {
@@ -33,18 +34,10 @@ exports.register = async (req, res, next) => {
             isAnonymous: false
         });
 
-        // Generate token
-        const token = generateToken({
-            userId: user._id,
-            deviceId: user.deviceId,
-            isAnonymous: false
-        });
-
         res.status(201).json({
             success: true,
-            message: 'User registered successfully',
+            message: 'User registered successfully. Please use Firebase Authentication for login.',
             data: {
-                token,
                 user: {
                     id: user._id,
                     email: user.email,
@@ -91,18 +84,10 @@ exports.login = async (req, res, next) => {
             await user.save();
         }
 
-        // Generate token
-        const token = generateToken({
-            userId: user._id,
-            deviceId: user.deviceId,
-            isAnonymous: false
-        });
-
         res.json({
             success: true,
-            message: 'Login successful',
+            message: 'Login successful. Please use Firebase Authentication for secure access.',
             data: {
-                token,
                 user: {
                     id: user._id,
                     email: user.email,
@@ -135,18 +120,10 @@ exports.anonymous = async (req, res, next) => {
             });
         }
 
-        // Generate token
-        const token = generateToken({
-            userId: user._id,
-            deviceId: user.deviceId,
-            isAnonymous: true
-        });
-
         res.json({
             success: true,
-            message: 'Anonymous token generated',
+            message: 'Anonymous user created. Please use Firebase Anonymous Authentication for secure access.',
             data: {
-                token,
                 user: {
                     id: user._id,
                     deviceId: user.deviceId,

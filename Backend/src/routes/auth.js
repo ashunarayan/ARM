@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const { validate } = require('../middleware/validation');
-const { authenticate } = require('../middleware/auth');
+const authenticateFirebase = require('../middleware/firebaseAuth');
 
 /**
  * @route   POST /api/auth/register
@@ -30,6 +30,6 @@ router.post('/anonymous', validate('anonymous'), authController.anonymous);
  * @desc    Get current user profile
  * @access  Private
  */
-router.get('/profile', authenticate, authController.getProfile);
+router.get('/profile', authenticateFirebase, authController.getProfile);
 
 module.exports = router;
