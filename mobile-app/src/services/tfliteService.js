@@ -1,170 +1,220 @@
 /**
  * TensorFlow Lite Inference Service
  * 
- * Loads the TFLite model and runs on-device inference
+ * Loads the TFLite model and runs on-device inference using react-native-fast-tflite
  * - Model: Hybrid CNN for road quality classification
- * - Input: 20x7 sensor matrix (2-second window)
+ * - Input 1: 42 Statistical features
+ * - Input 2: 20x7 sensor matrix
  * - Output: Integer classification (0-3)
  */
 
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-react-native';
+import { loadTensorflowModel } from 'react-native-fast-tflite';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
+
+// Helper for loading local assets
+const loadAsset = async (module) => {
+    const asset = Asset.fromModule(module);
+    await asset.downloadAsync();
+    return asset.localUri;
+};
+
+// Math helpers
+const mean = (data) => data.reduce((a, b) => a + b, 0) / data.length;
+
+const std = (data, m) => {
+    const mu = m || mean(data);
+    const sumSqDiff = data.reduce((a, b) => a + Math.pow(b - mu, 2), 0);
+    return Math.sqrt(sumSqDiff / data.length);
+};
+
+const rms = (data) => {
+    const sumSq = data.reduce((a, b) => a + Math.pow(b, 2), 0);
+    return Math.sqrt(sumSq / data.length);
+};
+
+const range = (data) => Math.max(...data) - Math.min(...data);
+
+// Unbiased Skewness
+const skewness = (data, m, s) => {
+    const n = data.length;
+    if (n < 3) return 0;
+    const mu = m || mean(data);
+    const sigma = s || std(data, mu);
+    const m3 = data.reduce((a, b) => a + Math.pow(b - mu, 3), 0) / n;
+    const g1 = m3 / Math.pow(sigma, 3);
+    return (Math.sqrt(n * (n - 1)) / (n - 2)) * g1;
+};
+
+// Unbiased Kurtosis
+const kurtosis = (data, m, s) => {
+    const n = data.length;
+    if (n < 4) return 0;
+    const mu = m || mean(data);
+    const sigma = s || std(data, mu);
+    const m2 = Math.pow(sigma, 2);
+    const m4 = data.reduce((a, b) => a + Math.pow(b - mu, 4), 0) / n;
+    const kFactor1 = (n - 1) / ((n - 2) * (n - 3));
+    const kFactor2 = (n + 1) * (m4 / Math.pow(m2, 2)) - 3 * (n - 1);
+    return kFactor1 * kFactor2;
+};
 
 class TFLiteInferenceService {
     constructor() {
         this.model = null;
-        this.isModelLoaded = false;
-        this.isTensorFlowReady = false;
+        this.scalerParams = null;
+        this.isReadyStatus = false;
+        this.featureOrder = [0, 1, 2, 3, 4, 5, 6]; // Indices for ax, ay, az, wx, wy, wz, speed
     }
 
-    /**
-     * Initialize TensorFlow.js and load the model
-     */
     async initialize() {
         try {
-            console.log(' Initializing TensorFlow.js...');
+            console.log(' Initializing ML Service (Fast TFLite)...');
+            
+            // Load Scaler Params
+            this.scalerParams = require('../../assets/ml-model/scaler_params.json');
 
-            // Initialize TensorFlow.js for React Native
-            await tf.ready();
-            this.isTensorFlowReady = true;
-            console.log(' TensorFlow.js ready');
-
-            // Load the TFLite model
-            await this.loadModel();
-
-            console.log(' ML Inference Service initialized');
+            // Load TFLite Model
+            const modelAsset = require('../../assets/ml-model/model.tflite');
+            const modelUri = await loadAsset(modelAsset);
+            
+            this.model = await loadTensorflowModel(modelUri);
+            this.isReadyStatus = true;
+            console.log(' ML Service initialized successfully');
         } catch (error) {
-            console.error(' Failed to initialize TensorFlow:', error);
+            console.error(' Failed to initialize ML model:', error);
             throw error;
         }
     }
 
-    /**
-     * Load the TFLite model from assets
-     */
-    async loadModel() {
+    async runInference(sensorMatrix) {
+        if (!this.isReadyStatus || !this.model) {
+            console.warn('Model not ready');
+            return -1;
+        }
+
         try {
-            console.log(' Loading ML model...');
+            // 1. Extract Features & Normalize
+            const { rawInput, statsInput } = this.preprocess(sensorMatrix);
 
-            // Method 1: Using bundleResourceIO (recommended for Expo)
-            try {
-                const modelJson = require('../../assets/ml-model/model.json');
-                const modelWeights = require('../../assets/ml-model/weights.bin');
+            // 2. Run Inference
+            // Input order: [stats, raw] based on notebook
+            // Cast to Float32Array explicitly usually required by fast-tflite if passing array?
+            // Actually run takes variable args? No, typically an array of tensors data buffers.
+            // Check library docs mental model: typically run(inputs: ArrayBufferView[]) or similar.
+            // fast-tflite run takes single argument `inputs: any[]`.
+            
+            const results = await this.model.run([statsInput, rawInput]);
+            
+            // 3. Interpret Output
+            if (results && results[0]) {
+                const probabilities = results[0]; // TypedArray
+                let maxProb = -1;
+                let predictedClass = -1;
+                
+                for (let i = 0; i < probabilities.length; i++) {
+                    if (probabilities[i] > maxProb) {
+                        maxProb = probabilities[i];
+                        predictedClass = i;
+                    }
+                }
+                return predictedClass;
+            }
+            return -1;
 
-                this.model = await tf.loadLayersModel(
-                    bundleResourceIO(modelJson, modelWeights)
-                );
-            } catch (e) {
-                // Method 2: If TFLite model is directly available
-                // Note: You may need to convert .tflite to TensorFlow.js format
-                console.log(' Using alternative model loading method');
+        } catch (error) {
+            console.error('Inference failed:', error);
+            return -1;
+        }
+    }
 
-                // For actual TFLite file, you would need to:
-                // 1. Convert model.tflite to tfjs format using tensorflowjs_converter
-                // 2. Place model.json and weights in assets/ml-model/
-                throw new Error('Model not found. Please convert model.tflite to TensorFlow.js format');
+    // Helper for mock (unused but kept for API compat if needed)
+    async runMockInference(sensorMatrix) {
+        return 0; 
+    }
+
+    preprocess(sensorMatrix) {
+        // sensorMatrix is 20x7 array
+        // We need to calculate stats for each column (channel)
+        
+        const statsFlat = [];
+        const rawFlat = []; // Just flattened matrix
+
+        const numRows = sensorMatrix.length; // 20
+        const numCols = 7;
+
+        // Iterate columns
+        for (let col = 0; col < numCols; col++) {
+            const series = [];
+            for (let row = 0; row < numRows; row++) {
+                const val = sensorMatrix[row][col];
+                series.push(val);
+                // We construct rawFlat row by row usually for TFLite memory layout [1, 20, 7]
+                // So rawFlat logic is separated below to ensure correct order
             }
 
-            this.isModelLoaded = true;
-            console.log(' Model loaded successfully');
+            // Calculate stats for this column
+            const m = mean(series);
+            const s = std(series, m);
+            let sk = skewness(series, m, s);
+            let ku = kurtosis(series, m, s);
+            
+            if (isNaN(sk)) sk = 0.0;
+            if (isNaN(ku)) ku = 0.0;
 
-            // Log model summary
-            this.model.summary();
-        } catch (error) {
-            console.error(' Failed to load model:', error);
-            throw error;
-        }
-    }
-
-    /**
-     * Run inference on a sensor data window
-     * @param {Array} sensorMatrix - 20x7 array of sensor readings
-     * @returns {number} - Road quality classification (0-3)
-     */
-    async runInference(sensorMatrix) {
-        if (!this.isModelLoaded) {
-            console.error(' Model not loaded. Call initialize() first');
-            throw new Error('Model not loaded');
+            statsFlat.push(m);
+            statsFlat.push(s);
+            statsFlat.push(rms(series));
+            statsFlat.push(range(series));
+            statsFlat.push(sk);
+            statsFlat.push(ku);
         }
 
-        try {
-            console.log(' Running inference...');
-            const startTime = Date.now();
-
-            // Convert sensor matrix to tensor
-            // Shape: [1, 20, 7] - batch size 1, 20 time steps, 7 features
-            const inputTensor = tf.tensor3d([sensorMatrix], [1, 20, 7]);
-
-            // Run prediction
-            const prediction = this.model.predict(inputTensor);
-
-            // Get the predicted class
-            const predictionData = await prediction.data();
-            const predictedClass = prediction.argMax(-1).dataSync()[0];
-
-            // Clean up tensors
-            inputTensor.dispose();
-            prediction.dispose();
-
-            const inferenceTime = Date.now() - startTime;
-            console.log(` Inference complete in ${inferenceTime}ms`);
-            console.log(` Predicted road quality: ${predictedClass}`);
-            console.log(` Confidence scores:`, Array.from(predictionData));
-
-            // Return the predicted road quality (0-3)
-            return predictedClass;
-        } catch (error) {
-            console.error(' Inference failed:', error);
-            throw error;
+        // Fill Raw Flat (Row-major order)
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < numCols; col++) {
+                rawFlat.push(sensorMatrix[row][col]);
+            }
         }
+
+        // Normalize
+        const normRaw = this.normalize(rawFlat, this.scalerParams.raw_scaler, false);
+        const normStats = this.normalize(statsFlat, this.scalerParams.stats_scaler, true);
+
+        return {
+            rawInput: new Float32Array(normRaw),
+            statsInput: new Float32Array(normStats)
+        };
     }
 
-    /**
-     * Alternative inference method using mock/fallback
-     * Use this temporarily while converting the TFLite model
-     */
-    async runMockInference(sensorMatrix) {
-        console.log(' Using MOCK inference (model not yet loaded)');
-
-        // Simulate processing time
-        await new Promise(resolve => setTimeout(resolve, 50));
-
-        // Calculate a simple heuristic based on accelerometer magnitude
-        // This is just a placeholder until real model is loaded
-        const avgAccelMagnitude = sensorMatrix.reduce((sum, reading) => {
-            const mag = Math.sqrt(reading[0] ** 2 + reading[1] ** 2 + reading[2] ** 2);
-            return sum + mag;
-        }, 0) / sensorMatrix.length;
-
-        // Mock classification based on acceleration
-        if (avgAccelMagnitude > 15) return 0; // very bad
-        if (avgAccelMagnitude > 12) return 1; // bad
-        if (avgAccelMagnitude > 10) return 2; // good
-        return 3; // very good
+    normalize(flatData, scaler, isAllFeatures) {
+        const means = scaler.mean;
+        const stds = scaler.std;
+        const normalized = [];
+        
+        if (isAllFeatures) {
+            // Stats: 42 features -> 42 means
+            for (let i = 0; i < flatData.length; i++) {
+                normalized.push((flatData[i] - means[i]) / stds[i]);
+            }
+        } else {
+            // Raw: 140 values -> 7 means (repeated)
+            const numChannels = means.length; // 7
+            for (let i = 0; i < flatData.length; i++) {
+                const channelIndex = i % numChannels;
+                normalized.push((flatData[i] - means[channelIndex]) / stds[channelIndex]);
+            }
+        }
+        return normalized;
     }
 
-    /**
-     * Check if the service is ready
-     */
     isReady() {
-        return this.isTensorFlowReady && this.isModelLoaded;
+        return this.isReadyStatus;
     }
 
-    /**
-     * Cleanup resources
-     */
     dispose() {
-        if (this.model) {
-            this.model.dispose();
-            this.model = null;
-            this.isModelLoaded = false;
-        }
-        console.log(' Model disposed');
+        // Clean up
     }
 }
 
-// Export singleton instance
 export const tfliteService = new TFLiteInferenceService();

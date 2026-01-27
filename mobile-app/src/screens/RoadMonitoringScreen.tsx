@@ -86,10 +86,26 @@ export default function RoadMonitoringScreen() {
      * Cleanup on unmount
      */
     useEffect(() => {
+        // Subscribe to socket updates
+        const handleSocketUpdate = (data: any) => {
+            // data: { userId, quality, location, timestamp }
+            const newMarker: MapMarker = {
+                id: `marker-${data.userId}-${data.timestamp}`,
+                coordinate: [data.location.longitude, data.location.latitude],
+                quality: data.quality,
+                timestamp: data.timestamp,
+            };
+            setMarkers((prev) => [...prev.slice(-99), newMarker]);
+        };
+
+        const { socketService } = require('../../src/services/socketService'); // Lazy load to avoid circular deps if any
+        socketService.on('road-quality-update', handleSocketUpdate);
+
         return () => {
             if (isMonitoring) {
                 mlService.stopMonitoring();
             }
+            socketService.off('road-quality-update', handleSocketUpdate);
         };
     }, [isMonitoring]);
 

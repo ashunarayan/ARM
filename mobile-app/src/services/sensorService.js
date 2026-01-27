@@ -93,10 +93,13 @@ class SensorCollector {
      * Start periodic sampling at 10 Hz
      */
     startSampling() {
+        this.buffer = [];
+        this.WINDOW_SIZE = 20;
+
         this.samplingInterval = setInterval(() => {
             if (!this.isCollecting) return;
 
-            // Create a complete sensor reading
+            // Create a single sensor reading
             const reading = {
                 ax: this.currentAccel.x,
                 ay: this.currentAccel.y,
@@ -112,9 +115,16 @@ class SensorCollector {
                 },
             };
 
-            // Send reading to callback
-            if (this.onDataCallback) {
-                this.onDataCallback(reading);
+            this.buffer.push(reading);
+
+            // When buffer reaches window size, emit and clear
+            if (this.buffer.length >= this.WINDOW_SIZE) {
+                // Send complete window to callback
+                if (this.onDataCallback) {
+                    this.onDataCallback([...this.buffer]);
+                }
+                // Clear buffer for next window (non-overlapping)
+                this.buffer = [];
             }
         }, SAMPLING_INTERVAL_MS);
     }

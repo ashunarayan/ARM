@@ -13,110 +13,32 @@
  * await observationService.sendObservation(result);
  */
 
-import { apiRequest } from '../api/client';
+import { socketService } from './socketService';
 import type { MLInferenceResult, ObservationPayload } from '../types';
 
 class ObservationService {
-    private sessionId: string | null = null;
-    private observationQueue: ObservationPayload[] = [];
-    private isSending = false;
-
     /**
-     * Set the current session ID
-     */
-    setSessionId(sessionId: string): void {
-        this.sessionId = sessionId;
-    }
-
-    /**
-     * Send a single observation to the backend
+     * Send a single observation via Socket.IO
      */
     async sendObservation(result: MLInferenceResult): Promise<void> {
         try {
-            const payload: ObservationPayload = {
-                latitude: result.location.latitude,
-                longitude: result.location.longitude,
-                roadQuality: result.roadQuality,
-                speed: result.speed,
-                timestamp: new Date(result.timestamp).toISOString(),
-                sessionId: this.sessionId || undefined,
-            };
-
-            await apiRequest('/observations', {
-                method: 'POST',
-                body: payload,
-            });
-
-            console.log(' Observation sent successfully');
+            await socketService.sendRoadQualityUpdate(
+                result.roadQuality,
+                result.location
+            );
+            console.log(' Observation sent via Socket.IO');
         } catch (error) {
             console.error(' Failed to send observation:', error);
-
-            // Queue for retry
-            this.queueObservation({
-                latitude: result.location.latitude,
-                longitude: result.location.longitude,
-                roadQuality: result.roadQuality,
-                speed: result.speed,
-                timestamp: new Date(result.timestamp).toISOString(),
-                sessionId: this.sessionId || undefined,
-            });
         }
     }
 
     /**
-     * Queue an observation for later sending
+     * Legacy queue methods (kept for compatibility but no-op/simplified)
      */
-    private queueObservation(payload: ObservationPayload): void {
-        this.observationQueue.push(payload);
-        console.log(` Observation queued (${this.observationQueue.length} in queue)`);
-    }
-
-    /**
-     * Send all queued observations
-     */
-    async sendQueuedObservations(): Promise<void> {
-        if (this.isSending || this.observationQueue.length === 0) {
-            return;
-        }
-
-        this.isSending = true;
-
-        try {
-            const batch = [...this.observationQueue];
-            this.observationQueue = [];
-
-            for (const payload of batch) {
-                try {
-                    await apiRequest('/observations', {
-                        method: 'POST',
-                        body: payload,
-                    });
-                } catch (error) {
-                    console.error(' Failed to send queued observation:', error);
-                    // Re-queue failed observation
-                    this.observationQueue.push(payload);
-                }
-            }
-
-            console.log(' Queued observations sent');
-        } finally {
-            this.isSending = false;
-        }
-    }
-
-    /**
-     * Get the number of queued observations
-     */
-    getQueueSize(): number {
-        return this.observationQueue.length;
-    }
-
-    /**
-     * Clear all queued observations
-     */
-    clearQueue(): void {
-        this.observationQueue = [];
-    }
+    async sendQueuedObservations(): Promise<void> {}
+    setSessionId(sessionId: string): void {}
+    getQueueSize(): number { return 0; }
+    clearQueue(): void {}
 }
 
 // Export singleton instance

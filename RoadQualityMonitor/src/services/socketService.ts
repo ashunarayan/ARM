@@ -6,12 +6,12 @@ class SocketService {
     private isConnected: boolean = false;
     private listeners: Record<string, Function[]> = {};
 
-    connect(url: string, auth: object = {}) {
+    connect(url: string, auth: { token?: string } = {}) {
         if (this.socket) {
             this.socket.disconnect();
         }
 
-        console.log('Connecting to socket:', url);
+        console.log('Connecting to socket:', url, 'with auth:', auth ? 'YES' : 'NO');
 
         this.socket = io(url, {
             transports: ['websocket'],

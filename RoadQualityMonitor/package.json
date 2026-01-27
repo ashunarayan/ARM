@@ -10,12 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native/new-app-screen": "*",
+    "@react-navigation/native": "^7.1.28",
+    "@react-navigation/stack": "^7.6.16",
+    "@rnmapbox/maps": "10.2.10",
     "react": "18.3.1",
     "react-native": "0.75.4",
     "react-native-fast-tflite": "1.6.1",
     "react-native-geolocation-service": "5.3.1",
-    "@rnmapbox/maps": "10.2.10",
+    "react-native-gesture-handler": "^2.16.2",
     "react-native-safe-area-context": "4.11.0",
     "react-native-screens": "3.34.0",
     "react-native-sensors": "7.3.6",

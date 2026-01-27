@@ -18,10 +18,13 @@
 
 import { mapboxService } from './mapboxService';
 import { mlService } from './ml';
+import { socketService } from './socketService';
+import { ENV } from '../config/env';
 
 export interface InitializationStatus {
     mapbox: boolean;
     ml: boolean;
+    socket: boolean;
     errors: string[];
 }
 
@@ -30,6 +33,7 @@ class AppInitializer {
     private status: InitializationStatus = {
         mapbox: false,
         ml: false,
+        socket: false,
         errors: [],
     };
 
@@ -49,6 +53,7 @@ class AppInitializer {
         this.status = {
             mapbox: false,
             ml: false,
+            socket: false,
             errors: [],
         };
 
@@ -72,6 +77,17 @@ class AppInitializer {
             const errorMsg = `ML Service initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
             this.status.errors.push(errorMsg);
             console.error('', errorMsg);
+        }
+
+        // Initialize Socket
+        try {
+            const backendUrl = ENV.API.BASE_URL.replace('/api', ''); // Socket usually at root, not /api
+            socketService.connect(backendUrl); 
+            this.status.socket = true;
+            console.log(' Socket Service initialized');
+        } catch (error) {
+             const errorMsg = `Socket initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
+             this.status.errors.push(errorMsg);
         }
 
         this.isInitialized = this.status.mapbox && this.status.ml;
@@ -107,6 +123,7 @@ class AppInitializer {
         this.status = {
             mapbox: false,
             ml: false,
+            socket: false,
             errors: [],
         };
     }

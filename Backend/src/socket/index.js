@@ -124,6 +124,35 @@ function initializeSocketServer(server) {
         });
 
         /**
+         * Road Quality Update
+         */
+        socket.on('road-quality-update', async (data) => {
+            try {
+                // data: { quality, location, timestamp }
+                const { quality, location } = data;
+                
+                if (!isValidCoordinate(location.latitude, location.longitude)) return;
+
+                const regionId = getRegionId(location.latitude, location.longitude);
+
+                // Broadcast to everyone in the region (including sender? usually broadcast excludes sender)
+                // We perform a broadcast to the region so others see the marker
+                socket.to(regionId).emit('road-quality-update', {
+                    userId: socket.userId,
+                    quality,
+                    location,
+                    timestamp: Date.now()
+                });
+
+                // Optionally save to DB (not implementing fully as per plan focus on realtime map)
+                // await roadQualityService.saveReading(socket.userId, data);
+
+            } catch (err) {
+                console.error('road-quality-update error:', err);
+            }
+        });
+
+        /**
          * Heartbeat
          */
         socket.on('ping', async () => {

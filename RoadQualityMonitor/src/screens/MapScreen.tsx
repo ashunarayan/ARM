@@ -6,6 +6,7 @@ import { mlService } from '../services/mlService';
 import { sensorService } from '../services/sensorService';
 import { windowManager } from '../services/windowService';
 import { socketService } from '../services/socketService';
+import { authService } from '../services/authService';
 
 // Set your public token here or in env.ts
 MapboxGL.setAccessToken(ENV.MAPBOX_TOKEN || 'YOUR_MAPBOX_TOKEN'); 
@@ -17,7 +18,7 @@ interface MapMarkerState {
     timestamp: number;
 }
 
-export const MapScreen = () => {
+export const MapScreen = (props: any) => { // Accept props for navigation
     const [markers, setMarkers] = useState<MapMarkerState[]>([]);
     const [isMonitoring, setIsMonitoring] = useState(false);
     const [currentQuality, setCurrentQuality] = useState<number | null>(null);
@@ -25,8 +26,11 @@ export const MapScreen = () => {
     // Services Initialization
     useEffect(() => {
         const initServices = async () => {
+             // 0. Get Token
+             const token = await authService.getToken();
+
              // 1. Initialize Socket
-             socketService.connect(ENV.API.BASE_URL);
+             socketService.connect(ENV.API.BASE_URL, { token: token || undefined });
 
              // 2. Initialize ML
              await mlService.initialize();
@@ -148,6 +152,25 @@ export const MapScreen = () => {
                         {isMonitoring ? 'Stop Monitoring' : 'Start Monitoring'}
                     </Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity 
+                    style={[styles.button, styles.buttonLogout]} 
+                    onPress={() => {
+                        Alert.alert('Logout', 'Are you sure?', [
+                            { text: 'Cancel', style: 'cancel' },
+                            { text: 'Logout', style: 'destructive', onPress: async () => {
+                                await authService.logout();
+                                // Navigation prop should be passed or useNavigation hook
+                                // roughly assuming simple integration for now, but ideal to use prop
+                                if ((props as any).navigation) {
+                                     (props as any).navigation.replace('Login');
+                                }
+                            }}
+                        ]);
+                    }}
+                >
+                    <Text style={styles.buttonText}>Logout</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -184,5 +207,6 @@ const styles = StyleSheet.create({
     },
     buttonStart: { backgroundColor: '#007AFF' },
     buttonStop: { backgroundColor: '#FF3B30' },
+    buttonLogout: { backgroundColor: '#8e8e93', marginTop: 10 },
     buttonText: { color: 'white', fontWeight: 'bold', fontSize: 16 }
 });
