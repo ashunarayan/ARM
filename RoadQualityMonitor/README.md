@@ -1,97 +1,92 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Road Quality Monitor: End-to-End Walkthrough
 
-# Getting Started
+## 1. Project Overview
+**Road Quality Monitor** is a mobile application that uses your phone's sensors and on-device Machine Learning to automatically detect road defects (like potholes) and visualize them on a map. It allows users to contribute to a shared, real-time database of road conditions.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 2. User Journey & Features
 
-## Step 1: Start Metro
+### Phase 1: Access & Security
+*   **Secure Entry**: When you launch the app, you are greeted with a secure Login Screen.
+*   **Guest Mode**: For quick testing, you can "Continue as Guest" to start monitoring immediately without an account.
+*   **User Accounts**: Registered users can sign in with email/password to track their personal contribution history.
+*   **Session Management**: The app securely maintains your session so you don't have to log in every time.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Phase 2: The Map Interface
+*   **Live Map**: Once inside, you see a full-screen map powered by **Mapbox**.
+*   **Location Tracking**: The app centers on your current GPS location.
+*   **Crowdsourced Data**: You can see markers dropped by *other users* in real-time.
+    -   **Green**: Good Road
+    -   **Yellow**: Average Road
+    -   **Red**: Bad Road / Pothole
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Phase 3: Road Quality Monitoring
+*   **Start Monitoring**: Press the "Start Monitoring" button to begin.
+*   **Data Collection**: The app silently records high-frequency accelerometer and gyroscope data.
+*   **Real-Time Sync**: If a defect is found, it is instantly sent to the server and broadcast to all other connected users.
 
-```sh
-# Using npm
-npm start
+## 3. Under the Hood: The ML Engine
+This app doesn't just send raw sensor data to a server (which would be slow and expensive). Instead, it runs an advanced **Artificial Intelligence Brain** directly on your phone using **TensorFlow Lite (TFLite)**.
 
-# OR using Yarn
-yarn start
-```
+Here is the step-by-step process of how the App "Thinks":
 
-## Step 2: Build and run your app
+### Step 1: Listening (Data Acquisition)
+The app listens to your phone's internal sensors 10 times every second (10Hz). It captures 7 distinct signals:
+1.  **Acceleration X, Y, Z**: How much the phone is bumping up/down or side-to-side.
+2.  **Rotation X, Y, Z**: How much the phone is tilting or turning.
+3.  **Speed**: How fast the vehicle is moving.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### Step 2: Packaging (Windowing)
+Every 2 seconds, it takes the last 20 frames of data and creates a "Window". This snapshot represents the motion of the vehicle over that specific stretch of road.
 
-### Android
+### Step 3: Feature Extraction (Math)
+Raw sensor numbers are noisy. To make sense of them, the app calculates **42 specific mathematical features** from that window. For each of the 7 signals, it computes:
+*   **Mean**: The average value.
+*   **Standard Deviation**: How much it shakes.
+*   **RMS**: The energy of the vibration.
+*   **Range**: The difference between the biggest bump and deepest dip.
+*   **Skewness & Kurtosis**: The shape of the vibration wave (crucial for distinguishing potholes from speed bumps).
 
-```sh
-# Using npm
-npm run android
+### Step 4: Making the Decision (Inference)
+This mathematical fingerprint is fed into two parts of the Neutral Network model:
+1.  **Statistical Input**: The 42 calculated features.
+2.  **Raw Input**: The original sensor waves.
 
-# OR using Yarn
-yarn android
-```
+The **TFLite Model** processes this data in milliseconds and outputs a probability score for road quality:
+*   **Class 0**: Smooth Road
+*   **Class 1**: Minor Irregularities
+*   **Class 2**: Severe Damage (Pothole)
 
-### iOS
+This entire process happens locally on your device, ensuring privacy and zero lag.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 4. Technical Architecture
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### Frontend (Mobile App)
+*   **Framework**: React Native (Android).
+*   **Maps**: Integrated `@rnmapbox/maps` for high-performance vector maps.
+*   **AI Engine**: `react-native-fast-tflite` for offline, edge-AI inference.
 
-```sh
-bundle install
-```
+### Backend (Server)
+*   **Real-Time Core**: **Socket.IO** server handles instant communication.
+*   **Database**: MongoDB stores User profiles and Road Quality logs.
+*   **Security**: Authenticated API endpoints.
 
-Then, and every time you update your native dependencies, run:
+## 5. How to Run & Verify
 
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1.  **Start the Server**:
+    ```powershell
+    cd Backend
+    npm start
+    ```
+2.  **Connect Device**:
+    ```powershell
+    adb reverse tcp:8081 tcp:8081
+    adb reverse tcp:5000 tcp:5000
+    ```
+3.  **Launch App**:
+    ```powershell
+    npx react-native run-android
+    ```
+4.  **Test the Loop**:
+    *   **Login** as Guest.
+    *   **Shake** the phone to simulate driving over a bump.
+    *   **Watch** as a new marker appears on the map automatically!
