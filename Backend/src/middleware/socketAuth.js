@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const { verifyFirebaseToken } = require('../config/firebase');
 const ActiveSession = require('../models/ActiveSession');
 
 /**
@@ -12,21 +12,19 @@ const authenticateSocket = async (socket, next) => {
             return next(new Error('Authentication token required'));
         }
 
-        // Verify JWT token
-        const verifyToken = require('../utils/verifyToken');
-        const decoded = verifyToken(token);
-
+        // Verify Firebase token
+        const decodedToken = await verifyFirebaseToken(token);
 
         // Attach user info to socket
-        socket.userId = decoded.userId;
-        socket.deviceId = decoded.deviceId;
-        socket.isAnonymous = decoded.isAnonymous || false;
+        socket.userId = decodedToken.uid;
+        socket.email = decodedToken.email;
+        socket.isAnonymous = false;
 
         // Create active session
         await ActiveSession.findOneAndUpdate(
             { socketId: socket.id },
             {
-                userId: decoded.userId,
+                userId: decodedToken.uid,
                 socketId: socket.id,
                 connectedAt: new Date(),
                 lastActivityAt: new Date()
