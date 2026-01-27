@@ -70,23 +70,4 @@ This entire process happens locally on your device, ensuring privacy and zero la
 *   **Database**: MongoDB stores User profiles and Road Quality logs.
 *   **Security**: Authenticated API endpoints.
 
-## 5. How to Run & Verify
 
-1.  **Start the Server**:
-    ```powershell
-    cd Backend
-    npm start
-    ```
-2.  **Connect Device**:
-    ```powershell
-    adb reverse tcp:8081 tcp:8081
-    adb reverse tcp:5000 tcp:5000
-    ```
-3.  **Launch App**:
-    ```powershell
-    npx react-native run-android
-    ```
-4.  **Test the Loop**:
-    *   **Login** as Guest.
-    *   **Shake** the phone to simulate driving over a bump.
-    *   **Watch** as a new marker appears on the map automatically!
