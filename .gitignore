@@ -59,6 +59,7 @@ ml_model/speed_invariance_test/figures/*_trimmed_750m.*
 # APK files
 app-release.apk
 .apk
+*.apk
 
 # Ignore heavy intermediate dataset files for AASHTO compliance evaluation
 ml_model/AASHTO_compliance/data/
@@ -72,4 +73,7 @@ __pycache__/
 ml_model/iri_v3/outputs/*.npz
 
 # Ignore duplicate baseline backup folder
-ml_model/baseline old copy/
+ml_model/baseline old copy/
+
+# Backups
+legacy_backup/
