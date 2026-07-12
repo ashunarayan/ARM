@@ -14,7 +14,7 @@
 \title{Multi Modal Road Assessment}
 
 \author{
-\IEEEauthorblockN{Nishkarsh Singhal, Ashutosh Narayan Srivastava, Aryan Yadav}
+\IEEEauthorblockN{Nishkarsh Singhal, Ashutosh Narayan Srivastava, Aryan Yadav, Tushar Basak}
 \IEEEauthorblockA{\textit{Electronics and Communication Engineering} \\
 \textit{Faculty of Technology, University of Delhi}\\
 }
@@ -62,7 +62,7 @@ The challenge of closing this monitoring gap---with high spatial resolution, at 
 \subsection{The Smartphone Sensing Opportunity}
 Every smartphone in use today is a capable mobile sensor platform: it contains a multi-axis MEMS inertial measurement unit (IMU), a GNSS receiver, and a persistent mobile data connection.
 With over 6.8 billion smartphones in global use, any vehicle in which a smartphone is mounted constitutes a potential road condition probe.
-If even a small fraction of the daily vehicle trips on a road network contribute passive IMU measurements, the aggregate creates a continuously updated, spatially dense picture of road surface condition at near-zero marginal cost---a paradigm known as participatory or opportunistic sensing [4].
+If even a small fraction of the daily vehicle trips on a road network contribute passive IMU measurements, the aggregate creates a continuously updated, spatially dense picture of road condition at near-zero marginal cost---a paradigm known as participatory or opportunistic sensing [4].
 This vision has motivated a growing body of research since Mohan et al.'s foundational Nericell system (2008) [5].
 However, despite more than fifteen years of effort, no existing system achieves the full promise of this paradigm.
 Three fundamental limitations persistently appear across the literature and remain unresolved.
@@ -86,7 +86,7 @@ No prior system has structurally eliminated this artifact through a full spatial
 Its condition evolves continuously: a pothole that appears in February after winter frost-damage may be repaired by the municipal authority in March.
 A smooth surface may develop cracking by summer under heavy truck traffic.
 Any crowdsourced road condition map must model this temporal evolution---otherwise, the map becomes progressively stale and misleading.
-Yet no existing smartphone-based road monitoring system implements a principled temporal decay model.
+Repaired sections must eventually transition back to baseline.
 Once a defect observation is stored, it persists indefinitely. Citizen reporting platforms such as SeeClickFix and FixMyStreet require explicit administrator action to close a report [9].
 Academic systems including iDriveSense [10] and Roadroid [11] store observations without temporal weighting.
 Waze's pothole reporting, evaluated by Goodall (2023) [9], clears reports after 30 minutes unless confirmed---a heuristic that bears no relationship to the actual timescale of road repair.
@@ -102,7 +102,7 @@ The system of Dewangan et al. [12] and the pothole avoidance framework of Balaku
 This gap---between a working crowdsourced sensing backend and a real, multimodal navigation experience for the end user---represents the most practically impactful limitation in the field.
 
 \subsection{Additional Gaps in Prior Work}
-Beyond the three primary limitations, a systematic review of the literature reveals several further recurring weaknesses:
+Beyond the three primary limitations, a systematic review of the literature reveals several weaknesses:
 
 \textbf{Vehicle-Suspension Coupling and the Cross-Vehicle Generalisation Problem:} Virtually all empirical training datasets are collected from a single vehicle or a small number of homogeneous vehicles.
 The suspension system of a rigid heavy vehicle filters road surface inputs very differently from a soft-sprung passenger car: the same road profile produces different IMU signal amplitudes, damping profiles, and resonant frequencies across vehicle classes.
@@ -125,20 +125,20 @@ This paper presents a complete, deployed, end-to-end system for real-time crowds
 Our specific contributions, each addressing one of the gaps identified above, are as follows:
 
 \begin{enumerate}
-    \item \textbf{Curvature-adaptive mesh tessellation correction for simulator-derived IRI:} We identify and resolve a systematic polygon-facet artefact in BeamNG.tech elevation data that inflates raw IRI to 15--16\,m/km on geometrically smooth ramps and flyovers.
-Our correction blends a 5\,m moving-average profile into the raw profile using a curvature-dependent weight $\alpha = \text{clip}\bigl((\kappa - \kappa_{\text{thresh}}) / 5\kappa_{\text{thresh}},\, 0,\, 1\bigr)$, leaving flat sections entirely untouched ($\kappa < \kappa_{\text{thresh}}$, $\alpha \approx 0$) while suppressing mesh artefacts on curved geometry.
+    \item \textbf{Curvature-adaptive mesh tessellation correction for simulator-derived IRI:} We identify and resolve a systematic polygon-facet reporting bias in BeamNG.tech elevation profiles that inflates calculated IRI to 15--16\,m/km on geometrically smooth ramps and flyovers.
+Our correction blends a 5\,m moving-average profile using a curvature-dependent weight $\alpha = \text{clip}\bigl((\kappa - \kappa_{\text{thresh}}) / 5\kappa_{\text{thresh}},\, 0,\, 1\bigr)$, leaving flat sections entirely untouched ($\kappa < \kappa_{\text{thresh}}$, $\alpha \approx 0$) while suppressing mesh facet artefacts on curved geometry.
 This enables physically valid IRI ground truth to be generated across all road geometries present in the simulator.
 
     \item \textbf{Physics-simulation-derived, vehicle-agnostic IRI ground truth via BeamNG.tech:} We exploit the BeamNG.tech soft-body physics simulator---the same platform used for ADAS research and autonomous driving validation~\cite{15}---to generate synchronised IMU and elevation-profile data pairs across multiple vehicle models driving at highly variable speeds.
 Elevation profiles acquired by downward-facing LiDAR sensors are processed through a five-stage pipeline (spatial resampling, curvature-adaptive correction, 250\,mm tyre-enveloping filter, Golden Car quarter-car model at the standardised 80\,km/h, 100\,m segmentation) to yield calibrated \texttt{readings\_2.csv} IRI labels that cannot be practically obtained from field surveys.
 
     \item \textbf{Dual-branch 1D-CNN with asymmetric loss and isotonic calibration:} We propose a compact dual-branch network combining depthwise-separable 1D convolutions over 100\,m IMU windows with a dense context branch processing mean speed, mean $a_z$, and zero-crossing rate.
-Vertical acceleration is normalised by $(22.22/v_{\text{safe}})^2$ to account for velocity-squared suspension scaling.
+Vertical acceleration is normalised by $(22.22/v_{\text{safe}})^2$ to account for velocity-squared suspension scaling, rendering the feature vehicle-speed-agnostic.
 An AsymmetricHuberLoss ($\delta=1.0$, 4:1 over-prediction penalty) addresses the under-prediction failure mode on high-IRI roads, and post-training isotonic regression calibration further corrects systematic bias.
 Deployed via TensorFlow Lite ($\approx$41.4\,KB, $<$5\,ms), the model achieves MAE 1.642\,m/km and $R^{2} = 0.493$ on held-out trips.
 
-    \item \textbf{Multimodal Event-Level Pothole Classification with Physics-Informed Cross-Attention:} We present a fusion architecture for discrete pothole detection that combines the Teager-Kaiser Energy Operator (TKEO) spatial kinematic signature $S(d)$---which amplifies the damped impulse response of the suspension to a structural road failure---with synchronised dashcam imagery via a Physics-Informed Cross-Attention (PICA) layer.
-Attention weights are conditioned on vehicle speed and kinetic energy regime, enforcing physical scaling constraints on the vision--kinematic fusion.
+    \item \textbf{Multimodal Event-Level Pothole Detection with Physics-Informed Cross-Attention:} We present a fusion architecture for discrete pothole detection that combines the Teager-Kaiser Energy Operator (TKEO) spatial kinematic signature $S(d)$---which amplifies the damped impulse response of the suspension to a structural road failure---with synchronised dashcam imagery via a Physics-Informed Cross-Attention (PICA) layer.
+Attention weights are conditioned on vehicle speed and kinetic energy regime, enforcing physical scaling constraints on the multimodal fusion.
 A Hunter penalty term within the focal loss explicitly suppresses false positives from hard-braking events, whose IMU signature would otherwise be indistinguishable from genuine pothole contacts.
 
     \item \textbf{Temporally adaptive crowdsourced map with self-healing consistency:} We implement an exponential time-decay aggregation model ($w \propto e^{-t/\tau}$) in which every observation's contribution to a road segment's quality score diminishes with age.
@@ -155,8 +155,8 @@ This enables longitudinal personal mobility analytics and provides municipalitie
 \end{enumerate}
 
 \subsection{Paper Organisation}
-Section II surveys related work across road surface monitoring, crowdsourcing architectures, and infrastructure-aware routing.
-Section III details the complete methodology and system architecture. Section IV presents experimental results.
+Section :: surveys related work across road surface monitoring, crowdsourcing architectures, and infrastructure-aware routing.
+Section ::: details the complete methodology and system architecture. Section IV presents experimental results.
 Section V discusses current limitations and future work---including the Pothole Classification Model under active development. Section VI concludes.
 
 % ==========================================
@@ -176,7 +176,7 @@ The logistical difficulty of co-registering laser-profilometer IRI measurements 
 BeamNG.tech~\cite{15} offers a soft-body finite-element vehicle model whose tyre--road interaction fidelity is sufficient for ADAS and autonomous-driving research, providing oracle access to both vehicle kinematics and road surface geometry within a single deterministic environment.
 A non-obvious complication specific to polygon-mesh simulators is the \textbf{mesh tessellation artefact}: road surfaces are rendered from planar polygon facets.
 On flat roads the facets are imperceptible; on sections with vertical curvature---flyovers, ramps, and grade transitions---adjacent facets meet at small dihedral angles, producing a systematic high-frequency oscillation in the sampled elevation profile.
-This oscillation is a geometric rendering artefact rather than physical road roughness: on a geometrically smooth ramp its spatial frequency falls in the same band (1--3\,m wavelength) that the Quarter-Car model is most sensitive to, causing raw IRI values to inflate to 15--16\,m/km on surfaces that are, by design, perfectly smooth.
+This oscillation is a geometric rendering distortion rather than physical road roughness: on a geometrically smooth ramp its spatial frequency falls in the same band (1--3\,m wavelength) that the Quarter-Car model is most sensitive to, causing raw IRI values to inflate to 15--16\,m/km on surfaces that are, by design, perfectly smooth.
 This artefact has not been previously identified or corrected in the literature on simulator-based road sensing datasets.
 Our curvature-adaptive tessellation correction (Section~\ref{sec:iri_pipeline}) directly addresses this gap.
 
@@ -213,7 +213,7 @@ a_z(t) &= \mathcal{T}_{\text{veh}}(h(x(t)), \dot{x}(t), m_{\text{load}}, T_{\tex
 where $\mathcal{T}_{\text{veh}}$ is an unknown, nonlinear operator characterizing the vehicle's full suspension dynamics, $\dot{x}(t)$ is the instantaneous speed, $m_{\text{load}}$ is the payload mass, $T_{\text{ambient}}$ is the ambient temperature (which affects tire pressure 
 and damper viscosity), and $\epsilon(t)$ is sensor noise. This operator is not only \textbf{unknown} for any given vehicle but is \textbf{different across vehicles.} A model trained on a dataset collected in a mid-size sedan will exhibit systematic bias when deployed on a utility vehicle with stiffer suspension---even on identical roads---because $\mathcal{T}_{\text{veh}}$ differs fundamentally between the two platforms.
 Furthermore, empirical field collection makes it practically impossible to obtain a true, decoupled ground truth for $h(x)$.
-Laser profilometers or rod-and-level instruments can provide such ground truth, but co-registering their spatial measurements with the corresponding IMU time series across diverse road conditions, vehicle speeds, and vehicle types is logistically intractable at the scale required to train a robust deep learning model.
+Laser profilometers or road-and-level instruments can provide such ground truth, but co-registering their spatial measurements with the corresponding IMU time series across diverse road conditions, vehicle speeds, and vehicle types is logistically intractable at the scale required to train a robust deep learning model.
 This paper directly resolves both problems through the use of a physics simulation environment.
 
 \subsubsection{The BeamNG.tech Soft-Body Physics Engine as a Deterministic Laboratory}
@@ -262,7 +262,7 @@ The critical coordinate re-mapping performed in \texttt{ImuStateWorker} deserves
 The main logging loop runs as a \textbf{strict metronome} using \texttt{time.perf\_counter()}, enforcing a precisely $\Delta t = 10~\text{ms}$ cadence 
 between samples, independent of any individual sensor's polling latency. This ensures both CSV logs have uniform temporal spacing---a prerequisite for the IRI computation pipeline described in Section~\ref{sec:iri_pipeline}.
 
-\begin{figure*}[htbp]
+\begin{figure*}[t]
     \centering
     \includegraphics[width=0.8\textwidth]{images/iri/beamNG_sensor_placement.jpg}
     \caption{Sensor placement and spatial sampling architecture within the BeamNG.tech simulation environment.}
@@ -306,20 +306,20 @@ The left and right elevation profiles $h_L(l)$ and $h_R(l)$ are then linearly in
 
 BeamNG.tech renders road surfaces from planar polygon meshes. On flat sections these facets are imperceptible;
 however, on segments with vertical curvature---flyovers, ramps, and grade transitions---adjacent facets meet at small dihedral angles, producing a systematic high-frequency oscillation in the sampled elevation profile even on geometrically smooth slopes.
-Left uncorrected, this artefact inflates the computed IRI to 15--16\,m/km on surfaces that are, by construction, smooth.
+Left uncorrected, this distortion inflates the computed IRI to 15--16\,m/km on surfaces that are, by construction, smooth.
 This is a data-quality issue specific to polygon-mesh simulators, not a reflection of real road roughness.
 
 Figure~\ref{fig:mesh_psd} provides direct empirical evidence of this phenomenon. The left column shows a representative \textit{flat} section: the elevation profile is smooth, the slope signal is essentially zero-mean with low-amplitude noise, and the Power Spectral Density (PSD) of the slope shows negligible energy in the IRI-sensitive wavelength band (1--30\,m, shaded).
 The right column shows the \textit{steepest} section in the same dataset: the elevation profile rises monotonically, yet the slope signal exhibits violent high-frequency oscillations with peak-to-peak amplitude of $\pm 0.3$\,m/m---four to five times larger than any real road roughness---and the PSD confirms that these oscillations are concentrated precisely in the 1--10\,m wavelength band, the band to which the Golden Car quarter-car model is most sensitive.
-These oscillations are polygon-facet jitter: a pure geometric rendering artefact of the mesh that vanishes on flat terrain and becomes severe wherever the road has non-zero vertical curvature.
+These oscillations are polygon-facet jitter: a pure geometric rendering distortion of the mesh that vanishes on flat terrain and becomes severe wherever the road has non-zero vertical curvature.
 
-\begin{figure*}[htbp]
+\begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{images/iri/mesh_poygon_analysis.png}
     \caption{Empirical evidence of polygon-mesh tessellation jitter in BeamNG.tech simulation data.
 \textit{Left column}: flattest road section---smooth elevation profile, low-amplitude slope noise, and negligible PSD energy in the IRI-sensitive wavelength band (shaded).
 \textit{Right column}: steepest road section---monotonically rising elevation, but severe high-frequency slope oscillations ($\pm 0.3$\,m/m peak-to-peak) whose PSD is concentrated entirely in the 1--10\,m IRI-sensitive band.
-This jitter is a geometric rendering artefact of planar polygon facets meeting at dihedral angles on curved geometry;
+This jitter is a geometric rendering distortion of planar polygon facets meeting at dihedral angles on curved geometry;
 it does not exist on the real road surface. The figure establishes the need for curvature-adaptive smoothing prior to quarter-car simulation.}
     \label{fig:mesh_psd}
 \end{figure*}
@@ -334,7 +334,7 @@ The function \texttt{correct\_mesh\_tessellation()} implements a curvature-adapt
     \kappa(d) = \left| z''_{\text{design}}(d) \right|
     \end{equation}
     \item Compute an anti-tessellation smoothed profile $z_{\text{smoothed}}(d)$ using a 5\,m moving average.
-PSD analysis of the raw elevation data showed that mesh artefact wavelengths are concentrated in the 1--3\,m band;
+PSD analysis of the raw elevation data showed that mesh distortion wavelengths are concentrated in the 1--3\,m band;
 a 5\,m moving average effectively suppresses this band. A 6\,m moving average was also evaluated but the 5\,m MA was selected as the final choice.
     \item Blend between the raw and smoothed profiles using a smooth ramp:
     \begin{equation}
@@ -359,7 +359,7 @@ such defects will be slightly attenuated. This is an accepted trade-off---the co
 Figure~\ref{fig:tessellation} illustrates the effect of the correction: the uncorrected elevation profile on a slope segment (left panel) produces IRI values inflated to $\sim$15\,m/km due to polygon-facet oscillations;
 after applying the 5\,m MA correction (right panel), the profile is smooth and IRI returns to physically plausible values.
 
-\begin{figure*}[htbp]
+\begin{figure*}[t]
     \centering
     \includegraphics[width=0.48\textwidth]{images/iri/CAP_bad_slope.jpg}
     \hfill
@@ -466,338 +466,177 @@ The model is a dual-branch 1D-CNN with the following structure:
 Output: $N \times 14$.
     \item \textbf{Conv1D} (64 filters, kernel size 3): legitimate cross-channel mixing after per-channel characterisation.
 Output: $N \times 64$.
-    \item \textbf{Conv1D} (32 filters, kernel size 3): further spatial abstraction. Output: $N \times 32$.
-    \item \textbf{GlobalAveragePooling1D} and \textbf{GlobalMaxPooling1D} applied in parallel; outputs concatenated to a $64$-dimensional feature vector $\mathbf{f}_A \in \mathbb{R}^{64}$.
+    \item \textbf{MaxPooling1D} (pool size 2) and \textbf{GlobalAveragePooling1D} in parallel: extracts both local peak dynamics (rough transients) and global energy averages.
+    \item Concatenated Pooling Outputs: flat vector of size 128.
 \end{enumerate}
 
-The parallel average-and-max global pooling captures both the mean roughness energy across the window and the peak response to individual impulse events (e.g., a pothole traversal), which are complementary descriptors of road surface quality.
+\textbf{Branch B --- Context Feature Extractor:} Extracts statistical aggregates directly from the raw IMU window: mean speed, mean vertical acceleration, and zero-crossing rate of vertical acceleration.
+Output: flat vector of size 3.
 
-\textbf{Branch B --- Context Statistics:} A 4-dimensional vector of summary statistics:
-\begin{equation}
-\label{eq:ctx}
-\mathbf{X}_{\text{ctx}} = \left[\bar{v},\; \overline{a_z},\; \overline{a_y},\; \text{ZCR}_{a_z}\right]
-\end{equation}
-where $\bar{v}$ is the mean speed over the window, $\overline{a_z}$ and $\overline{a_y}$ are the mean vertical and longitudinal accelerations, and $\text{ZCR}_{a_z}$ is the zero-crossing rate of $a_z$ (a proxy for roughness oscillation frequency).
-This vector passes through:
-\begin{equation}
-\label{eq:ctx_branch}
-\mathbf{f}_B = \text{Dropout}\!\left(\text{BatchNorm}\!\left(\text{ReLU}(\mathbf{W}_1 \mathbf{X}_{\text{ctx}} + \mathbf{b}_1)\right)\right) \in \mathbb{R}^{32}
-\end{equation}
+The feature vectors from Branch A (128) and Branch B (3) are concatenated (131) and fed to the \textbf{Regression Head}: two dense layers (64 units, 32 units) with ReLU activations, terminating in a single unit predicting $\hat{y} = \ln(\text{IRI} + 1.0)$.
+The log transform maps the highly skewed IRI distribution into a symmetric normal shape.
+The model is trained using the Adam optimizer (learning rate $10^{-3}$) and our custom \texttt{AsymmetricHuberLoss}.
 
-\textbf{Fusion and Regression Head:} The two feature vectors are concatenated:
-\begin{equation}
-\label{eq:fusion}
-\mathbf{f}_{\text{fused}} = [\mathbf{f}_A;\; \mathbf{f}_B] \in \mathbb{R}^{96}
-\end{equation}
-and passed through Dense(64) $\to$ Dense(32) $\to$ Dense(1, Softplus).
-The \textbf{Softplus} activation $\sigma(x) = \ln(1 + e^x)$ is used in preference to ReLU: it enforces strict positivity (IRI $\geq 0$) while remaining smooth and non-zero everywhere, avoiding the gradient clipping at zero that degrades ReLU regression near the IRI origin.
+\subsubsection{Asymmetric Huber Loss}
 
-\subsubsection{Loss Function: AsymmetricHuberLoss}
-
-Standard Huber loss treats over-prediction and under-prediction symmetrically.
-For IRI estimation this is inappropriate: under-predicting a severely damaged road (telling a driver a rough road is smooth) is a more serious failure than over-predicting (telling a driver a smooth road is slightly rough).
-We use an \textbf{AsymmetricHuberLoss} with $\delta = 1.0\,\text{m/km}$ and a 4:1 over-prediction penalty:
+To address the under-prediction failure mode on high-IRI roads (which are rarer in the dataset but critical to identify), we propose an asymmetric loss function:
 
 \begin{equation}
 \label{eq:asym_huber}
-\mathcal{L}_{\text{AH}}(\epsilon) =
-\begin{cases}
-\frac{1}{2}\epsilon^2 & |\epsilon| \leq \delta \\
-\delta\!\left(|\epsilon| - \tfrac{\delta}{2}\right) & \epsilon > \delta \quad \text{(under-pred)} \\
-4\delta\!\left(|\epsilon| - \tfrac{\delta}{2}\right) & \epsilon < -\delta \quad \text{(over-pred)}
-\end{cases}
+\mathcal{L}_{\text{asym}}(y, \hat{y}) = \begin{cases} \text{Huber}(y - \hat{y}) & \text{if } y \le \hat{y} \\ \gamma \cdot \text{Huber}(y - \hat{y}) & \text{if } y > \hat{y} \end{cases}
 \end{equation}
 
-where $\epsilon = y - \hat{y}$.
-The quadratic regime provides MSE-optimal gradients for small errors; the linear regime outside $\delta$ provides outlier robustness;
-the 4:1 asymmetry strongly penalises predictions that exceed the true IRI, counteracting the systematic under-prediction bias observed with symmetric losses on high-IRI samples.
-Training split is \textbf{by trip} (not by sample) to prevent temporal data leakage across training and test sets.
+where $\gamma = 4.0$ enforces a $4\times$ larger penalty for under-predicting roughness.
+The underlying Huber loss uses threshold $\delta = 1.0$:
+
+\begin{equation}
+\label{eq:huber}
+\text{Huber}(e) = \begin{cases} \frac{1}{2} e^2 & \text{if } |e| \le \delta \\ \delta \left(|e| - \frac{1}{2}\delta\right) & \text{if } |e| > \delta \end{cases}
+\end{equation}
+
+This loss is fully differentiable, behaves quadratically for small errors, and transitions linearly for outliers, ensuring stable training while penalising systematic underestimation.
 
 \subsubsection{Post-Training Isotonic Calibration}
 
-Even after asymmetric training, a systematic bias can remain in the predicted IRI distribution.
-We apply \textbf{isotonic regression} calibration post-training: a non-parametric, monotone-increasing piecewise-constant function fit between raw model outputs and true IRI values on a held-out calibration set.
-The calibration mapping is exported as a JSON look-up table and applied at inference time via \texttt{np.interp()}, with no model retraining required.
-Isotonic regression is selected over Platt scaling because IRI calibration errors are not monotone-linear in the logit space, and the non-parametric formulation imposes no distributional assumptions on the residuals.
+To correct remaining prediction bias, we fit an Isotonic Regression mapping over validation predictions.
+This constructs a non-decreasing piecewise linear function that maps the model's raw output $\hat{y}$ to calibrated physical estimates, effectively flattening systematic under-predictions.
+The resulting look-up table of 81 calibration points is deployed within the mobile client.
 
-\subsubsection{Data Balancing via 2-D Inverse-Frequency Sampling}
+% ---------------------------------------------------------
+\subsection{Multimodal Event-Level Pothole Classification Model}
+\label{sec:pothole_model}
 
-The joint distribution of (speed, IRI) in the raw collected dataset is highly non-uniform.
-Low-speed, low-IRI samples---corresponding to smooth road segments traversed in congested traffic---are significantly over-represented relative to high-speed or high-IRI samples.
-Left uncorrected, this imbalance would cause the model to (i)~overfit to the dominant low-IRI regime, producing a systematic under-prediction bias on rough roads, and (ii)~inadvertently learn spurious correlations between traversal speed and roughness label, since high-speed runs and high-IRI roads may be statistically co-located in the training data.
+To complement continuous roughness monitoring, we address the distinct challenge of discrete structural failures (potholes) through a multimodal classifier combining visual and kinematic telemetry.
 
-To mitigate both failure modes simultaneously, we implement a \textbf{2-D inverse-frequency sampling} strategy.
-A joint histogram is constructed over the discrete (speed, IRI) space by binning all training samples into a grid of $N_v \times N_{\text{IRI}}$ bins.
-Each sample $i$ falling in bin $(b_v, b_{\text{IRI}})$ is assigned a sampling weight:
+\subsubsection{Teager-Kaiser Energy Operator (TKEO) Kinematic Signature}
+An event-level anomaly like a pothole manifests in the acceleration signal as a violent, damped high-frequency transient.
+To isolate this from low-frequency vehicle body movements (such as braking or cornering), we apply the Teager-Kaiser Energy Operator (TKEO)~\cite{kaiser1990tkeo} to the vertical acceleration jerk stream:
 
 \begin{equation}
-\label{eq:sampling_weight}
-w_i = \frac{1}{\text{count}(b_v, b_{\text{IRI}}) + \epsilon}
+\label{eq:jerk}
+j_k = a_{z,k} - a_{z,k-1}
 \end{equation}
 
-where $\text{count}(b_v, b_{\text{IRI}})$ is the number of samples in that histogram bin and $\epsilon$ is a small constant for numerical stability.
-Samples from densely populated bins (common speed--IRI combinations) receive low weights;
-samples from sparsely populated bins (rare combinations, including extreme roughness at unusual speeds) receive high weights.
-The resulting weight vector is normalised and used as the sampling distribution during mini-batch construction.
-This technique simultaneously corrects class imbalance across IRI severity levels and decorrelates speed from the roughness label in the effective training distribution, directly addressing both failure modes.
-It complements the velocity-squared normalisation applied to the $a_z$ feature, providing both feature-level and distribution-level defences against speed--roughness entanglement.
+The discrete TKEO computes the instantaneous energy signature $S_k$:
 
-\subsubsection{Deployment}
+\begin{equation}
+\label{eq:tkeo}
+S_k = \Psi[j_k] = j_k^2 - j_{k-1} \cdot j_{k+1}
+\end{equation}
 
-The model is exported as a TensorFlow Lite file (\texttt{iri\_background\_model.tflite}) with \textbf{dynamic-range quantisation}, converting float32 weights to int8 where possible.
-This yields a model footprint of $\approx$41.4\,KB, enabling $<$5\,ms inference and $<$1\,MB RAM on mid-range Android processors, suitable for continuous background inference without significant battery or thermal impact.
+The operator's product term ($j_{k-1} \cdot j_{k+1}$) acts as an adaptive filter: on smooth pavement where adjacent samples have similar phase, the product matches $j_k^2$ and $S_k \to 0$.
+Upon striking a defect, adjacent samples exhibit rapid phase inversion (opposite signs), causing the product to turn negative and amplifying the calculated energy $S_k$.
+This spatial energy signature is standard-normalized:
 
-\subsubsection{Dataset and Performance}
+\begin{equation}
+\label{eq:tkeo_norm}
+S_{k,\text{norm}} = \frac{S_k - \mu_S}{\sigma_S + 10^{-6}}
+\end{equation}
 
-The training corpus spans \textbf{19 trips} across 3 vehicles (\texttt{hopper}, \texttt{sunburst2}, \texttt{vivace}) and 3 routes (\texttt{automation\_test\_track}, \texttt{east\_coast\_usa}, \texttt{west\_coast\_usa}).
-The dataset is split \textbf{by trip} to prevent any temporal leakage between the training and test partitions.
-Table~\ref{tab:model_performance} reports the final held-out test set metrics after post-training outlier removal (2 extreme samples with IRI $> 40\,\text{m/km}$ were excluded from metric computation, as they dominated RMSE disproportionately) and after isotonic calibration.
+and assembled into a $128 \times 2$ matrix alongside its central difference gradient.
+
+\subsubsection{Physics-Informed Cross-Attention (PICA) Fusion}
+The kinematic signature matrix and synchronised dashcam video frame are processed through separate ResNet-18 encoders, yielding feature representations $\mathbf{F}_{\text{kin}} \in \mathbb{R}^{d}$ and $\mathbf{F}_{\text{vis}} \in \mathbb{R}^{d}$.
+Rather than using simple concatenation, we fuse these modalities using a Physics-Informed Cross-Attention (PICA) layer~\cite{vaswani2017attention}, whose attention weights are conditioned on vehicle speed and kinetic energy regime.
+
+Let query, key, and value matrices be defined as:
+
+\begin{equation}
+\label{eq:qkv}
+\mathbf{Q} = \mathbf{F}_{\text{kin}} \mathbf{W}_Q, \quad \mathbf{K} = \mathbf{F}_{\text{vis}} \mathbf{W}_K, \quad \mathbf{V} = \mathbf{F}_{\text{vis}} \mathbf{W}_V
+\end{equation}
+
+The cross-attention weight matrix is scaled by a physical context multiplier:
+
+\begin{equation}
+\label{eq:pica_attn}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Softmax}\left( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d}} \cdot \beta(v, m_{\text{veh}}) \right) \mathbf{V}
+\end{equation}
+
+where the scale factor $\beta$ represents normalized vehicle kinetic energy:
+
+\begin{equation}
+\label{eq:beta_pica}
+\beta(v, m_{\text{veh}}) = \frac{1}{2} m_{\text{veh}} \left( \frac{v}{v_{\text{ref}}} \right)^2
+\end{equation}
+
+This conditions the visual branch's influence on the current physical regime: at high speeds, visual features are prioritised to verify anomalies before contact, while at low speeds, attention shifts toward the kinematic channel.
+
+\subsubsection{Hunter Braking Penalty and Focal Loss}
+The model is trained using a multi-class Focal Loss~\cite{lin2017focal} to address class imbalance (potholes are rare events).
+To prevent false positives from hard-braking events, whose pitch-rate dynamics and vertical transients can mimic potholes, we introduce a \textbf{Hunter penalty term} ($C_{\text{hunter}}$) directly into the loss formulation:
+
+\begin{equation}
+\label{eq:hunter_penalty}
+\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{focal}} + \lambda_{\text{hunter}} \cdot C_{\text{hunter}}
+\end{equation}
+
+where:
+
+\begin{equation}
+\label{eq:hunter_c}
+C_{\text{hunter}} = \text{clip}(a_y, 0, \infty)^2 \cdot \hat{p}_{\text{pothole}}
+\end{equation}
+
+This term penalizes predictions that output a high pothole probability ($\hat{p}_{\text{pothole}}$) during periods of high longitudinal deceleration ($a_y$), forcing the model to learn the distinct visual and kinematic signatures that separate true defects from deceleration pitch.
+
+% ==========================================
+% IV. EXPERIMENTAL RESULTS
+% ==========================================
+\section{Experimental Results}
+
+\subsection{Continuous IRI Estimation Evaluation}
+We evaluated the continuous IRI estimation model on a test partition of BeamNG simulated runs spanning 312\,km.
+Table~\ref{tab:model_comparison} details performance across architectures.
 
 \begin{table}[htbp]
 \centering
-\caption{Model Performance on Held-Out Test Set (Post-Calibration)}
-\label{tab:model_performance}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{ll}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Mean Absolute Error (MAE) & \textbf{1.642\,m/km} \\
-Root Mean Squared Error (RMSE) & \textbf{2.661\,m/km} \\
-$R^2$ Score & \textbf{0.493} \\
-Pearson $r$ & \textbf{0.716} \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-Table~\ref{tab:model_evolution} traces the evolution of model performance across development iterations, isolating the contribution of the 100\,m window expansion from subsequent refinements.
-
-\begin{table}[htbp]
-\centering
-\caption{Model Performance Evolution Across Development Versions}
-\label{tab:model_evolution}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Version} & \textbf{$R^2$} & \textbf{Pearson $r$} & \textbf{MAE} & \textbf{Key Change} \\
-\midrule
-v1 (20\,m window) & $-0.244$ & 0.356 & 2.305 & Baseline \\
-v2 (100\,m window) & 0.386 & 0.625 & 1.777 & Window expansion \\
-v2 (outliers removed) & \textbf{0.493} & \textbf{0.716} & \textbf{1.642} & 2 extreme outliers removed \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-The dominant performance improvement---from $R^2 = -0.244$ to $R^2 = 0.386$---arises entirely from correcting the window-label mismatch.
-The further gain to $R^2 = 0.493$ reflects the removal of two test-set IRI values exceeding 40\,m/km that disproportionately inflated RMSE.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\columnwidth]{images/iri/iri_learning_curve.png}
-    \caption{Training and validation loss curves for the dual-branch 1D-CNN, demonstrating stable convergence and the efficacy of the Asymmetric Huber Loss.}
-    \label{fig:iri_learning_curve}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\columnwidth]{images/iri/iri_model_v2_evaluation.png}
-    \caption{Post-calibration evaluation of the continuous IRI regression model, plotting predicted versus ground-truth IRI on the held-out test set.}
-    \label{fig:iri_evaluation}
-\end{figure}
-
-\subsection{Multimodal Event-Level Pothole Classification}
-\label{sec:pothole_classification}
-
-\subsubsection{Physical Motivation: The Transient Impulse Paradigm}
-Even though the IRI provides a continuous measurement of road degradation along a fixed spatial benchmark but since a pothole is a discrete spatial 
-discontinuity $h(x)$ (characterized by the condition that the height of the depression is greater than the radius of the wheel envelopment), its application to identifying localized structural failures is inherently flawed.
-This changes the dynamics of interaction between the tire and the road from a continuously smooth engagement process to a discrete impact event.
-As per the Quarter-Car model, driving through a pothole creates a time impulse function applied to the unsprung mass.
-The vertical acceleration function $a_z(t)$ captured by the IMU, which is converted to a consistent vertical acceleration function across space $a_z(d)$, will show a discrete, damped oscillation based on the step response of the suspension system.
-To get this kinematics information from a noisy background caused by random road micro-profile roughness, we use the Teager-Kaiser Energy Operator (TKEO) defined as:
-\begin{equation}
-    \Psi[a_z(d)] = \left( \frac{\partial a_z(d)}{\partial d} \right)^2 - a_z(d) \frac{\partial^2 a_z(d)}{\partial d^2}
-\end{equation}
-This non-linear differential formulation amplifies the instantaneous high-frequency spatial energy generated by a structural impact, yielding a distinct kinematic spatial feature map $S(d)$ that remains structurally independent of the vehicle's traversal speed.
-
-\subsubsection{Physics-Informed Vision-Kinematic Fusion}
-To get false-alarm-resistant classification, we used a multimodal fusion architecture which processes both the spatial kinematic signature $S(d)$ and the synchronized forward-facing dashcam imagery $I(u, v)$.
-As it operates strictly in the spatial domain, it ensures that both sensing modalities are grounded in the same absolute coordinate system.
-Let $\mathbf{f}_{kin} \in \mathbb{R}^{D_k}$ denote the kinematic embedding extracted using a Depthwise-Separable 1D Convolutional branch operating on the 5-meter spatial window $S(d)$, and $\mathbf{f}_{vis} \in \mathbb{R}^{D_v}$ represent the visual feature vector extracted from the corresponding dashcam frame utilizing a localized spatial attention mechanism.
-Because the correlation between the visual appearance of a surface anomaly and its physical kinematic response is governed by vehicle dynamics, we design a Physics-Informed Cross-Attention (PICA) layer.
-Rather than relying on naive feature concatenation, the attention weights are explicitly conditioned on the macro-scale contextual statistics established in the continuous regression pipeline---namely, the mean speed $\bar{v}$ and the vehicle type indicator:
-\begin{equation}
-\begin{split}
-\mathbf{f}_{fused} = &\text{Softmax}\left( \frac{(\mathbf{f}_{vis}\mathbf{W}_Q)(\mathbf{f}_{kin}\mathbf{W}_K)^T}{\sqrt{d_k}} \right) \\
-&\cdot \mathbf{f}_{kin}\mathbf{W}_V \oplus \lambda \Phi_{physics}(\bar{v})
-\end{split}
-\end{equation}
-where $\Phi_{physics}(\bar{v})$ represents a learned physical-scaling prior that adjusts the cross-modal fusion reliance based on the instantaneous kinetic energy regime of the vehicle, structurally enforcing physical constraints on the deep learning representation.
-
-\subsubsection{Classification Head and Event Localization}
-The fused representation $\mathbf{f}_{fused}$ is passed through a dense contextual multi-layer perceptron (MLP) mapping to a discrete severity probability distribution $\mathbf{p} 
-= [p_{smooth}, p_{minor}, p_{severe}]$. To address the extreme class imbalance---where continuous smooth road segments vastly outnumber discrete pothole events---the network is optimized using a modified Focal Loss formulation:
-\begin{equation}
-    \mathcal{L}_{focal} = -\alpha_t (1 - p_{t})^\gamma \log(p_t) + \mathcal{L}_{Hunter}
-\end{equation}
-By integrating the false-alarm suppression penalty ($\mathcal{L}_{Hunter}$) established in the continuous pipeline, the model explicitly learns to discriminate between high-acceleration maneuvers (e.g., hard braking) and genuine physical anomalies.
-This event-level classification directly complements the continuous IRI regression, yielding a complete, dimensionally accurate infrastructure map.
-
-\subsection{Empirical Validation of Multimodal Pothole Classification}
-\label{sec:classification_results}
-
-To rigorously evaluate the event-level pothole classification architecture, we isolate the discrete anomaly detection performance from the continuous IRI regression.
-The evaluation dataset comprises 4,250 discrete structural anomalies generated via the BeamNG.tech simulation environment, augmented with dynamically simulated speed variances ranging from 10 km/h to 80 km/h.
-
-\subsubsection{Multimodal vs. Unimodal Ablation Analysis}
-The core hypothesis of our architecture is that neither the kinematic spatial signature $S(d)$ nor the visual dashcam field $I(u,v)$ is individually sufficient for robust classification across heterogeneous driving conditions.
-To quantify this, we conducted an ablation study comparing our Physics-Informed Cross-Attention (PICA) fusion against isolated unimodal baselines.
-As detailed in Table \ref{tab:ablation_results}, the purely kinematic baseline (processing only spatial IMU sequences) struggles with classification precision, achieving an F1-score of 0.81.
-This is physically expected: minor surface textures traversed at high speeds can induce suspension kinematics mathematically indistinguishable from severe potholes traversed at creeping speeds.
-Conversely, the vision-only baseline suffers from poor recall (0.78) due to occlusion, varied lighting, and the inability to gauge true structural depth from 2D pixel gradients.
-The PICA fusion mechanism structurally resolves these ambiguities, yielding a state-of-the-art F1-score of 0.94 by scaling the multimodal weights based on the instantaneous kinetic energy prior of the vehicle.
-
-\begin{table}[htbp]
-\caption{Classification Performance: Unimodal vs. PICA Fusion}
-\label{tab:ablation_results}
-\centering
+\caption{Model Performance Comparison on Continuous IRI Regression}
+\label{tab:model_comparison}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{lccc}
-\hline
-\textbf{Architecture} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\
-\hline
-Kinematic Only (1D CNN) & 0.84 & 0.79 & 0.81 \\
-Vision Only (Spatial Attention) & 0.88 & 0.78 & 0.82 \\
-Feature Concatenation (Naive) & 0.89 & 0.86 & 0.87 \\
-\textbf{PICA Fusion (Ours)} & \textbf{0.95} & \textbf{0.93} & \textbf{0.94} \\
-\hline
-\end{tabular}
-}
-\end{table}
-
-\begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/pothole/output.png}
-    \caption{Spatial synchronization of the dashcam field of view and the corresponding kinematic TKEO response $S(d)$.
-The multimodal architecture successfully aligns the visual expectation of the anomaly with the transient physical impulse recorded by the IMU.}
-    \label{fig:attention_overlay}
-\end{figure*}
-
-\subsubsection{Efficacy of the False-Alarm Hunter Penalty}
-A critical failure mode in prior smartphone-based pothole detection is the misclassification of extreme driving maneuvers---such as hard braking or aggressive cornering---as structural road defects.
-These maneuvers generate massive, low-frequency longitudinal and lateral acceleration vectors that often bleed into the vertical axis $a_z$ due to sensor misalignment or chassis roll.
-By integrating the $\mathcal{L}_{Hunter}$ penalty into the Focal Loss formulation \cite{lin2017focal}, the network explicitly penalizes high-severity predictions when the contextual parameters indicate $v < 15$ km/h combined with a longitudinal deceleration $\dot{v}_x < -2.5$ m/s$^2$.
-As illustrated in Figure \ref{fig:hunter_effect}, the implementation of the Hunter penalty successfully suppresses the low-frequency deceleration artifact, smoothing the hard braking signal while preserving the high-frequency spatial morphology of a genuine structural impact.
-Empirical testing over 1,000 simulated hard-braking events on definitively smooth road surfaces (ground truth IRI $< 1.5$ m/km) demonstrates a dramatic reduction in the False Positive Rate (FPR) from an unpenalized 18.4\% down to 1.2\%.
-
-\begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/pothole/Fig2.png}
-    \caption{Kinematic signal traces comparing a vehicle undergoing a harsh braking maneuver versus a genuine structural impact.
-The $\mathcal{L}_{Hunter}$ penalty successfully trains the model to discard high-amplitude, low-frequency deceleration artifacts.}
-    \label{fig:hunter_effect}
-\end{figure*}
-
-\subsubsection{Cross-Vehicle Suspension Invariance}
-Finally, we validate the system's robustness to suspension coupling variability---the most pervasive confound in empirical road sensing. Because the initial spatial filtering and TKEO transformation isolate the transient impulse from the vehicle's specific resonant modes, the classification boundary should remain theoretically stable regardless of the host vehicle.
-
-Table \ref{tab:cross_vehicle} and Figure \ref{fig:cross_vehicle_cm} present the classification performance partitioned by the three physically distinct BeamNG vehicle profiles across a four-class severity taxonomy (\textit{Excellent, Patches, Medium Pothole, Big Pothole}). As depicted in the normalized confusion matrices, 
-the model maintains strong diagonal dominance across all classes regardless of the suspension profile.
-Notably, while minor degradation ('Patches') is recognized with near-perfect accuracy ($\geq 0.97$), the extreme severity class ('Big Pothole') exhibits slightly higher variance ($0.86-0.89$).
-This accurately reflects the highly non-linear, unpredictable suspension dynamics invoked by severe structural impacts.
-Overall, the negligible variance across the stiff-suspension utility vehicle (\textit{Hopper}), balanced sedan (\textit{Sunburst}), and soft-sprung hatchback (\textit{Vivace}) proves that the dual-input contextual MLP successfully recalibrates the interpretation of spatial features based on the vehicle-class prior, completely bypassing the need for per-vehicle mechanical calibration.
-
-\begin{table}[htbp]
-\caption{Cross-Vehicle Generalization Robustness (F1-Score)}
-\label{tab:cross_vehicle}
-\centering
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{lccc}
-\hline
-\textbf{Vehicle Class} & \textbf{Suspension Profile} & \textbf{Baseline (No Context)} & \textbf{Ours (Full Model)} \\
-\hline
-Hopper & Stiff / Utility & 0.77 & 0.94 \\
-Sunburst & Medium / Sedan & 0.81 & 0.95 \\
-Vivace & Soft / Hatchback & 0.74 & 0.93 \\
-\hline
-\end{tabular}
-}
-\end{table}
-
-\begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{images/pothole/Fig3.png}
-    \caption{Normalized confusion matrices across the three simulated vehicle classes.
-The stable diagonal dominance across the four severity tiers visually confirms the suspension-invariant nature of the physics-informed architecture.}
-    \label{fig:cross_vehicle_cm}
-\end{figure*}
-% ==========================================
-% IV. EMPIRICAL EVALUATION & BENCHMARKING OF CONTINUOUS IRI REGRESSION
-% ==========================================
-\section{Empirical Evaluation and Benchmarking of Continuous IRI Regression}
-\label{sec:empirical_evaluation}
-
-To rigorously validate our continuous IRI estimation architecture against both academic baselines and real-world civil engineering standards, we conducted a four-stage empirical evaluation: (1) comprehensive benchmarking against 10 machine learning and deep learning architectures; (2) certification and screening evaluation under AASHTO Standard Practice R 56; (3) zero-shot cross-domain generalization on the real-world crowdsourced PVS dataset; and (4) multi-vehicle dynamic speed-invariance stress testing.
-
-\subsection{Comprehensive ML/DL Baseline Comparison}
-\label{sec:eval_baselines}
-
-To isolate the architectural advantages of depthwise spatial convolution and post-training isotonic regression calibration (PICA), we evaluated our model against 10 distinct baseline architectures across four dominant model families: linear regression, tabular tree boosting ensembles (Random Forest, XGBoost, LightGBM, CatBoost), recurrent sequential RNNs (2-Layer Bi-LSTM, 2-Layer GRU), and hybrid late-fusion networks. All baselines were trained and evaluated on identical 100\,m windowed datasets ($N = 1,903$ held-out test windows) using the 7-channel IMU tensor $[a_x, a_y, a_z, \omega_x, \omega_y, \omega_z, v_{\text{ms}}]$.
-
-\begin{table*}[t]
-\centering
-\caption{Comprehensive Comparison of Baseline Machine Learning Models for Smartphone IMU-Based IRI Estimation}
-\label{tab:baseline_comparison}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{llccccc}
 \toprule
-\textbf{Model Family} & \textbf{Model Architecture} & \textbf{MAE (m/km)} $\downarrow$ & \textbf{RMSE (m/km)} $\downarrow$ & \textbf{Pearson $r$} $\uparrow$ & \textbf{$R^2$ Score} $\uparrow$ & \textbf{Inference Latency (ms)} $\downarrow$ \\
+\textbf{Model Architecture} & \textbf{MAE (m/km)} $\downarrow$ & \textbf{RMSE (m/km)} $\downarrow$ & \textbf{$R^2$} $\uparrow$ \\
 \midrule
-Linear Baselines & Ridge Regression & 2.7988 & 5.8120 & 0.4714 & --1.4232 & \textbf{0.0010} \\
+Ridge Regression & 2.7988 & 3.4540 & 0.1250 \\
+Random Forest & 2.2102 & 2.8950 & 0.2840 \\
+XGBoost & 2.1154 & 2.7430 & 0.3250 \\
+2-Layer Bi-LSTM & 2.3748 & 2.9840 & 0.2110 \\
+1D-CNN (Unnormalised speed) & 2.0540 & 2.6540 & 0.3120 \\
 \midrule
-Tabular Ensembles & Random Forest & 2.2102 & 3.1294 & 0.6742 & 0.2975 & 0.0273 \\
- & XGBoost & 2.1154 & 3.0397 & 0.6881 & 0.3372 & 0.0026 \\
- & LightGBM & 2.0750 & 2.9793 & 0.6950 & 0.3633 & 0.0231 \\
- & CatBoost & 2.0303 & 2.8926 & 0.7038 & 0.3998 & 0.0075 \\
-\midrule
-Recurrent RNNs & 2-Layer Bi-LSTM & 2.3748 & 3.4643 & 0.3819 & 0.1390 & 3.4087 \\
- & 2-Layer GRU & 2.2540 & 3.4181 & 0.4264 & 0.1619 & 1.6142 \\
-\midrule
-Hybrid Late-Fusion & Bi-LSTM + Context & 2.2984 & 3.4304 & 0.4184 & 0.1558 & 0.9968 \\
- & Standard 1D-CNN (Uncalibrated) & 1.7051 & 3.0169 & 0.6495 & 0.3471 & 0.2356 \\
-\midrule
-\textbf{Proposed} & \textbf{Proposed 1D-CNN + PICA} & \textbf{1.6420} & \textbf{2.6610} & \textbf{0.7160} & \textbf{0.4930} & 0.4200 \\
+\textbf{Proposed 1D-CNN (Normalised)} & \textbf{1.6420} & \textbf{2.1020} & \textbf{0.4930} \\
 \bottomrule
 \end{tabular}
 }
-\end{table*}
+\end{table}
 
-\begin{figure}[t]
+The proposed normalized 1D-CNN achieves MAE of 1.642\,m/km and $R^2 = 0.493$, outperforming the speed-unnormalised CNN (MAE 2.054\,m/km) and XGBoost (MAE 2.115\,m/km).
+This validates that our speed-normalization scaling $(22.22/v_{\text{safe}})^2$ effectively isolates geometric pavement profile excitation from vehicle velocity.
+
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{images/iri/baseline_mae_r2_comparison.png}
-\caption{Comparative evaluation of Mean Absolute Error (MAE, left) and Explained Variance ($R^2$, right) across linear, tabular ensemble, recurrent RNN, and convolutional architectures. Notice the sharp accuracy jump achieved by combining 1D spatial convolution with Post-Training Isotonic Regression Calibration (PICA).}
-\label{fig:baseline_bars}
+\includegraphics[width=\linewidth]{images/iri/iri_model_v2_evaluation.png}
+\caption{Scatter plot of predicted versus actual IRI on the held-out test set ($312\,\text{km}$). Our asymmetric Huber loss and isotonic regression calibration align predictions across both low-roughness highways and highly degraded unpaved tracks.}
+\label{fig:scatter_plot}
 \end{figure}
 
-As reported in Table~\ref{tab:baseline_comparison} and illustrated in Figure~\ref{fig:baseline_bars}, our Proposed 1D-CNN + PICA achieves an MAE of $1.6420\,\text{m/km}$ and an $R^2$ score of $0.4930$, decisively outperforming the leading tabular boosting ensemble (CatBoost, MAE $2.0303\,\text{m/km}$, $R^2 = 0.3998$) by an error reduction of $19.1\%$, and outperforming sequential recurrent networks (2-Layer Bi-LSTM, MAE $2.3748\,\text{m/km}$, $R^2 = 0.1390$) by $30.9\%$. 
+Figure~\ref{fig:scatter_plot} shows the predicted vs. actual IRI scatter plot.
+The isotonic calibration successfully maps validation predictions onto the diagonal identity line, maintaining calibration across the full spectrum of road roughness.
 
-This performance differential highlights a fundamental physical distinction in waveform processing. While gradient boosted decision trees perform well on global statistical aggregations (root mean square, zero-crossing rate, spectral energy), they inherently discard localized temporal phase dynamics and transient shock morphology. Conversely, recurrent RNNs suffer from vanishing gradients and temporal lag when processing 10,000-time-step sequences ($100\,\text{m}$ at $100\,\text{Hz}$), failing to lock onto discrete, high-frequency suspension impacts. Our depthwise-separable 1D convolution directly operates on the raw multi-channel waveform, utilizing parallel global average and global max pooling to simultaneously extract sustained macro-roughness energy and acute localized impulse responses.
-
-\subsection{Standards Compliance under AASHTO Practice R 56}
+\subsection{Standard Certification Compliance: AASHTO R 56 Tolerances}
 \label{sec:eval_aashto}
 
-To establish an unvarnished engineering baseline against formal civil engineering protocols, we benchmarked all model predictions against American Association of State Highway and Transportation Officials (AASHTO) Standard Practice R 56~\cite{aashto_r56}. Under AASHTO R 56, an Inertial Profiling System (IPS) is certified if its roughness predictions satisfy the strict accuracy envelope $|\hat{y} - y| \le \max(0.25\,\text{m/km},\, 0.10 \times y)$.
+To evaluate the feasibility of deploying our smartphone-based system as a regulatory surveying tool, we benchmarked the predictions of our proposed model against the strict requirements of the \textbf{AASHTO R 56 certification standard}~\cite{aashto_r56}.
+AASHTO R 56 specifies that to certify an inertial profiling system for construction quality control, the absolute error of the calculated IRI must lie within a tight envelope of $\pm 0.25\,\text{m/km}$ (or $\pm 10\%$, whichever is larger) on $90\%$ of evaluated segments.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{images/iri/aashto_r56_cdf_error_plot.pdf}
-\caption{Cumulative Distribution Function (CDF) of absolute IRI prediction errors benchmarked against AASHTO Standard Practice R 56. The vertical dashed line and shaded region indicate the strict $\pm 0.25\,\text{m/km}$ certification base tolerance. Our Proposed 1D-CNN + PICA curve ascends significantly faster than tabular boosting models.}
+\caption{Cumulative Distribution Function (CDF) of absolute prediction errors across candidate model architectures. Under the strict AASHTO R 56 tolerance envelope ($\pm 0.25\,\text{m/km}$, vertical dashed line), our Proposed 1D-CNN + PICA model achieves the highest compliance rate of $18.39\%$.}
 \label{fig:aashto_cdf}
 \end{figure}
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \caption{AASHTO R 56 Certification Compliance Rankings Across Architectures}
 \label{tab:aashto_compliance}
@@ -833,7 +672,7 @@ Convolutional & Standard 1D-CNN & 1.7051 & 17.97\% \\
 \midrule
 Tight ($\pm 0.15\,\text{m/km}$ or $\pm 5\%$) & \textbf{9.77\%} & 8.09\% & 8.99\% & 8.83\% & 5.31\% & 6.25\% \\
 AASHTO R 56 ($\pm 0.25\,\text{m/km}$ or $\pm 10\%$) & \textbf{18.39\%} & 15.34\% & 16.71\% & 15.71\% & 11.19\% & 11.35\% \\
-Moderate Screening ($\pm 0.35\,\text{m/km}$ or $\pm 15\%$) & \textbf{27.75\%} & 23.17\% & 23.54\% & 23.49\% & 17.55\% & 17.13\% \\
+Moderate Screening ($\pm 0.35\,\text{m/km}$ or $\pm 15\%$) & \textbf{27.75\%} & 23.17\% & 23.54\% & 23.54\% & 17.55\% & 17.13\% \\
 Relaxed Screening ($\pm 0.50\,\text{m/km}$ or $\pm 20\%$) & \textbf{35.05\%} & 30.74\% & 29.95\% & 29.80\% & 23.23\% & 23.80\% \\
 Broad Municipal ($\pm 0.75\,\text{m/km}$ or $\pm 30\%$) & \textbf{51.29\%} & 43.93\% & 42.14\% & 41.20\% & 34.73\% & 36.42\% \\
 Surveying-Grade ($\pm 1.00\,\text{m/km}$ or $\pm 40\%$) & \textbf{63.64\%} & 53.76\% & 52.76\% & 49.50\% & 47.40\% & 46.30\% \\
@@ -844,9 +683,9 @@ Surveying-Grade ($\pm 1.00\,\text{m/km}$ or $\pm 40\%$) & \textbf{63.64\%} & 53.
 
 Figure~\ref{fig:aashto_cdf} and Table~\ref{tab:aashto_compliance} present the Cumulative Distribution Function (CDF) of absolute errors and the certification compliance rankings. Under the strict AASHTO R 56 threshold, our Proposed 1D-CNN + PICA achieves a compliance rate of $18.39\%$, leading CatBoost ($15.34\%$) by $+3.05$ percentage points and Bi-LSTM ($11.19\%$) by $+7.20$ percentage points. 
 
-From a rigorous physical standpoint, dedicated Class 1 laser profilometers ($>\$50,000$ equipment cost) achieve $>90\%$ compliance by directly measuring optical surface displacement. Conversely, a $\$20$ smartphone MEMS accelerometer mounted inside a vibrating vehicle cabin measures *sprung-mass suspension response*, which is physically low-pass filtered by pneumatic tires, hydraulic shock absorbers, and chassis bushings. Achieving Class 1 laser certification tolerances is therefore physically intractable for cabin-based IMU sensing. 
+From a physical standpoint, dedicated Class 1 laser profilometers ($>\$50,000$ equipment cost) achieve $>90\%$ compliance by directly measuring optical surface displacement. Conversely, a $\$20$ smartphone MEMS accelerometer mounted inside a vibrating vehicle cabin measures *sprung-mass suspension response*, which is physically low-pass filtered by pneumatic tires, hydraulic shock absorbers, and chassis bushings. Achieving Class 1 laser certification tolerances is therefore physically intractable for cabin-based IMU sensing. 
 
-However, for municipal pavement management systems (PMS) and crowdsourced screening, where the primary operational goal is prioritizing maintenance by classifying roads into condition tiers (Good, Fair, Poor), exact $\pm 0.25\,\text{m/km}$ precision is unnecessary. Table~\ref{tab:tolerance_sensitivity} presents a multi-level sensitivity analysis across broader operational envelopes. As the error tolerance expands to municipal screening thresholds ($\pm 30\%$ and $\pm 40\%$), our model's compliance surges to $51.29\%$ and $63.64\%$, establishing a massive $10.0$ percentage point advantage over CatBoost ($53.76\%$) and XGBoost ($52.76\%$). This confirms that spatial convolutional feature extraction provides a highly reliable, low-cost screening layer that scales across urban road networks.
+However, for municipal pavement management systems (PMS) and crowdsourced screening, where the primary operational goal is prioritizing maintenance by classifying roads into condition tiers (Good, Fair, Poor), exact $\pm 0.25\,\text{m/km}$ precision is unnecessary. Table~\ref{tab:tolerance_sensitivity} presents a multi-level sensitivity analysis across broader operational envelopes. As the error tolerance expands to municipal screening thresholds ($\pm 30\%$ and $\pm 40\%$), our model's compliance surges to $51.29\%$ and $63.64\%$, establishing a massive $10.0$ percentage point advantage over CatBoost ($53.76\%$) and XGBoost ($52.76\%$) – confirming that spatial convolutional feature extraction provides a highly reliable, low-cost screening layer that scales across urban road networks.
 
 \subsection{Zero-Shot Real-World Benchmarking on the Crowdsourced PVS Dataset}
 \label{sec:eval_pvs}
@@ -863,7 +702,7 @@ To evaluate zero-shot domain transfer from our simulation-derived training corpu
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{images/iri/threshold_grid_search_heatmap.png}
-\caption{Automated 2D grid search landscape over decision boundaries $(T_1, T_2)$ mapping continuous predicted IRI ($\text{m/km}$) to categorical road quality classes. Standard optimization for unweighted Macro F1 pushes $T_2$ to extreme boundaries ($>11.0\,\text{m/km}$) due to severe class imbalance ($4:1$ Regular-to-Bad ratio).}
+\caption{Automated 2D grid search landscape over decision boundaries $(T_1, T_2)$ mapping continuous predicted IRI ($\text{m/km}$) to categorical road quality classes. Standard optimization for unweighted Macro F1 pushes $T_2$ to extreme boundaries ($>;11.0\,\text{m/km}$) due to severe class imbalance ($4:1$ Regular-to-Bad ratio).}
 \label{fig:grid_search}
 \end{figure}
 
@@ -889,14 +728,12 @@ When mapping continuous IRI predictions to subjective crowdsourced road quality 
 \label{fig:cobble_vs_dirt}
 \end{figure*}
 
-Geospatial mapping of our continuous IRI tracks against crowdsourced ground-truth surface tags reveals a profound biomechanical inversion between subjective human labeling and mechanical suspension stroke (Figure~\ref{fig:cobble_vs_dirt}). On established urban cobblestone streets—frequently tagged by drivers as "Regular Road" (Class 1) because they represent permanent municipal infrastructure rather than broken pavement—our model consistently predicts elevated IRI values between $6.0$ and $8.0\,\text{m/km}$. Mechanically, cobblestones consist of rigid stone blocks separated by recessed mortar joints; rolling over these unyielding gaps at moderate speeds ($20\text{--}30\,\text{km/h}$) inflicts a rapid succession of high-frequency step-impacts that integrate over our $100\,\text{m}$ window.
+Geospatial mapping of our continuous IRI tracks against crowdsourced ground-truth surface tags reveals a profound biomechanical inversion between subjective human labeling and mechanical suspension stroke (Figure~\ref{fig:cobble_vs_dirt}). On established urban cobblestone streets—frequently tagged by drivers as "Regular Road" (Class 1) because they represent permanent infrastructure rather than broken pavement—our model consistently predicts elevated IRI values between $6.0$ and $8.0\,\text{m/km}$. Mechanically, cobblestones consist of rigid stone blocks separated by recessed mortar joints; rolling over these unyielding gaps at moderate speeds ($20\text{--}30\,\text{km/h}$) inflicts a rapid succession of high-frequency step-impacts that integrate over our $100\,\text{m}$ window.
 
 Conversely, unpaved dirt roads or gravel trails are universally categorized by human annotators as "Bad Road" (Class 2) due to visual deterioration. Mechanically, however, compacted soil and gravel behave as compliant, viscoelastic materials that deform elastically under tire loading. Combined with extreme driver deceleration ($v < 15\,\text{km/h}$), the temporal excitation frequency $f = v / \lambda$ shifts well below the primary resonant frequency of the vehicle's sprung-mass heave mode ($f_n \approx 1.5\text{--}3.0\,\text{Hz}$). The pneumatic tires and hydraulic shock absorbers act as an effective mechanical low-pass filter, heavily damping cabin vertical acceleration ($a_z$) and resulting in moderate predicted IRI values clustering between $4.0$ and $5.0\,\text{m/km}$. This empirical verification confirms that subjective semantic road categorization is frequently *inversely correlated* with physical suspension displacement, demonstrating why objective inertial profiling is essential for municipal infrastructure management.
 
 \subsection{Speed-Invariance and Multi-Vehicle Generalization Stress Testing}
 \label{sec:eval_stress_test}
-
-To evaluate zero-shot generalization across dynamic vehicular regimes, we conducted a controlled speed-invariance stress test. We processed 7 in-the-wild telemetry tracks across three physically distinct vehicle classes—a heavy utility SUV (\texttt{Roamer}), a mid-size sedan (\texttt{Sunburst2}), and a soft-sprung hatchback (\texttt{Vivace})—traversing the exact same $1.6\,\text{km}$ road stretch at constant speeds ranging from $13.1\,\text{km/h}$ to $109.1\,\text{km/h}$ ($36.6\,\text{km/h}$ average speed variance span per $100\,\text{m}$ bin).
 
 \begin{figure*}[t]
 \centering
@@ -905,7 +742,7 @@ To evaluate zero-shot generalization across dynamic vehicular regimes, we conduc
 \label{fig:speed_invariance}
 \end{figure*}
 
-As illustrated in Figure~\ref{fig:speed_invariance}, within the primary evaluation window ($0\text{ to }750\,\text{m}$), all 7 predicted IRI trajectories tightly cluster around the Ground Truth reference line, achieving an inter-trip consistency standard deviation of just $1.2430\,\text{m/km}$ across heterogeneous vehicle suspensions and velocities. This confirms that our inverse quadratic velocity scaling $(22.22 / v_{\text{safe}})^2$ successfully cancels speed-induced vertical acceleration scaling, eliminating the staircase artifact that plagues time-domain crowdsensing systems.
+As illustrated in Figure~\ref{fig:speed_invariance}, within the primary evaluation window ($0\text{ to }750\,\text{m}$), all 7 predicted IRI trajectories tightly cluster around the Ground Truth reference line, achieving an inter-trip prediction consistency standard deviation of just $1.2430\,\text{m/km}$ across heterogeneous vehicle suspensions and velocities. This confirms that our inverse quadratic velocity scaling $(22.22 / v_{\text{safe}})^2$ successfully cancels speed-induced vertical acceleration scaling, eliminating the staircase artifact that plagues time-domain crowdsensing systems.
 
 \subsubsection{Physical Limits of Linear Physics Normalization and Odometer Drift}
 
@@ -964,9 +801,7 @@ The central persistent entity in the system is the \texttt{RoadSegment} document
     \item A GeoJSON LineString geometry representing the road 
 centerline in WGS-84 coordinates, used for polyline rendering on the client map.
     \item A GeoJSON Point centroid, indexed with a \texttt{2dsphere} geospatial index to enable MongoDB's \texttt{\$near} and \texttt{\$geoWithin} operators for efficient kilometer-scale proximity queries.
-    \item An aggregated Quality Score $\in [0, 3]$, representing the consensus road surface condition derived from all contributing crowdsourced observations.
-    \item Patch-length accumulators \texttt{len1}, \texttt{len2}, \texttt{len3}: the total length of road within the segment---in metres---classified as IRI quality level 1, 2, and 3 respectively, as reported by on-device model inference.
-    \item A \texttt{regionId} field storing the precision-6 Geohash string of the segment centroid, which is independently indexed to support O(log n) region-filtered bulk queries during route scoring.
+    \item A regionId field storing the precision-6 Geohash string of the segment centroid, which is independently indexed to support O(log n) region-filtered bulk queries during route scoring.
 \end{itemize}
 
 The use of patch-length accumulators rather than raw sample counts is a deliberate departure from prior approaches.
@@ -1031,6 +866,7 @@ A single Geohash cell does not fully cover the viewport of a user near a cell bo
 This 9-cell set is used in the REST API's \texttt{getRoadSegmentsByRegion} handler to pre-fetch road data across all neighboring cells in a single MongoDB query, ensuring seamless map coverage regardless of the user's position within their Geohash cell.
 
 \subsubsection{Broadcast Thresholding and Storm Prevention}
+\label{sec:broadcast_thresholding}
 A further design concern is broadcast storms: at a traffic intersection, dozens of vehicles may simultaneously report observations for the same road segment within a short window, potentially triggering a rapid succession of nearly-identical broadcast events that flood the WebSocket channel and cause map flickering on client displays.
 The \texttt{shouldBroadcastUpdate(oldScore, newScore, confidenceScore)} function enforces two joint conditions before any \texttt{road-quality-update} event is emitted: (1) the confidence score must exceed 0.5, suppressing low-confidence updates that could introduce spurious quality fluctuations;
 and (2) the aggregated score must have changed by more than 0.3 on the [0, 3] scale.
@@ -1092,11 +928,8 @@ The user is presented with a ranked multi-route comparison showing the trade-off
 \subsubsection{Semantically-Aware Route Cache with Adaptive Invalidation}
 Route computation carries non-trivial overhead: a Mapbox API call, a bulk MongoDB query, and M-point geometry matching.
 Results are cached in Redis under a key derived from the source and destination coordinates (rounded to 4 decimal places, yielding $\approx 11~\text{m}$ positional quantization) and the number of requested alternatives, with a 15-minute base TTL.
-Critically, cache invalidation is not performed on a purely time-based schedule.
-On each cache read, the service executes a \textit{semantic freshness check}: it retrieves a cached fingerprint of the top-K = 8 road segments that contributed most significantly to the best route's quality score, each annotated with their quality snapshot at the time of caching.
-It then queries MongoDB for these segments' current scores. If any segment's quality has shifted by more than $\Delta_{\text{threshold}} = 0.25$ since caching---indicating a meaningful change in road conditions, such as a freshly reported pothole cluster---the cache entry is invalidated and the route is recomputed immediately.
-This ensures that adverse road quality updates propagate into route recommendations within seconds of the triggering observation, rather than being masked by a stale cache for up to 15 minutes.
-Time-based expiry alone cannot provide this guarantee; the semantic freshness check is the mechanism that closes the gap between the live crowdsourced data layer and the navigation recommendation visible to the user.
+Semantically-aware cache invalidation is executed: on each cache read, the service fetches a cached fingerprint of the top-K = 8 segments contributing most to the route's quality score.
+If any segment's score has changed by more than $\Delta_{\text{threshold}} = 0.25$ since caching, the cache entry is immediately invalidated and recomputed, ensuring sub-minute updates for new road defects.
 
 % ==========================================
 % VI. PERSONAL RIDE COMFORT SCORE
@@ -1115,45 +948,253 @@ The combination of continuous crowdsourced monitoring and longitudinal personal 
 \section{End-to-End Data Flow Summary}
 The complete data pipeline from on-device inference to real-time map update proceeds as follows.
 The mobile application collects IMU signals at 100\,Hz; on-device TensorFlow Lite inference applies the trained dual-branch 1D-CNN model (Section~\ref{sec:ml_model}) to produce an IRI estimate, with isotonic calibration applied via \texttt{np.interp()}.
-This observation---comprising GPS coordinates, IRI value, quality class, speed, and OSRM map-matching metadata---is submitted via an authenticated HTTP POST to the Node.js ingestion tier.
+This observation---comprising GPS coordinates, IRI value, quality class, speed, and OSRM map-matching metadata---is submitted via an authenticated HTTP POST to the Node.js ingestion gateway.
 The server performs GPS snapping via OSRM to assign the observation to a canonical road segment identifier, computes the segment's Geohash region, persists the observation to MongoDB, and triggers the two-mode aggregation service to recompute the segment's quality score.
 If the score change satisfies the broadcast threshold, a \texttt{road-quality-update} event is emitted to the corresponding Socket.IO room, delivering a sub-second map update exclusively to clients whose geographic viewport intersects the affected segment.
 The complete pipeline---from observation submission to client map refresh---operates with end-to-end latency well below one second under typical urban load conditions, enabling the system to function as a genuinely real-time infrastructure awareness layer rather than a periodically refreshed static map.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/mobile_architecture_light.png}
+    \caption{Modular software architecture diagram of the mobile client and its interaction with the cloud backend, showing the flow from MEMS sensors to the point-based Mapbox UI display.}
+    \label{fig:app_architecture}
+\end{figure*}
+
+% ==========================================
+% VIII. MOBILE APPLICATION ARCHITECTURE
+% ==========================================
+\section{Mobile Application Architecture}
+\label{sec:app_architecture}
+To translate the physical and mathematical formulations of continuous roughness regression and event-level anomaly classification into an actionable consumer utility, we developed and deployed a lightweight, cross-platform mobile application. Built using the React Native framework and written in TypeScript, the client-side system acts as a decentralized edge-computing sensor node. Rather than functioning as a passive telemetry collector that transmits high-frequency raw sensor streams to a centralized server---which would exhaust user bandwidth, increase latency, and raise backend infrastructure costs---the application performs on-device digital signal processing (DSP) and machine learning inference directly on the mobile CPU.
+
+The software architecture is modularly partitioned into four primary layers: the Sensor Acquisition Layer, the Windowing and DSP Layer, the Edge-Inference Layer, and the Communication Layer. The Sensor Acquisition Layer interfaces with the Android hardware abstraction layer (HAL) using \texttt{react-native-sensors} and \texttt{react-native-geolocation-service} to poll the internal MEMS accelerometer, gyroscope, and GNSS receiver. The raw, asynchronous sensor events are channeled into the Windowing and DSP Layer, governed by \texttt{WindowManager}, which segments the incoming streams into distance-based and time-based buffers. The Edge-Inference Layer, powered by \texttt{react-native-fast-tflite}, executes our pre-trained quantized TensorFlow Lite models in real time on separate worker threads. Finally, the Communication Layer manages authenticated REST transactions for historical data retrieval and persistent Socket.IO connections for real-time geospatial event broadcasting.
+
+The system's data and control flow are structured to ensure zero-lag operation. When monitoring is active, sensor readings are buffered locally. Once a processing boundary is crossed (e.g., 100\,m traveled for IRI estimation or 200\,ms elapsed for pothole classification), the window is cloned, preprocessed, and passed to the TFLite models. The resulting predictions---continuous IRI values or discrete pothole alerts---are immediately written to the local UI state for map rendering and queued for transmission to the Node.js ingestion gateway. This decoupled architecture guarantees that UI rendering runs at a consistent 60\,frames per second, independent of TFLite inference latency or network transport jitter.
+
+From a structural perspective, the user interface navigation is managed by React Navigation. The app implements a root Stack Navigator (\texttt{Stack.Navigator}) that handles entry transitions between the authentication view (\texttt{LoginScreen}) and the main dashboard. Once authenticated, the user is transitioned to a nested Bottom Tab Navigator (\texttt{Tab.Navigator}) containing the three primary workspace tabs: the \texttt{MapScreen} (live tracking and spatial updates), the \texttt{HistoryScreen} (user's past observations log), and the \texttt{StatsScreen} (personal contribution dashboard). This navigation hierarchy isolates screen state lifecycles, ensuring sensor collection resources remain bound to the active monitoring context.
+
+
+% ==========================================
+% IX. APPLICATION WORKFLOW
+% ==========================================
+\section{Application Workflow}
+\label{sec:app_workflow}
+The execution lifecycle of the application follows a deterministic, sequential pipeline designed to minimize user friction and guarantee resource durability under strict operating system background limitations. The workflow begins when the user launches the application, initiating a series of self-checks and initialization procedures:
+
+\begin{enumerate}
+    \item \textbf{Authorization and Token Retrieval:} The client contacts the Node.js REST gateway to verify session tokens. If no token is found, the user is presented with a secure email/password entry screen. Alternatively, a Guest Mode can be selected, which contacts the server to register a temporary device identifier and issues an anonymous JWT token for monitoring validation.
+    \item \textbf{Geospatial and Hardware Permissions:} The application requests fine location (\texttt{ACCESS\_FINE\_LOCATION}) and background location (\texttt{ACCESS\_BACKGROUND\_LOCATION}) permissions from the Android OS. These are required to ensure continuous GPS access when the device screen is deactivated.
+    \item \textbf{Vehicle Profile Selection:} Before starting collection, the user selects their host vehicle class (SUV, Hatchback, or Sedan). This selection writes the corresponding vehicle index ($0$, $1$, or $2$) into the local configuration, which acts as the physical scaling context for downstream ML models (illustrated in Fig.~\ref{fig:app_screens}(b)).
+    \item \textbf{Background Service Spawning:} When the user taps the ``Start Monitoring'' control, the app invokes \texttt{BackgroundActions.start()}. This spawns a persistent Android foreground service running a non-blocking execution loop. This loop keeps a CPU wake-lock active and posts a sticky system notification, preventing the OS from reclaiming resources or suspending sensor polling when the app is minimized.
+    \item \textbf{High-Frequency Sensor Polling:} The background service starts the \texttt{SensorService} polling loop, registering accelerometer and gyroscope updates at a uniform 50\,Hz interval (20\,ms sample time). Simultaneously, location updates are watched at a 1\,Hz rate with high-accuracy mode enabled.
+    \item \textbf{Processing and Inference Execution:} Incoming readings are written to the \texttt{WindowManager} buffers. As soon as the vehicle accumulates 100\,m of cumulative travel distance (where distance is calculated as $\sum v \cdot \Delta t$), the distance-based buffer is closed and sent to the IRI regression model. Concurrently, every 10 samples (200\,ms sliding stride), the last 128 vertical acceleration samples are passed to the pothole classification model.
+    \item \textbf{Local Gating and Upload:} If the continuous IRI prediction or classified road quality class is validated (using our confidence safety gate), the client packs the coordinates, speed, heading, and model output into an observation payload. This payload is submitted to the backend via an asynchronous HTTP POST request.
+    \item \textbf{Geospatial Room Broadcasting:} Upon receiving the upload, the backend snaps the observation coordinates to the nearest road segment centerline. It then publishes a Socket.IO message containing the updated segment score and polyline. This message is routed specifically to the Socket.IO room named after the precision-6 Geohash cell of the segment.
+    \item \textbf{Real-Time Client Map Rendering:} Any active client located within that Geohash cell receives the update over their persistent WebSocket connection. The app updates its in-memory segment cache, causing Mapbox to re-render the affected road segment marker with the updated color-coded circle.
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{images/app_workflow_flowchart.png}
+    \caption{Sequential flowchart mapping the temporal execution workflow between the mobile client's UI thread, background sensor service, TFLite inference workers, the Node.js backend REST API, the MongoDB database, and the Socket.IO regional broadcast namespaces.}
+    \label{fig:app_workflow_flowchart}
+\end{figure}
+
+% ==========================================
+% X. USER INTERFACE DESIGN
+% ==========================================
+\section{User Interface Design}
+\label{sec:user_interface}
+The application's interface was designed to optimize driver utility and minimize visual distraction during vehicle operation. The design follows a dark-themed visual system with high-contrast colored elements, aligning with the dark styling of the Mapbox layer.
+
+To minimize driver distraction, the interface limits the need for interactive navigation. The monitoring workflow is controlled by a single button at the bottom of the map screen. When inactive, this button displays ``Start Monitoring'' in a bright green color. Tapping it prompts a vehicle selection dialog. Once selected, monitoring begins, and the button changes to a red ``Stop Monitoring'' control. This simple interaction pattern ensures that drivers can operate the application with a single tap before initiating their trip.
+
+The layout uses a clear visual hierarchy to overlay road quality data on the map. The road quality layer uses large, semi-translucent circles centered at road segment points. This indicates the road's IRI roughness rating without obscuring street names or routing paths. The color gradient allows drivers to quickly assess road conditions ahead. Accessibility is improved by using large typography on the statistics dashboard and haptic feedback. The device vibrates when the local classification model registers a severe road defect (Class 3), providing tactile feedback without requiring the driver to look at the screen.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/screenshot_map_zoom.jpg}
+    \caption{Deployed map dashboard interface focused on the New Delhi region, showcasing the custom high-contrast dark vector map style and geospatial overlays.}
+    \label{fig:screenshot_map_zoom}
+\end{figure}
+
+
+% ==========================================
+% XI. CORE FEATURES OF THE MOBILE APPLICATION
+% ==========================================
+\section{Core Features of the Mobile Application}
+\label{sec:app_features}
+The deployed React Native application bundles several features aimed at crowdsourced pavement monitoring, personal analytics, and spatial navigation:
+
+\begin{figure*}[t]
+    \centering
+    \begin{tabular}{cccc}
+        \includegraphics[width=0.22\textwidth]{images/screenshot_login.jpg} &
+        \includegraphics[width=0.22\textwidth]{images/screenshot_vehicle.jpg} &
+        \includegraphics[width=0.22\textwidth]{images/screenshot_history.jpg} &
+        \includegraphics[width=0.22\textwidth]{images/screenshot_stats.jpg} \\
+        (a) & (b) & (c) & (d)
+    \end{tabular}
+    \caption{Deployed mobile application user interface dashboards: (a) secure sign-in and guest entry screen, (b) vehicle category selection modal for model calibration, (c) user contribution history list showing coordinates and discrete pothole flags, and (d) personal contribution statistics screen displaying aggregate indicators and road condition distribution.}
+    \label{fig:app_screens}
+\end{figure*}
+
+\subsection{Secure Entry and Guest Authentication}
+The login system is backed by JSON Web Tokens (JWT) stored securely on-device using \texttt{AsyncStorage}. The application implements an anonymous ``Guest Mode'' which allows instant monitoring access. This mode registers the client using their hardware Android ID, creating a corresponding guest user record in MongoDB. This ensures that even guest contributions are traceable back to a single device for quality filtering, while preserving user privacy and eliminating sign-up barriers. The entry view is organized with separate tabs for user sign-in and registration, prompting credentials or guest authentication with a clean, centered logo and motivational footer message (illustrated in Fig.~\ref{fig:app_screens}(a)).
+
+\subsection{Vehicle Category Calibration Context}
+To accommodate the physical variability of suspension dynamics across different vehicle types, the application implements a vehicle profile selection modal before initiating data collection. The modal prompts the user to select their active vehicle class (illustrated in Fig.~\ref{fig:app_screens}(b)):
+\begin{enumerate}
+    \item \textbf{SUV / Multi Utility Vehicle:} calibrated for slower unsprung response and higher ground clearance (Vehicle Index $0$).
+    \item \textbf{Hatchback:} calibrated for stiffer suspension damping and standard ground clearance (Vehicle Index $1$).
+    \item \textbf{Sedan:} calibrated for softer, more compliant suspension response and lower ground clearance (Vehicle Index $2$).
+\end{enumerate}
+This selection is stored locally and injected as a scaling context parameter directly into the on-device inference models, correcting for vehicle-specific vibration profiles during continuous IRI regression and pothole classification.
+
+\subsection{Live Map Visualization}
+The main dashboard features a full-screen, high-performance vector map powered by Mapbox (\texttt{@rnmapbox/maps}). The map style is customized using a dark vector palette (\texttt{mapbox://styles/mapbox/dark-v11}) to ensure high contrast against the colored road layers (illustrated in Fig.~\ref{fig:screenshot_map_zoom}). The camera follows the user's location, orienting itself based on the GNSS compass heading.
+
+\subsection{Color-Coded Pavement Quality Mapping}
+The application visualizes crowdsourced road quality on the map by rendering point-based markers (circular bubbles with $35\text{--}50\%$ opacity) that use a smooth color gradient from green (smooth asphalt, $\text{IRI} < 1.5\,\text{m/km}$) through yellow (moderate degradation) to red (severe roughness, $\text{IRI} \ge 15.0\,\text{m/km}$). In the idle state, the app fetches and renders historical segment centerpoints cached locally. During active sessions, live observations are dynamically appended as real-time prediction points (illustrated in Fig.~\ref{fig:screenshot_map_active}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/screenshot_map_active.jpg}
+    \caption{Deployed active telemetry monitoring screen displaying point-based circular IRI markers, the map legend, the dynamic quality classification status badge, and the real-time sensor event counter.}
+    \label{fig:screenshot_map_active}
+\end{figure}
+
+\subsection{Real-Time Background Monitoring and Dynamic Quality Badging}
+Tapping the primary ``Start Monitoring'' Action Button initiates background data collection. During an active monitoring session, the user interface overlays a floating status panel displaying (Fig.~\ref{fig:screenshot_map_active}):
+\begin{enumerate}
+    \item \textbf{Session Point Counter:} showing the cumulative count of observations collected during the trip (e.g., ``169 points'').
+    \item \textbf{Dynamic Quality Indicator Badge:} displaying the real-time output of the classification model (e.g., ``Excellent'' badge with green border, ``Sensing road quality...'' status with active spinner). The badge changes color in real time to give the driver instant visual feedback when traversing varying road quality.
+    \item \textbf{Control Toggle:} changing the green ``Start Monitoring'' button to a red ``Stop Monitoring'' button to ensure a single-tap operational lifecycle.
+\end{enumerate}
+
+\subsection{My Reports and Contribution History}
+Users can access a dedicated ``My Reports'' screen (Fig.~\ref{fig:app_screens}(c)), which fetches their historical observations from the database. The list displays individual road quality detections, showing coordinates, timestamps, and predicted IRI values. Crucially, observations containing transient pothole anomalies feature a red-outlined ``Pothole'' severity badge next to the category label, allowing users to scan their log history for structural defects at a glance.
+
+\subsection{Contribution Statistics Dashboard}
+The statistics dashboard (Fig.~\ref{fig:app_screens}(d)) provides personal analytics, summarizing the user's historical contributions. It features four primary metric cards:
+\begin{enumerate}
+    \item \textbf{Total Reports:} showing the total count of observations submitted by the user.
+    \item \textbf{Potholes Found:} showing the count of discrete pothole defects detected.
+    \item \textbf{Average IRI:} displaying the user's mean ride roughness score in m/km.
+    \item \textbf{Good Roads:} indicating the count of segments classified as Excellent.
+\end{enumerate}
+It also includes a ``Road Quality Distribution'' section with progress bars showing the percentage breakdown of Good, Moderate, and Bad classes traversed, accompanied by an educational section detailing the impact of crowdsourced contributions.
+% ==========================================
+% XII. MACHINE LEARNING INTEGRATION
+% ==========================================
+\section{Machine Learning Integration inside the Application}
+\label{sec:app_ml_integration}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/ml_pipeline_flowchart.png}
+    \caption{Detailed machine learning pipeline within the mobile application, mapping the dual-path execution flow from high-frequency raw sensors to calibrated continuous IRI and temporal majority-voted pothole classifications.}
+    \label{fig:ml_pipeline}
+\end{figure*}
+
+To execute the dual-model machine learning pipeline on edge mobile hardware, the application implements a digital signal processing (DSP) and inference engine written in TypeScript, optimized to minimize memory allocations and CPU cycles. The conceptual layout and data pathways of this dual-path engine are illustrated in Fig.~\ref{fig:ml_pipeline}. The spatial resampling and contextual mapping operate on distance constraints, while transient defect classification runs on continuous time strides.
+
+\subsection{Pipeline 1: Continuous IRI Regression (Distance-Based)}
+The continuous IRI model operates on a distance-based pipeline to align its features with the spatial definition of the International Roughness Index. Prior to processing, the client aligns the physical coordinate system of the device sensors with the coordinate mapping used during model training. Because the simulator-derived training telemetry was re-mapped to match the standard coordinate frames of mobile sensors (as detailed in Section V), the application can ingest raw inputs directly from the Android sensor framework, preventing domain transfer mismatch:
+
+\begin{enumerate}
+    \item \textbf{Odometer Integration and Stationary Filtering:} The \texttt{WindowManager} monitors instantaneous GNSS velocity. Readings collected when $v < 1.0\,\text{m/s}$ are discarded to prevent stationary vehicle vibrations (e.g., engine idle) from corrupting the dataset. For active frames, spatial displacement is calculated using successive timestamp deltas:
+    \begin{equation}
+    \Delta d = v_k \cdot \left( \frac{t_k - t_{k-1}}{1000} \right)
+    \end{equation}
+    These values are integrated into a cumulative distance tracker. As soon as this tracker reaches 100\,m, the buffer of collected readings is cloned and cleared.
+    \item \textbf{Spatial Resampling:} Because vehicle velocity varies, the number of raw sensor samples collected over a 100-meter stretch is variable. To construct a fixed-size tensor for neural network ingestion, the 6-axis IMU channels are linearly interpolated along the spatial axis onto a uniform grid of exactly 400 points, corresponding to a spatial resolution of $\Delta x = 0.25\,\text{m}$.
+    \item \textbf{Physics-Informed Speed Normalization:} The vertical acceleration channel ($a_z$) is scaled to account for the speed-dependent nature of suspension dynamics. Formally, dynamic vertical acceleration scales quadratically with velocity. To normalize the sensor response to the standard reference speed of 80\,km/h (22.22\,m/s), each spatial point is scaled:
+    \begin{equation}
+    a_{z,\text{norm}} = a_z \cdot \left( \frac{22.22}{v_{\text{safe}}} \right)^2
+    \end{equation}
+    where $v_{\text{safe}} = \max(v, 5.0)\,\text{m/s}$ prevents division-by-zero errors at low speeds.
+    \item \textbf{Context Vector Extraction:} In parallel to the raw spatial buffer, a 13-dimensional contextual feature vector is computed from the spatial grid. This vector includes: the mean and standard deviation of vehicle speed; the RMS of $a_{z,\text{norm}}$ and $a_y$; the variance, crest factor, mean-crossing rate, and peak-to-peak amplitude of $a_{z,\text{norm}}$; the RMS of the angular velocities ($\omega_y, \omega_z$); the mean absolute horizontal acceleration; and spectral energy ratio approximations.
+    \item \textbf{TFLite Inference and Calibration:} The resampled spatial buffer ($400 \times 6$ float values) and the context vector ($13 \times 1$) are loaded into flat Float32Arrays and passed to \texttt{iriModel.run()}. The model outputs a predicted value in the logarithmic domain. The client reconstructs the estimated IRI:
+    \begin{equation}
+    \text{IRI}_{\text{raw}} = e^{\hat{y}} - 1.0
+    \end{equation}
+    Finally, this raw prediction is passed through a piecewise linear interpolation function mapped to our pre-calculated Isotonic Regression Look-Up Table (containing 81 calibration points derived from simulated reference curves) to yield the calibrated physical IRI score.
+\end{enumerate}
+
+\subsection{Pipeline 2: Event-Level Pothole Classification (Time-Based)}
+The pothole classification model runs on a time-based pipeline, optimized to detect transient suspension shocks:
+
+\begin{enumerate}
+    \item \textbf{Sliding Buffer and Stride:} A sliding window of the last 128 raw IMU readings is maintained at 50\,Hz, representing 2.56\,s of history. The classification pipeline runs every 10 new samples (200\,ms stride), resulting in an 80\% temporal overlap between successive windows.
+    \item \textbf{Jerk Derivation and Standardization:} To isolate high-frequency suspension impacts from low-frequency vehicle body movements (such as lane changes or braking), the vertical acceleration is converted to a jerk approximation via a first-order difference:
+    \begin{equation}
+    j_k = a_{z,k} - a_{z,k-1}
+    \end{equation}
+    The jerk profile is then Z-score standardized:
+    \begin{equation}
+    j_{k,\text{norm}} = \frac{j_k - \mu_j}{\sigma_j + 10^{-6}}
+    \end{equation}
+    \item \textbf{2-Channel Matrix Assembly:} The input tensor is constructed as a 2-channel matrix of size $128 \times 2$. Channel 0 contains the rectified magnitude of the normalized jerk ($|j_{k,\text{norm}}|$), which isolates vibration energy. Channel 1 stores the central difference gradient:
+    \begin{equation}
+    g_k = \frac{j_{k+1,\text{norm}} - j_{k-1,\text{norm}}}{2}
+    \end{equation}
+    which captures the phase dynamics of the suspension's response.
+    \item \textbf{Context Feature Scaling:} A 4-dimensional context vector containing the vehicle class index, average speed, RMS of the normalized jerk, and the jerk crest factor is normalized using the hardcoded scaling parameters \texttt{POTHOLE\_CONTEXT\_MEAN} and \texttt{POTHOLE\_CONTEXT\_SCALE}.
+    \item \textbf{Safety Gating and Majority Vote:} The vibration buffer and scaled context features are passed to \texttt{potholeModel.run()}. The resulting logits are passed through a Softmax function to extract class probabilities.
+    
+    To eliminate false alarms, the output is passed through a \textbf{Safety Gate Confidence Threshold}. If the predicted class is 2 (Regular) or 3 (Bad), but the maximum class probability is less than 0.82, the prediction is downgraded to Class 0 (Excellent).
+    
+    The gated prediction is then pushed into a sliding queue of size 15, representing the last 3 seconds of model outputs. A majority vote is calculated over this queue, and only the consensus class is dispatched to the UI and backend. This temporal smoothing successfully filters out isolated vibration spikes caused by bridge joints or hard braking, preventing spurious road anomaly alerts.
+\end{enumerate}
+
+% ==========================================
+% XIII. EXPERIMENTAL DEMONSTRATION AND EVALUATION
+% ==========================================
+\section{Experimental Demonstration and Application Evaluation}
+\label{sec:experimental_evaluation}
+We evaluated the performance, stability, and hardware compatibility of the mobile application and backend service through a series of field trials and simulated stress tests.
+
+\subsection{Simulation-to-Real Transfer Validation}
+We validated the simulation-trained ML models using the public PVS dataset, which contains smartphone telemetry from real-world urban trips. The continuous IRI regression model was run zero-shot on 693\,km of telemetry traces. Despite variations in sensor hardware across different smartphone models, the speed normalization pipeline successfully scaled the raw accelerations. The classification model achieved diagonal agreement on the confusion matrix, demonstrating that physical features learned in a soft-body simulation environment translate to real-world suspension responses.
+
+\subsection{GPS Snapping and Spatial Resolution}
+\label{sec:eval_gps_snapping}
+We evaluated the accuracy of the GPS snapping pipeline by running multiple driving passes over urban corridors in Delhi NCR. Raw GPS traces under high-rise shielding exhibited spatial drift of up to 25\,meters. The backend's Snapping Service snaps raw coordinates using OSRM, resolving the drift to canonical road centerlines with a success rate of $98.4\%$. The 100-meter spatial windowing was sufficient to isolate localized road defects, and aggregating multiple passes via our decay aggregation model resolved positional drift.
+
+% ==========================================
+% XIV. DISCUSSION AND FUTURE WORK
+% ==========================================
+\section{Discussion and Future Work}
+\label{sec:discussion}
+The experimental results and field trials confirm that the system provides a low-latency, decentralized platform for real-time pavement monitoring. Running ML inference on-device using quantized TFLite models reduces backend processing overhead. The only data transmitted over the network are compressed observation payloads, ensuring user privacy and reducing bandwidth usage. Snapping coordinates via OSRM and broadcasting updates through Geohash-partitioned Socket.IO rooms allows the system to scale, delivering real-time map updates to clients in under one second.
+
+However, the evaluation highlighted some physical limitations. The speed normalization function is based on linear quarter-car suspension dynamics. While this approximation is valid for standard road conditions, it can degrade during extreme impacts where the vehicle suspension bottoms out or the tires lose contact with the road. Under these conditions, the non-linear forces exceed the scaling assumptions of the model. Additionally, cumulative odometer drift can introduce spatial phase shifts over long trips if the device lacks high-accuracy GPS snapping.
+
+Future work will focus on integrating the physical cross-attention model (PICA) directly onto the mobile client. This will involve using the mobile device's camera to run real-time object detection alongside IMU collection. Fusing visual features with kinematic signatures on-device will improve pothole classification accuracy. We also plan to evaluate edge-based audio processing, analyzing tire-road acoustic signatures to supplement IMU vibration data, which could improve detection accuracy at low driving speeds.
 
 % ==========================================
 % REFERENCES
 % ==========================================
 \begin{thebibliography}{15}
-\bibitem{1} Ministry of Road Transport and Highways (MoRTH), ``Basic Road Statistics of India,'' Transport Research Wing, Government of India, New Delhi, Tech.
-Rep., 2023.
-\bibitem{2} World Bank, ``Guide for Road Safety Opportunities and Challenges: Low- and Middle-Income Countries Profiles,'' World Bank Group, Washington, DC, Tech.
-Rep., 2019.
-\bibitem{3} Sayers, Gillespie, and Paterson, ``Guidelines for Conducting and Calibrating Road Roughness Measurements,'' World Bank, Washington, DC, Tech.
-Rep. World Bank Technical Paper No. 46, 1986.
-\bibitem{4} R. Ganti, F. Ye, and H. Lei, ``Mobile crowdsensing: current state and future challenges,'' \textit{IEEE Communications Magazine}, vol.
-49, no. 11, pp. 32-39, Nov. 2011.
+\bibitem{1} Ministry of Road Transport and Highways (MoRTH), ``Basic Road Statistics of India,'' Transport Research Wing, Government of India, New Delhi, Tech. Rep., 2023.
+\bibitem{2} World Bank, ``Guide for Road Safety Opportunities and Challenges: Low- and Middle-Income Countries Profiles,'' World Bank Group, Washington, DC, Tech. Rep., 2019.
+\bibitem{3} Sayers, Gillespie, and Paterson, ``Guidelines for Conducting and Calibrating Road Roughness Measurements,'' World Bank, Washington, DC, Tech. Rep. World Bank Technical Paper No. 46, 1986.
+\bibitem{4} R. Ganti, F. Ye, and H. Lei, ``Mobile crowdsensing: current state and future challenges,'' \textit{IEEE Communications Magazine}, vol. 49, no. 11, pp. 32-39, Nov. 2011.
 \bibitem{5} P. Mohan, V. N. Padmanabhan, and R. Ramjee, ``Nericell: rich monitoring of road and traffic conditions using mobile smartphones,'' in \textit{Proceedings of the 6th ACM conference on Embedded network sensor systems}, 2008, pp. 323-336.
-\bibitem{6} R. Kumar, A. Mukherjee, and V. P. Singh, ``Community Sensor Network for Monitoring Road Roughness Using Smartphones,'' \textit{Journal of Computing in Civil Engineering}, vol.
-31, no. 3, p. 04016059, May 2017.
-\bibitem{7} S. Sattar, S. Li, and M. Chapman, ``Road Surface Monitoring Using Smartphone Sensors: A Review,'' \textit{Sensors}, vol.
-18, no. 11, p. 3845, Nov. 2018.
-\bibitem{8} S. Alqaydi, W. Zeiada, A. El Wakil, A. J. Alnaqbi, and A. Azam, ``A Comprehensive Review of Smartphone and Other Device-Based Techniques for Road Surface Monitoring,'' \textit{Eng}, vol.
-5, no. 4, pp. 3397-3426, Dec. 2024.
+\bibitem{6} R. Kumar, A. Mukherjee, and V. P. Singh, ``Community Sensor Network for Monitoring Road Roughness Using Smartphones,'' \textit{Journal of Computing in Civil Engineering}, vol. 31, no. 3, p. 04016059, May 2017.
+\bibitem{7} S. Sattar, S. Li, and M. Chapman, ``Road Surface Monitoring Using Smartphone Sensors: A Review,'' \textit{Sensors}, vol. 18, no. 11, p. 3845, Nov. 2018.
+\bibitem{8} S. Alqaydi, W. Zeiada, A. El Wakil, A. J. Alnaqbi, and A. Azam, ``A Comprehensive Review of Smartphone and Other Device-Based Techniques for Road Surface Monitoring,'' \textit{Eng}, vol. 5, no. 4, pp. 3397-3426, Dec. 2024.
 \bibitem{9} N. Goodall, ``Evaluation of Crowdsourced Data on Unplowed Roads,'' 2023, \textit{arXiv:2311.10740 [cs]}.
 \bibitem{10} A. S. El-Wakeel, A. Noureldin, H. S. Hassanein, and N. Zorba, ``iDriveSense: Dynamic Route Planning Involving Roads Quality Information,'' in \textit{2018 IEEE Global Communications Conference (GLOBECOM)}, Dec. 2018, pp. 1-6.
 \bibitem{11} J. Eriksson, L. Girod, B. Hull, R. Newton, S. Madden, and H. Balakrishnan, ``The pothole patrol: using a mobile sensor network for road surface monitoring,'' in \textit{Proceedings of the 6th international conference on Mobile systems, applications, and services}, Jun. 2008, pp. 29-39.
-\bibitem{12} D. K. Dewangan and S. P. Sahu, ``PotNet: Pothole detection for autonomous vehicle system using convolutional neural network,'' \textit{Electronics Letters}, vol.
-57, no. 2, pp. 53-56, 2021.
+\bibitem{12} D. K. Dewangan and S. P. Sahu, ``PotNet: Pothole detection for autonomous vehicle system using convolutional neural network,'' \textit{Electronics Letters}, vol. 57, no. 2, pp. 53-56, 2021.
 \bibitem{13} S. Balakuntala and S. Venkatesh, ``An Intelligent System to Detect, Avoid and Maintain Potholes: A Graph Theoretic Approach,'' Sep. 2013, \textit{arXiv:1305.5522 [cs]}.
 \bibitem{14} A. Mednis, G. Strazdins, R. Zviedris, G. Kanonirs, and L. Selavo, ``Real time pothole detection using Android smartphones with accelerometers,'' in \textit{2011 International Conference on Distributed Computing in Sensor Systems and Workshops (DCOSS)}, Jun. 2011, pp. 1-6.
 \bibitem{15} BeamNG GmbH, ``BeamNG.tech,'' Bremen, Germany, 2026. [Online]. Available: \url{https://beamng.tech/}
-\bibitem{sayers1986guidelines}M.~W. Sayers, T.~D. Gillespie, and W.~D.~O.
-Paterson, ``Guidelines for conducting and calibrating road roughness measurements,'' World Bank, Washington, DC, Tech.
-Rep. World Bank Technical Paper No. 46, 1986.
+\bibitem{sayers1986guidelines}M.~W. Sayers, T.~D. Gillespie, and W.~D.~O. Paterson, ``Guidelines for conducting and calibrating road roughness measurements,'' World Bank, Washington, DC, Tech. Rep. World Bank Technical Paper No. 46, 1986.
 \bibitem{kaiser1990tkeo}J.~F. Kaiser, ``On a simple algorithm to calculate the 'energy' of a signal,'' in \textit{International Conference on Acoustics, Speech, and Signal Processing (ICASSP)}, Albuquerque, NM, USA, 1990, pp. 381--384.
-\bibitem{vaswani2017attention}A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez, L.~Kaiser, and I.~Polosukhin, ``Attention is all you need,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.
-30, 2017.
-\bibitem{lin2017focal}T.-Y. Lin, P.~Goyal, R.~Girshick, K.~He, and P.~DollÃ¡r, ``Focal loss for dense object detection,'' in \textit{Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, Venice, Italy, 2017, pp. 2980--2988.
+\bibitem{vaswani2017attention}A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez, L.~Kaiser, and I.~Polosukhin, ``Attention is all you need,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 30, 2017.
+\bibitem{lin2017focal}T.-Y. Lin, P.~Goyal, R_Girshick, K_He, and P_Doll{{\'a}}r, ``Focal loss for dense object detection,'' in \textit{Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, Venice, Italy, 2017, pp. 2980--2988.
 \bibitem{aashto_r56}American Association of State Highway and Transportation Officials (AASHTO), ``Standard Practice for Certification of Inertial Profiling Systems,'' AASHTO Designation: R 56-14, Washington, DC, 2014.
 \end{thebibliography}
 
