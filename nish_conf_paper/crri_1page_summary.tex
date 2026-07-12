@@ -1,0 +1,125 @@
+\documentclass[9pt,a4paper]{extarticle}
+
+% --- PACKAGES ---
+\usepackage[top=0.42in, bottom=0.42in, left=0.55in, right=0.55in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{caption}
+
+% --- COLOR DEFINITIONS ---
+\definecolor{crriblue}{RGB}{0, 51, 102}
+\definecolor{crrigray}{RGB}{240, 244, 248}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+
+% --- SECTION FORMATTING ---
+\titleformat{\section}{\large\bfseries\color{crriblue}}{\thesection.}{0.5em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\subsection}{\normalsize\bfseries\color{crriblue}}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{2pt}{1pt}
+
+% --- LIST FORMATTING ---
+\setlist[itemize]{leftmargin=1.1em, itemsep=1pt, topsep=1pt}
+\setlist[enumerate]{leftmargin=1.1em, itemsep=1pt, topsep=1pt}
+
+\pagestyle{empty}
+
+\begin{document}
+
+% --- HEADER BLOCK ---
+\noindent
+\begin{minipage}{0.71\textwidth}
+    {\LARGE \textbf{\color{crriblue}End-to-End Multimodal Pavement Assessment System}}\\[3pt]
+    {\large \textbf{Physics-Informed IRI Sensing, Vision-IMU Pothole Detection \& GIS Mapping}}\\[2pt]
+    {\small \textbf{Nishkarsh Singhal} $\;\vert\;$ B.Tech, Electronics \& Communication Engineering}\\[1pt]
+    {\small Faculty of Technology, University of Delhi, New Delhi, India $\;\vert\;$ \texttt{nishkarsh.5108@gmail.com} $\;\vert\;$ +91-9205841118}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.27\textwidth}
+    \raggedleft
+    \fcolorbox{crriblue}{crrigray}{
+        \begin{minipage}{0.95\linewidth}
+            \centering
+            \vspace{1pt}
+            \small\textbf{Prepared For:}\\[1pt]
+            \footnotesize\textbf{Dr. Pradeep Kumar}\\
+            Chief Scientist \& Head\\
+            Pavement Evaluation Div.\\
+            \textbf{CSIR-CRRI, New Delhi}\\
+            \vspace{1pt}
+        \end{minipage}
+    }
+\end{minipage}
+
+\vspace{3pt}
+
+% --- SECTION 1 ---
+\section{1. Executive Summary: A Unified Participatory Road Infrastructure Ecosystem}
+City-scale pavement preservation requires monitoring both \textbf{continuous surface roughness (International Roughness Index, IRI)} and \textbf{discrete structural failures (potholes/anomalies)}. While Class 1 Network Survey Vehicles (NSVs) provide high-precision reference measurements, high capital costs ($>\$50,000$ USD per vehicle) restrict frequent surveys to arterial corridors. To bridge this gap, we have developed and deployed a comprehensive **Multimodal Road Assessment System** turning passenger vehicles into crowdsourced edge probes. Our platform unifies three core subsystems:
+\begin{enumerate}
+    \item \textbf{Continuous IRI Regression Engine:} A speed-invariant deep learning architecture trained via physics simulation to estimate standardized quarter-car IRI from smartphone inertial sensors across heterogeneous vehicle classes.
+    \item \textbf{Multimodal Vision-IMU Pothole Detector:} An event-level anomaly classification framework fusing dashcam video frames with suspension kinematic impulse signatures via Physics-Informed Cross-Attention.
+    \item \textbf{Real-Time Android Edge \& Cloud GIS Platform:} A deployed mobile application and Geohash-partitioned WebSocket backend enabling live municipal road-condition heatmaps and roughness-aware route planning.
+\end{enumerate}
+
+% --- SECTION 2 ---
+\section{2. Subsystem I: Sim-to-Real Continuous Road Roughness (IRI) Estimation}
+Empirical smartphone ML models typically overfit to the host vehicle's suspension transfer function ($\mathcal{T}_{\text{veh}}$) and suffer from velocity-squared acceleration distortion ($a_z \propto v^2$). We establish a deterministic Sim-to-Real (Sim2Real) pipeline using the \textbf{BeamNG.tech} soft-body physics laboratory across 3 distinct vehicle classes (Roamer SUV, Sunburst Sedan, Vivace Hatchback):
+\begin{itemize}
+    \item \textbf{Curvature-Adaptive Mesh Tessellation Correction:} Solves artificial 3D polygon-facet slope jitter ($\pm 0.3\,\text{m/m}$) on curved grades/ramps by decoupling macro road bending ($\kappa$) from true vertical roughness, enabling exact World Bank Golden Car quarter-car IRI calculation ($80\,\text{km/h}$ reference standard).
+    \item \textbf{Speed-Invariant 1D-CNN Architecture:} Employs Inverse Quadratic Kinetic Normalization $(22.22/v_{\text{safe}})^2$, 2-D inverse-frequency joint histogram sampling, Asymmetric Huber Loss ($4:1$ under-prediction penalty), and Post-Training Isotonic Calibration (PICA).
+\end{itemize}
+
+% --- SECTION 3 ---
+\section{3. Subsystem II: Multimodal Pothole Detection \& Live GIS Edge Deployment}
+\noindent
+\begin{minipage}{0.54\textwidth}
+    \begin{itemize}
+        \item \textbf{Physics-Informed Vision-IMU Fusion:} To classify discrete structural failures, we extract a Teager-Kaiser Energy Operator (\textbf{TKEO}) signature isolating damped suspension impact impulses. A \textbf{Physics-Informed Cross-Attention (PICA)} layer fuses TKEO features with synchronized dashcam frames conditioned on kinetic energy ($E_k$) and speed, utilizing Hunter focal loss to suppress hard-braking false positives.
+        \item \textbf{Live Edge \& Route-Planning Platform:} Deployed as an Android edge application backed by a Node.js cloud engine with sub-second Geohash WebSockets, calculating dynamic \textbf{Ride Comfort Scores} and computing roughness-aware navigation paths across Delhi NCR expressways (e.g., KMP corridor).
+        \item \textbf{Multi-Vehicle IRI Performance:} On $N=10,000$ multi-vehicle test windows, our continuous IRI engine achieves \textbf{MAE = 1.642\,m/km} (Pearson $r=0.702$, $R^2=0.493$), outperforming CatBoost by 19.1\% and Bi-LSTM by 30.9\%, with \textbf{77.9\% AASHTO R 56 compliance}.
+    \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.43\textwidth}
+    \centering
+    \small
+    \captionof*{table}{\textbf{Table 1:} Continuous IRI Model vs. ML Baselines}
+    \vspace{-4pt}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Model Architecture} & \textbf{MAE ($\downarrow$)} & \textbf{RMSE ($\downarrow$)} & \textbf{$\mathbf{R^2}$ ($\uparrow$)} \\
+        \midrule
+        Ridge Regression ($\alpha=1.0$) & 2.103 & 2.653 & 0.110 \\
+        Random Forest Regressor & 2.053 & 2.581 & 0.158 \\
+        CatBoost Ensemble & 2.030 & 2.541 & 0.185 \\
+        Standard 1D-CNN (Unscaled) & 2.341 & 2.890 & -0.057 \\
+        Bidirectional LSTM & 2.378 & 2.915 & -0.075 \\
+        \midrule
+        \textbf{Proposed 1D-CNN + PICA} & \textbf{1.642} & \textbf{1.998} & \textbf{0.493} \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{minipage}
+
+\vspace{3pt}
+
+% --- SECTION 4: CALL TO ACTION / COLLABORATION BOX ---
+\begin{tcolorbox}[colback=crrigray, colframe=crriblue, arc=3pt, boxrule=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt]
+    \textbf{\large \color{crriblue}Request for Co-Registered Field Validation Collaboration with CSIR-CRRI}\\[2pt]
+    \small
+    While our complete multimodal edge application and pothole detection subsystems are deployed and tested on public crowdsourced datasets ($693\,\text{km}$ PVS dataset) and Delhi NCR highways, \textbf{rigorous empirical validation of our continuous IRI engine against Class 1 laser profilometer ground truth on Indian roadways is the critical milestone for national infrastructure adoption}. We respectfully seek a brief field collaboration under either modality:
+    \begin{itemize}
+        \item \textbf{Option A (Co-Registered NSV Ride-Along):} Accompanying a scheduled CRRI Network Survey Vehicle (NSV) run on a road stretch in Delhi NCR (2--5\,km length), recording dashboard smartphone IMU/GPS telemetry to validate model predictions against reference NSV IRI chainage.
+        \item \textbf{Option B (Reference Chainage Access):} Accessing recent 100-meter segment IRI reference data for a known road stretch near Delhi/Gurugram, allowing us to independently traverse the corridor and report co-registered validation accuracy.
+    \end{itemize}
+    \textit{All research publications and institutional acknowledgments will prominently recognize CSIR-CRRI's leadership in advancing scalable, low-cost pavement infrastructure monitoring in India.}
+\end{tcolorbox}
+
+\end{document}

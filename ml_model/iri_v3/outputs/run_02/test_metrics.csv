@@ -1,0 +1,2 @@
+run_id,label,use_pica,use_asym_loss,use_kinetic_norm,use_2d_sampling,MAE,RMSE,R2,Pearson_r
+2,Run 2 — w/o PICA,False,True,True,True,1.7204604148864746,2.615707480020026,0.5096020698547363,0.7217433452606201

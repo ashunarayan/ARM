@@ -1,0 +1,2 @@
+run_id,label,use_pica,use_asym_loss,use_kinetic_norm,use_2d_sampling,MAE,RMSE,R2,Pearson_r
+1,Run 1 — Full Model,True,True,True,True,1.6333435773849487,2.603009712075087,0.5139346122741699,0.7233432531356812

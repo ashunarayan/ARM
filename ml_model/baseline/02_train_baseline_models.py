@@ -1,6 +1,9 @@
 import os
 import time
 import json
+import glob
+import shutil
+import argparse
 import joblib
 import numpy as np
 import pandas as pd
@@ -22,6 +25,10 @@ OUTPUT_DIR = r"D:\Coding\Hackathon\GFG\ARM\ARM\ml_model\baseline\outputs"
 MODELS_DIR = os.path.join(OUTPUT_DIR, "models")
 os.makedirs(MODELS_DIR, exist_ok=True)
 
+# Must match NORMALISATION_VERSION in 01_compile_benchmark_dataset.py.
+# If the .npz files pre-date this tag, run script 01 again.
+EXPECTED_NORM_VERSION = "kinetic_v1"
+
 # Set random seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
@@ -38,17 +45,42 @@ HISTORICAL_TRAIN_TIMES = {
 }
 
 def load_compiled_data():
-    """Loads compressed train, val, and test data buffers."""
-    print("[*] Loading compiled dataset buffers...")
-    train_data = np.load(os.path.join(DATA_DIR, "train_data.npz"))
-    val_data = np.load(os.path.join(DATA_DIR, "val_data.npz"))
-    test_data = np.load(os.path.join(DATA_DIR, "test_data.npz"))
+    """Loads compressed train, val, and test data buffers.
     
-    return {
-        'train': {k: train_data[k] for k in train_data.files},
-        'val': {k: val_data[k] for k in val_data.files},
-        'test': {k: test_data[k] for k in test_data.files}
-    }
+    Raises RuntimeError if the stored .npz files do not carry a
+    'normalisation_version' key matching EXPECTED_NORM_VERSION, which
+    signals they were compiled before kinetic normalisation was added.
+    Re-run 01_compile_benchmark_dataset.py to regenerate them.
+    """
+    print("[*] Loading compiled dataset buffers...")
+    splits = {}
+    for split in ('train', 'val', 'test'):
+        path = os.path.join(DATA_DIR, f"{split}_data.npz")
+        d = np.load(path, allow_pickle=True)
+
+        # --- Provenance check ------------------------------------------------
+        if 'normalisation_version' not in d.files:
+            raise RuntimeError(
+                f"\n[!] STALE DATA DETECTED: '{path}' has no 'normalisation_version' key.\n"
+                f"    This file was compiled before kinetic normalisation was added.\n"
+                f"    Re-run:  python 01_compile_benchmark_dataset.py\n"
+                f"    Then:    python 02_train_baseline_models.py --force-retrain"
+            )
+        stored_ver = str(d['normalisation_version'])
+        if stored_ver != EXPECTED_NORM_VERSION:
+            raise RuntimeError(
+                f"\n[!] VERSION MISMATCH in '{path}':\n"
+                f"    Stored : '{stored_ver}'\n"
+                f"    Expected: '{EXPECTED_NORM_VERSION}'\n"
+                f"    Re-run:  python 01_compile_benchmark_dataset.py\n"
+                f"    Then:    python 02_train_baseline_models.py --force-retrain"
+            )
+        # ---------------------------------------------------------------------
+
+        splits[split] = {k: d[k] for k in d.files if k != 'normalisation_version'}
+        print(f"    [{split.upper()}] version='{stored_ver}' ✓")
+
+    return splits
 
 def save_checkpoint_state(predictions, timing_metrics, y_test):
     """Saves predictions and timing metrics incrementally after each model."""
@@ -282,10 +314,42 @@ def train_neural_models(data, predictions, timing_metrics):
     return predictions, timing_metrics
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Train all baseline models for the IRI benchmark."
+    )
+    parser.add_argument(
+        '--force-retrain',
+        action='store_true',
+        help=(
+            'Delete all existing model checkpoints and the predictions .npz '
+            'before training so every model is retrained from scratch on the '
+            'current (kinetically normalised) dataset. Use this after '
+            're-running 01_compile_benchmark_dataset.py.'
+        )
+    )
+    args = parser.parse_args()
+
+    if args.force_retrain:
+        print("\n[!] --force-retrain: clearing all stale model checkpoints...")
+        stale_patterns = [
+            os.path.join(MODELS_DIR, "*.keras"),
+            os.path.join(MODELS_DIR, "*.pkl"),
+            os.path.join(OUTPUT_DIR, "all_model_predictions.npz"),
+            os.path.join(OUTPUT_DIR, "model_timing_metrics.json"),
+        ]
+        n_deleted = 0
+        for pattern in stale_patterns:
+            for f in glob.glob(pattern):
+                os.remove(f)
+                print(f"    [-] Deleted: {f}")
+                n_deleted += 1
+        print(f"[!] Removed {n_deleted} stale file(s). Fresh training will begin.\n")
+
     data = load_compiled_data()
     predictions, timing_metrics = {}, {}
     
     predictions, timing_metrics = train_tabular_models(data, predictions, timing_metrics)
     predictions, timing_metrics = train_neural_models(data, predictions, timing_metrics)
     
-    print(f"\n[*] All 9 models benchmarked and saved successfully! Predictions written to {OUTPUT_DIR}/all_model_predictions.npz")
+    print(f"\n[*] All 9 models benchmarked and saved successfully! "
+          f"Predictions written to {OUTPUT_DIR}/all_model_predictions.npz")

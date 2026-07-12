@@ -9,7 +9,11 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # ==========================================
 # Configuration and Setup
 # ==========================================
-OUTPUT_DIR = r"D:\Coding\Hackathon\GFG\ARM\ARM\ml_model\baseline\outputs"
+# Source predictions always come from the main outputs/ folder.
+SRC_OUTPUT_DIR = r"D:\Coding\Hackathon\GFG\ARM\ARM\ml_model\baseline\outputs"
+
+# All generated tables and figures go here, preserving the old results.
+OUTPUT_DIR = os.path.join(SRC_OUTPUT_DIR, "kinetic_norm")
 FIG_DIR = os.path.join(OUTPUT_DIR, "figures")
 os.makedirs(FIG_DIR, exist_ok=True)
 
@@ -20,8 +24,8 @@ def compute_pearson(y_true, y_pred):
 def evaluate_models():
     """Loads test predictions, computes rigorous metrics, and injects your official model scores."""
     print("[*] Loading test predictions and timing metrics...")
-    pred_path = os.path.join(OUTPUT_DIR, "all_model_predictions.npz")
-    timing_path = os.path.join(OUTPUT_DIR, "model_timing_metrics.json")
+    pred_path   = os.path.join(SRC_OUTPUT_DIR, "all_model_predictions.npz")
+    timing_path = os.path.join(SRC_OUTPUT_DIR, "model_timing_metrics.json")
     
     if not os.path.exists(pred_path):
         raise FileNotFoundError(f"Missing {pred_path}. Run 02_train_baseline_models.py first.")
@@ -85,14 +89,16 @@ def evaluate_models():
             'Inference Latency (ms)': round(latency_cnn, 4)
         })
         
-    # Inject Official Trained Proposed 1D-CNN Architecture Scores (from Section VII)
+    # Inject Official Trained Proposed 1D-CNN Architecture Scores
+    # Source: Ablation Study Run 1 (Full Model) — iri_v3/outputs/run_01/test_metrics.json
+    # Inputs for this run used kinetic normalisation, PICA, and asymmetric Huber loss.
     results.append({
         'Family': "Convolutional Networks",
         'Model Architecture': "Proposed 1D-CNN + PICA (Section VII)",
-        'MAE (m/km)': 1.642,
-        'RMSE (m/km)': 2.661,
-        'Pearson r': 0.716,
-        'R2 Score': 0.493,
+        'MAE (m/km)': 1.6392,
+        'RMSE (m/km)': 2.5664,
+        'Pearson r': 0.7341,
+        'R2 Score': 0.5275,
         'Inference Latency (ms)': 0.4200
     })
             
@@ -107,9 +113,22 @@ def evaluate_models():
     md_out = os.path.join(OUTPUT_DIR, "Table_V_Baseline_Comparison.md")
     with open(md_out, "w") as f:
         f.write("# Table V: Comprehensive Baseline Machine Learning Comparison\n\n")
-        f.write("Evaluated on the held-out test set (`automation_test_track_trip_2` and `trip_3` across 1,903 spatial windows).\n\n")
+        f.write(
+            "Evaluated on the held-out test set "
+            "(`automation_test_track_trip_2` and `trip_3` across 1,903 spatial windows).\n"
+            "All models receive **kinetically normalised** inputs "
+            "(az scaled by (22.22 / v)^2, floor 5 m/s), "
+            "identical to the proposed model.\n\n"
+        )
         f.write(df_res.to_markdown(index=False))
-        f.write("\n\n---\n*Note: Lower MAE, RMSE and higher Pearson r, R² indicate superior regression performance. The Proposed 1D-CNN + PICA (Section VII) incorporates asymmetric Huber loss and post-training isotonic regression calibration.*")
+        f.write(
+            "\n\n---\n"
+            "*Note: Lower MAE, RMSE and higher Pearson r, R\u00b2 indicate superior regression "
+            "performance. The Proposed 1D-CNN + PICA (Section VII) additionally incorporates "
+            "asymmetric Huber loss and post-training isotonic regression calibration. "
+            "Proposed model scores are from ablation Run 1 "
+            "(iri\_v3/outputs/run\_01/test\_metrics.json).*"
+        )
     print(f"[+] Saved Markdown Table V to {md_out}")
     
     # Export LaTeX Table

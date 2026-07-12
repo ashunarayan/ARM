@@ -1,0 +1,12 @@
+{
+  "run_id": 5,
+  "label": "Run 5 \u2014 w/o PICA + w/o AsymLoss + w/o KinNorm + w/o 2DSamp",
+  "use_pica": false,
+  "use_asym_loss": false,
+  "use_kinetic_norm": false,
+  "use_2d_sampling": false,
+  "MAE": 2.4435181617736816,
+  "RMSE": 3.869374899244176,
+  "R2": -0.07264053821563721,
+  "Pearson_r": 0.5974916815757751
+}

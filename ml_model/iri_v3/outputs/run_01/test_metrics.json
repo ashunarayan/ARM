@@ -1,0 +1,12 @@
+{
+  "run_id": 1,
+  "label": "Run 1 \u2014 Full Model",
+  "use_pica": true,
+  "use_asym_loss": true,
+  "use_kinetic_norm": true,
+  "use_2d_sampling": true,
+  "MAE": 1.6333435773849487,
+  "RMSE": 2.603009712075087,
+  "R2": 0.5139346122741699,
+  "Pearson_r": 0.7233432531356812
+}

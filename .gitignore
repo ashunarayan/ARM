@@ -62,3 +62,14 @@ app-release.apk
 
 # Ignore heavy intermediate dataset files for AASHTO compliance evaluation
 ml_model/AASHTO_compliance/data/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore heavy intermediate dataset files (>100MB) in iri_v3
+ml_model/iri_v3/outputs/*.npz
+
+# Ignore duplicate baseline backup folder
+ml_model/baseline old copy/

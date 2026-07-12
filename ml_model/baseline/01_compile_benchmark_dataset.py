@@ -13,6 +13,10 @@ BASE_DATA_DIR = r"D:\Coding\Hackathon\GFG\ARM\ARM\ml_model_work\data\simulation\
 OUTPUT_DIR = r"D:\Coding\Hackathon\GFG\ARM\ARM\ml_model\baseline\data"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+# Provenance tag — bump this string whenever preprocessing logic changes.
+# Downstream scripts check this key in every .npz to detect stale data.
+NORMALISATION_VERSION = "kinetic_v1"
+
 # Spatial Windowing Constants
 WINDOW_SIZE_M = 100.0
 STEP_SIZE_M = 10.0
@@ -256,7 +260,13 @@ def build_datasets():
         print(f"[{split.upper()}] -> Raw: {raw_arr.shape}, Ctx: {ctx_arr.shape}, Tab: {tab_arr.shape}, y: {y_arr.shape}")
         
         out_file = os.path.join(OUTPUT_DIR, f"{split}_data.npz")
-        np.savez_compressed(out_file, raw=raw_arr, ctx=ctx_arr, tab=tab_arr, y=y_arr)
+        # 'normalisation_version' is a scalar string stored as a 0-d object
+        # array so that script 02 can assert it matches NORMALISATION_VERSION.
+        np.savez_compressed(
+            out_file,
+            raw=raw_arr, ctx=ctx_arr, tab=tab_arr, y=y_arr,
+            normalisation_version=np.array(NORMALISATION_VERSION),
+        )
         print(f"    [+] Saved compressed buffer to {out_file} ({os.path.getsize(out_file) / (1024*1024):.2f} MB)")
         
     print(f"[*] Dataset compilation completed in {time.time() - start_time:.2f}s")

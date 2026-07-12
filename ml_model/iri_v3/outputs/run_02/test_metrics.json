@@ -1,0 +1,12 @@
+{
+  "run_id": 2,
+  "label": "Run 2 \u2014 w/o PICA",
+  "use_pica": false,
+  "use_asym_loss": true,
+  "use_kinetic_norm": true,
+  "use_2d_sampling": true,
+  "MAE": 1.7204604148864746,
+  "RMSE": 2.615707480020026,
+  "R2": 0.5096020698547363,
+  "Pearson_r": 0.7217433452606201
+}
