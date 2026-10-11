@@ -1,0 +1,150 @@
+{
+ "n_checks": 25,
+ "n_failed": 0,
+ "checks": [
+  {
+   "check": "macro names unique across numbers.tex, numbers_v2.tex, numbers_v3.tex",
+   "passed": true,
+   "duplicates": []
+  },
+  {
+   "check": "no unresolved ('??') macro values",
+   "passed": true,
+   "unresolved": []
+  },
+  {
+   "check": "every number macro used in the paper and tables is defined",
+   "passed": true,
+   "undefined": []
+  },
+  {
+   "check": "main.pdf has no '??' and its log no undefined references or overfull boxes",
+   "passed": true,
+   "pages": 10
+  },
+  {
+   "check": "main.pdf has no equal-ended ranges such as '20-20' (en dash)",
+   "passed": true
+  },
+  {
+   "check": "supplementary.pdf has no '??' and its log no undefined references or overfull boxes",
+   "passed": true,
+   "pages": 19
+  },
+  {
+   "check": "supplementary.pdf has no equal-ended ranges such as '20-20' (en dash)",
+   "passed": true
+  },
+  {
+   "check": "pooled_vs_real.csv has 10 variants x 4 folds x 5 k x 20 draws",
+   "passed": true,
+   "rows": 4000
+  },
+  {
+   "check": "joint 5 km pooled MAE range over V0-V8 equals the printed macros",
+   "passed": true,
+   "recomputed": [
+    0.4488,
+    0.4726
+   ],
+   "printed": [
+    "0.45",
+    "0.47"
+   ]
+  },
+  {
+   "check": "joint 20 km difference to real-only equals the printed macros",
+   "passed": true,
+   "recomputed": [
+    -0.0297,
+    -0.0143
+   ]
+  },
+  {
+   "check": "pre-registered H1 (joint better on average for every variant at k<=10, within 0.02 at 20 km) re-derived",
+   "passed": true,
+   "h1": true,
+   "printed": "holds"
+  },
+  {
+   "check": "joint arm reproduces review check c4 within the protocol tolerance (0.002 m/km + rounding)",
+   "passed": true,
+   "max_abs_diff": 0.00047
+  },
+  {
+   "check": "joint arm identical to the reviewer's per-fold-draw values",
+   "passed": true,
+   "rows": 960
+  },
+  {
+   "check": "test-route interval centres equal the mean per-draw pooled differences (segment-level vs pooled computation)",
+   "passed": true,
+   "max_abs_dev": 1.1102230246251565e-16
+  },
+  {
+   "check": "every 5 km interval excludes zero, joint 20 km intervals all below zero, level offset 20 km above zero for V1, V3, V5",
+   "passed": true
+  },
+  {
+   "check": "H3: below-10 Hz spread <= 50 % of full for mean, urban and motorway level; dropping 10-15 Hz changes < 20 %",
+   "passed": true,
+   "ratios": {
+    "lvl_mean": 0.321,
+    "lvl_urban": 0.49,
+    "lvl_motorway": 0.343
+   },
+   "no1015_max_change": 0.0198
+  },
+  {
+   "check": "H3b: V4 outside the range of the eight sensor variants under lt10",
+   "passed": true,
+   "v4": 0.216,
+   "range": [
+    0.021,
+    0.102
+   ]
+  },
+  {
+   "check": "printed band-limited ratio of the mean level matches",
+   "passed": true,
+   "recomputed": 32.08,
+   "printed": "32"
+  },
+  {
+   "check": "full-feature retraining reproduces the v2 zero-shot MAEs to three decimals",
+   "passed": true
+  },
+  {
+   "check": "pass_density.csv complete (real-only 3x4x20 rows; 2 arms x 9 variants x 3 x 4 x 20)",
+   "passed": true,
+   "rows": 4560
+  },
+  {
+   "check": "with one pass per segment both simulation arms beat real-only LightGBM in every draw for every variant",
+   "passed": true,
+   "worst_margin": -0.0414
+  },
+  {
+   "check": "every per-route rho difference to RMS/v^0.5 within the printed bound",
+   "passed": true,
+   "max_abs": 0.0443,
+   "bound": "0.05"
+  },
+  {
+   "check": "M7 now evaluated on all 228 M13 segments",
+   "passed": true,
+   "n_seg": 228
+  },
+  {
+   "check": "PROTOCOL_V3.md unchanged since freezing",
+   "passed": true,
+   "sha256": "994cd02729a8bf3b4ec3040bedc2b83bc7647227772b56f87eca7831a415ccc6"
+  },
+  {
+   "check": "v2 checkpoint matches its manifest",
+   "passed": true,
+   "files": 172,
+   "mismatched": []
+  }
+ ]
+}

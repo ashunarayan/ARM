@@ -251,6 +251,15 @@ def main():
     put("rpAbsMax", float(np.ceil(100 * rr["diff"].abs().max()) / 100), "{:.2f}")      # upper bound: "within rpAbsMax"
     put("rpAbsMaxExact", rr["diff"].abs().max(), "{:.3f}")
     put("rpBlocksMwThirteen", int(RP[(RP.route == "M13") & RP.n_blocks.notna()].n_blocks.iloc[0]), "{:.0f}")
+    # final-audit correction B1: scope of the ranking statement (point estimates, experiments/v3/rank_scope.py)
+    RS = pd.read_csv(os.path.join(V3, "rank_scope.csv")).set_index("estimator")
+    in_scope = RS[RS.scope == 1].max_abs.max()
+    assert in_scope <= float(M["rpAbsMax"]), (in_scope, M["rpAbsMax"])      # the printed bound covers every in-scope estimator
+    put("rkScopeAbsMax", in_scope, "{:.3f}")
+    put("rkScopeVarAbsMax", RS.loc[[f"{v} LightGBM (zero-shot)" for v in MEAS]].max_abs.max(), "{:.3f}")
+    put("rkIdxGapMax", RS.loc["M2c vibration index", "max_abs"])
+    put("rkNoSpeedGapMax", RS.loc["LightGBM without speed inputs", "max_abs"])
+    put("rkSpeedOnlyGapMax", RS.loc["M1 speed only", "max_abs"])
 
     # ---------------- V3-7 speed robustness
     SR = pd.read_csv(os.path.join(V3, "speed_robustness.csv"))

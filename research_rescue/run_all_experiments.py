@@ -91,6 +91,8 @@ STEPS = [
     ("v3_band_limited", PY, ["experiments/v3/band_limited.py"], R("results", "v3", "band_limited.csv")),
     ("v3_level_and_bands", PY, ["experiments/v3/level_and_bands.py"], R("results", "v3", "band_associations.csv")),
     ("v3_rank_paired", PY, ["experiments/v3/rank_paired.py"], R("results", "v3", "rank_paired.csv")),
+    # final-audit correction (review/final_audit/audit.md, B1): per-route ranking of every estimator, from stored results
+    ("v3_rank_scope", PY, ["experiments/v3/rank_scope.py"], R("results", "v3", "rank_scope.csv")),
     ("v3_speed_robustness", PY, ["experiments/v3/speed_robustness.py"], R("results", "v3", "speed_robustness.csv")),
     ("v3_nosim_index", PY, ["experiments/v3/nosim_index.py"], R("results", "v3", "nosim_index.csv")),
     ("v3_pass_density", PY, ["experiments/v3/pass_density.py"], R("results", "v3", "pass_density.csv")),
@@ -102,6 +104,7 @@ STEPS = [
     # the supplement and the main paper cross-reference each other (xr-hyper): compile in turn
     ("paper", "latex", ["supplementary.tex", "main.tex"], None),
     ("v3_verify", PY, ["evaluation/verify_v3.py"], None),          # independent checks of the v3 artifacts
+    ("final_verify", PY, ["evaluation/verify_final.py"], None),    # checks of the final-audit corrections
     ("compress_predictions", PY, ["results/compress_predictions.py"], None),
 ]
 

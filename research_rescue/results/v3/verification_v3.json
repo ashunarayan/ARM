@@ -20,7 +20,7 @@
   {
    "check": "main.pdf has no '??' and its log no undefined references or overfull boxes",
    "passed": true,
-   "pages": 10
+   "pages": 11
   },
   {
    "check": "main.pdf has no equal-ended ranges such as '20-20' (en dash)",
@@ -29,7 +29,7 @@
   {
    "check": "supplementary.pdf has no '??' and its log no undefined references or overfull boxes",
    "passed": true,
-   "pages": 19
+   "pages": 18
   },
   {
    "check": "supplementary.pdf has no equal-ended ranges such as '20-20' (en dash)",

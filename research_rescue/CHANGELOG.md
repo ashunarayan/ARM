@@ -190,3 +190,48 @@ evaluation protocol; none of them were made in response to test-set results.
   reported it); Table S26 caption no longer says the CV control "over-adjusts"; "the variants whose vibration matched
   the car worst" -> "the variants with the largest vibration deficit at 10-15 Hz" (by the overall RMS ratio V4 matches
   worst); Nitsche's "without varying speed" attributed to Bajic et al. in the text.
+
+## 2026-10-11 (final corrections, response to the final verification audit `review/final_audit/audit.md`)
+
+No experiment was rerun, no protocol, split, metric or result changed. Checkpoint of the audited state:
+`checkpoints/v3_2026-10-11/` (170 files, `MANIFEST.sha256`). The audit report itself is unchanged.
+
+- Ranking claim (audit B1). Discussion said the untrained RMS/v^0.5 comes within 0.05 "of every trained estimator we
+  tested"; false for M2c (-0.099 on CPH1), LightGBM without speed inputs (-0.176 on M13) and the speed-only model
+  (-0.723 on M3). Narrowed to real-trained LightGBM, MLP, CNN, M7 and simulation-trained LightGBM V0-V8 (largest
+  difference 0.044), with the three exceptions named. The per-route values for V2-V8, MLP, CNN, M7 and the exceptions
+  existed in `results/v2/variants_zeroshot.csv` and `summary_real_estimators.csv` but were not printed; new read-only
+  script `experiments/v3/rank_scope.py` -> `results/v3/rank_scope.csv` (asserts agreement with `rank_paired.csv`),
+  new bottom panel of Table S5 (point estimates), new macros `rkScopeAbsMax`, `rkScopeVarAbsMax`, `rkIdxGapMax`,
+  `rkNoSpeedGapMax`, `rkSpeedOnlyGapMax`. Edited: discussion.tex, results.tex (Sec. V-B), supplement S1 (iv) and the
+  S4 text.
+- LightGBM configuration (B2). Method said the configuration is chosen by inner leave-one-route-out validation "when
+  real training routes are available"; the code does so only for LightGBM trained on whole real training routes (M1,
+  M3, unit-disjoint check). Sentence now states that every other LightGBM (simulation-trained, real-only k-km
+  comparator, joint training) uses the first configuration. Implementation unchanged.
+- Code availability (B3). Intro said code, protocols, configurations and predictions "are provided with the paper";
+  nothing is public (`research_rescue/` is not tracked in git, no archive). Now: "We will release ... with the
+  published version of the paper." Method and supplement S1 now state that the protocols were frozen as dated files in
+  the working copy, not registered publicly; supplement S8 says the files are not yet public.
+- Class level (B4). Table II caption said the class level is the mean over the segments of a road class; the values
+  are the mean of the two route levels. Caption fixed in `make_tables_v3.py` (also the Table S24 caption), Method
+  defines the class level, Fig. 2b caption says the same. No value changed.
+- Speed (B5). Sec. V-E's closing sentence ("Simulation thus removes part of the over-correction ...") contradicted the
+  speed-CV robustness row reported two sentences earlier; now says the urban advantage holds in the main design and
+  with the unit and speed-SD controls but not with the speed-CV control, so it is not established. Discussion speed
+  paragraph carries the same caveat (CV control flips the difference; with the speed-SD control the real-trained
+  urban elasticity's interval includes zero). Interval labels: Sec. V-E states that single elasticities use 1 km
+  blocks and paired differences / robustness rows 5 km blocks; Method states that intervals use 5 km blocks except the
+  single-estimator speed elasticities and the spectra (1 km).
+- Related work (audit E5). Ngwangwa et al. 2014 checked in the accepted manuscript (University of Pretoria repository):
+  training responses simulated by a full model of the Land Rover over slightly modified measured profiles, network
+  tested on that vehicle's measured responses; text now says so. Nitsche et al. 2014: the abstract (AIT repository)
+  confirms simulated-response training, probe-vehicle validation and the wLP target, but not the measured profile, the
+  profilometer reference or the speed condition, which are now attributed to Bajic et al. (whose full text states
+  them). `references/REFERENCE_AUDIT.md` section F.
+- Venue (audit E4). No target venue is specified anywhere in the repository; venue-dependent formatting left as is.
+  The corrections lengthen the main paper from 10 to 11 pages (references run half a column onto page 11); the
+  supplement reflowed from 19 to 18 pages.
+- Pipeline: `run_all_experiments.py` steps `v3_rank_scope` and `final_verify`; new `evaluation/verify_final.py`
+  (14 checks -> `results/v3/verification_final.json`); supplement S8 command list includes `v3_rank_scope`.
+- Display: values that round to zero print as +0.000 in the new Table S5 panel.

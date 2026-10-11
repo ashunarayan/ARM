@@ -54,7 +54,7 @@ def t_variants():
     cal.columns = ["mean", "lo", "hi"]
     PS = r3("pooled_summary.csv").set_index(["vid", "k_km"])
     L_ = [r"\begin{table*}[t]", r"\centering",
-          r"\caption{Simulator variants: LightGBM trained only on simulated drives (zero-shot), tested on the held-out real routes. Pooled segment MAE and bias in m/km; level: mean log(prediction/label) over the segments of a road class (0.10 is about 10\,\% over-prediction); within-route Spearman $\rho$. Right: pooled MAE with 5 or 20\,km of paired drives (about ten passes per segment) used for a level offset (2.5--97.5\,\% range over the 20 draws in brackets) or for joint training; means over 20 draws. Real-only LightGBM on the same drives: \vbRealOnlyFive\,m/km (5\,km), \vbRealOnlyTwenty\,m/km (20\,km). Class E except V0. Scale $b$ and speed elasticities: Table~\ref{S-tab:variants_s_gbm}.}",
+          r"\caption{Simulator variants: LightGBM trained only on simulated drives (zero-shot), tested on the held-out real routes. Pooled segment MAE and bias in m/km; level: mean log(prediction/label) over the segments of a route, averaged over the two routes of a road class (0.10 is about 10\,\% over-prediction); within-route Spearman $\rho$. Right: pooled MAE with 5 or 20\,km of paired drives (about ten passes per segment) used for a level offset (2.5--97.5\,\% range over the 20 draws in brackets) or for joint training; means over 20 draws. Real-only LightGBM on the same drives: \vbRealOnlyFive\,m/km (5\,km), \vbRealOnlyTwenty\,m/km (20\,km). Class E except V0. Scale $b$ and speed elasticities: Table~\ref{S-tab:variants_s_gbm}.}",
           r"\label{tab:variants}", r"\setlength{\tabcolsep}{3.2pt}", r"\scriptsize", r"\begin{tabular}{@{}lcccccccccc@{}}", r"\toprule",
           r"& \multicolumn{5}{c}{Zero-shot} & \multicolumn{2}{c}{+ level offset} & \multicolumn{2}{c}{+ joint training} \\ \cmidrule(lr){2-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}",
           r"Simulator variant & MAE & bias & level urban & level motorway & $\rho$ & 5\,km & 20\,km & 5\,km & 20\,km \\", r"\midrule"]
@@ -187,7 +187,7 @@ def t_band():
     BL = r3("band_limited.csv")
     sn = [("full", "all 13"), ("no1015", "all but 10--15\\,Hz"), ("lt10", "below 10\\,Hz")]
     L_ = [r"\begin{table*}[!htbp]", r"\centering",
-          r"\caption{Band-limited zero-shot retraining (LightGBM, first configuration) for V0--V8 with three feature sets: all 13 features; all but the 10--15\,Hz band; only features without content above 10\,Hz (log mean speed, speed variation, band RMS 0.5--2, 2--5, 5--10\,Hz). Level: mean log ratio by road class; pooled MAE zero-shot and after a level offset from 5\,km of paired drives (20 draws); within-route $\rho$. Last rows: spread (max $-$ min) over the eight sensor variants (all but V4).}",
+          r"\caption{Band-limited zero-shot retraining (LightGBM, first configuration) for V0--V8 with three feature sets: all 13 features; all but the 10--15\,Hz band; only features without content above 10\,Hz (log mean speed, speed variation, band RMS 0.5--2, 2--5, 5--10\,Hz). Level: mean log ratio, averaged over the two routes of a road class; pooled MAE zero-shot and after a level offset from 5\,km of paired drives (20 draws); within-route $\rho$. Last rows: spread (max $-$ min) over the eight sensor variants (all but V4).}",
           r"\label{tab:s_band_limited}", r"\setlength{\tabcolsep}{2.4pt}", r"\scriptsize", r"\begin{tabular}{@{}l" + "ccccc" * 3 + r"@{}}", r"\toprule",
           "& " + " & ".join(rf"\multicolumn{{5}}{{c}}{{{lab}}}" for _, lab in sn) + r" \\ \cmidrule(lr){2-6}\cmidrule(lr){7-11}\cmidrule(lr){12-16}",
           "Variant" + r" & lvl urb. & lvl mot. & MAE & +offset & $\rho$" * 3 + r" \\", r"\midrule"]
@@ -213,7 +213,7 @@ def t_rank():
              ("V1 LightGBM (zero-shot)", "V1 LightGBM (zero-shot)")]
     routes = ["CPH1", "CPH6", "M3", "M13", "mean"]
     L_ = [r"\begin{table*}[!htbp]", r"\centering",
-          r"\caption{Paired test of within-route ranking: Spearman $\rho$ (top) and partial $\rho$ given segment speed (bottom) of each estimator minus that of the untrained statistic RMS$/v^{0.5}$ on the same segments, per held-out route and mean over routes, with 95\,\% intervals from 5\,km blocks resampled within each route (B = 2000). M13 has only \rpBlocksMwThirteen{} blocks, so its intervals are coarse.}",
+          r"\caption{Paired test of within-route ranking: Spearman $\rho$ (top) and partial $\rho$ given segment speed (middle) of each estimator minus that of the untrained statistic RMS$/v^{0.5}$ on the same segments, per held-out route and mean over routes, with 95\,\% intervals from 5\,km blocks resampled within each route (B = 2000). M13 has only \rpBlocksMwThirteen{} blocks, so its intervals are coarse. Bottom: the same difference in Spearman $\rho$ as a point estimate (no interval) for the other estimators of Table~\ref{tab:s_routes} and for LightGBM trained on the other simulator variants (neural nets as 5-seed ensembles).}",
           r"\label{tab:s_rank}", r"\setlength{\tabcolsep}{2.5pt}", r"\scriptsize", r"\begin{adjustbox}{max width=\textwidth}",
           r"\begin{tabular}{@{}llccccc@{}}", r"\toprule",
           r"& Estimator & CPH1 & CPH6 & M3 & M13 & mean \\", r"\midrule"]
@@ -223,6 +223,17 @@ def t_rank():
             L_.append((ml if i == 0 else "") + rf" & {lab} & " + " & ".join(ci(q.loc[r, 'diff'], q.loc[r, 'lo'], q.loc[r, 'hi'], 3, True) for r in routes) + r" \\")
         if metric == "rho":
             L_.append(r"\midrule")
+    # final-audit correction B1: point estimates for every other estimator (experiments/v3/rank_scope.py)
+    RS = r3("rank_scope.csv").set_index("estimator")
+    RS = pd.concat([RS[RS.scope == 1], RS[RS.scope == 0]])          # estimators within the bound first, exceptions last
+    shown = {"real-trained LightGBM", "V0 LightGBM (zero-shot)", "V1 LightGBM (zero-shot)"}
+    L_.append(r"\midrule")
+    for i, (lab, r) in enumerate((k, v) for k, v in RS.iterrows() if k not in shown):
+        vals = [r[f"d_{x}"] for x in routes[:4]]
+        vals = vals + [float(np.mean(vals))]                         # mean over routes from unrounded values
+        vals = [0.0 if abs(v) < 5e-4 else v for v in vals]          # print -0.0004 as +0.000, not $-$0.000
+        L_.append((r"$\Delta\rho$, point estimate" if i == 0 else "") + rf" & {lab} & "
+                  + " & ".join(f2(v, 3, True) for v in vals) + r" \\")
     L_ += [r"\bottomrule", r"\end{tabular}", r"\end{adjustbox}", r"\end{table*}"]
     write("v3s_rank.tex", "\n".join(L_) + "\n")
 

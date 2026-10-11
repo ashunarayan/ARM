@@ -1,0 +1,25 @@
+\section{Data and Simulation}
+\label{sec:data}
+
+\textbf{Real cars: LiRA-CD.}
+LiRA-CD~\cite{skar2023lira,lira_data} contains GreenMobility Renault Zoe cars instrumented with an AutoPi telematics unit (three-axis accelerometer, GPS) connected to the CAN bus and fixed to the frame in the middle console, close to the front axle~\cite{skar2023lira}, and surveys of the same lanes by the Danish Road Directorate's P79 profilometer.
+We use the four routes with car data: two urban roads in Copenhagen (CPH1, part of the O2 ring road, and CPH6) and two motorways (M3, M13), each in both directions.
+The P79 files provide the wheel-path laser elevations at 0.1\,m with GPS; the P79 surveyed CPH1, M3 and M13 in September 2020 and CPH6 in June 2020, and the car passes on these routes were recorded between November 2020 and August 2021, two to fifteen months later~\cite{lira_data}.
+In the car files the accelerometer is logged at a nominal \liraRateLow\,Hz (\liraRateLowShare\,\% of passes) or \liraRateHigh\,Hz, quantised to 0.01\,g in most passes, with a median mounting tilt of \liraTiltMedian$^\circ$; speed comes from the CAN bus.
+After map matching (Section~\ref{sec:method}) the data contain \liraUnits{} segment-passes over \liraSegments{} distinct 100\,m segments (\liraKm\,km) from \liraPasses{} passes of at least \liraDevices{} cars (telematics units).
+Urban segments have mean IRI \liraIriUrban\,m/km and are driven at \liraSpeedUrban\,km/h on average, motorway segments \liraIriMotorway\,m/km at \liraSpeedMotorway\,km/h.
+The same cars drive several routes, so leave-one-route-out evaluation is route-disjoint but not vehicle-disjoint for estimators trained on real data (Section~\ref{sec:res_real} tests the consequence).
+
+\textbf{Labels.}
+Labels are the IRI per 100\,m, mean of both wheel paths, recomputed from the P79 profiles with an implementation of the quarter-car algorithm~\cite{sayers1995iri,astm_e1926} that reproduces the P79's own IRI ($r=$\,\iriValR{} over \iriValN{} segments; an algorithm check, since both come from the same profiles).
+As a negative reference we also train on the corpus of our earlier study (\bngTrips{} manually driven trips of \bngCars{} BeamNG.tech vehicles on \bngMaps{} maps), whose labels come from ray-cast game-engine geometry; the curvature-based mesh correction of that pipeline lowers the IRI of the real urban profiles here by \legacyCorrUrbanMape\,\%, and its acquisition duplicated \bngImuDupMin--\bngImuDupMax\,\% of IMU samples (Supplement~\ref{S-sec:s_earlier}).
+
+\textbf{Parametric vehicle simulator.}
+A linear four-degree-of-freedom half-car (bounce, pitch, front and rear unsprung masses; validated against a fine-step Runge--Kutta integration, Supplement~\ref{S-sec:s_sim}) is driven by a road profile under the front axle and the same profile delayed by the wheelbase under the rear axle, after a 250\,mm tyre-envelope moving average; on measured profiles the input is the mean of both wheel paths (no roll), and simulated units are labelled exactly like the real ones.
+Vehicle parameters are drawn from ranges for passenger cars~\cite{gillespie1992} (sprung mass 1000--1800\,kg, wheelbase 2.4--3.0\,m, body frequency 1.0--1.6\,Hz, damping ratio 0.20--0.45; Table~\ref{S-tab:simranges}), speed independently of roughness (20--110\,km/h with fluctuations and braking events).
+The sensor model applies an optional holder resonance, an anti-aliasing filter, a mounting rotation, irregular sampling, scale and bias errors, white noise, quantisation and sample loss.
+
+\textbf{Simulator variants.}
+The reference simulator \textbf{V0} was fixed before any real test result: 30 random vehicles, measured P79 profiles of the training routes, and a 50/50 mixture of a telematics-like sensor (55--62\,Hz, 0.01\,g, rigid mount) and a phone-like sensor (90--210\,Hz, 0.6\,mg) with a holder resonance at 15--40\,Hz.
+To find out which modelling choices matter, we compare it with ten variants, listed in a protocol written after an independent review and before the analyses reported here were run (the zero-shot results of V1--V6 were already known, so this comparison is diagnostic, not confirmatory): the telematics-like half alone (\textbf{V1}) and the phone-like half alone (\textbf{V2}) of V0; the two missing cells of a 2$\times$2 design, telematics-like with the holder resonance (\textbf{V7}) and phone-like without it (\textbf{V8}); an ideal sensor (\textbf{V3}); a single telematics sensor matched to statistics measured on the unlabelled LiRA-CD streams (\textbf{V5}) and its 50/50 mixture with the phone-like sensor (\textbf{V6}); one mid-range vehicle instead of 30 (\textbf{V4}); and synthetic ISO-8608-type profiles~\cite{iso8608} alone (\textbf{V9}) or added to the measured ones (\textbf{V10}).
+The simulated drives never use the profile of the test route.

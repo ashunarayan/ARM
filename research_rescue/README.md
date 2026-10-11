@@ -7,6 +7,11 @@ the first rescue (v1), a second revision (v2) in response to an independent adve
 paper are untouched; see `BASELINE_STATE.md` for their state. The reviewed v2 state is preserved in
 `checkpoints/v2_2026-10-03/` (with `MANIFEST.sha256`).
 
+Final corrections (2026-10-11, after the final verification audit `review/final_audit/audit.md`):
+
+* `FINAL_SUBMISSION_REPORT.md` - each audit issue and its resolution, files changed, build and consistency checks,
+  open items; audited state preserved in `checkpoints/v3_2026-10-11/`; checks in `results/v3/verification_final.json`
+
 Start here (v3):
 
 * `FINAL_VERIFICATION_REPORT_V3.md` - what the third round verified, ran, changed and left open
@@ -95,7 +100,7 @@ cd research_rescue/paper && pdflatex supplementary.tex && pdflatex main.tex && p
 re-analysis, E exploratory, S controlled simulation).
 
 Third round only (after the second round; outputs in `results/v3/`; the same as
-`python research_rescue/run_all_experiments.py --force --only v2_physics_inversion v2_summarise v2_numbers v2_tables v3_pooled v3_pooled_merge v3_calib_uncertainty v3_band_limited v3_level_and_bands v3_rank_paired v3_speed_robustness v3_nosim_index v3_pass_density v3_numbers v3_tables v3_figures v3_final_results bib_cited paper v3_verify`):
+`python research_rescue/run_all_experiments.py --force --only v2_physics_inversion v2_summarise v2_numbers v2_tables v3_pooled v3_pooled_merge v3_calib_uncertainty v3_band_limited v3_level_and_bands v3_rank_paired v3_rank_scope v3_speed_robustness v3_nosim_index v3_pass_density v3_numbers v3_tables v3_figures v3_final_results bib_cited paper v3_verify final_verify`):
 
 ```bash
 python research_rescue/experiments/v2/physics_inversion.py           # V3-8: M7 with the fixed segment grid
@@ -107,6 +112,7 @@ python research_rescue/experiments/v3/calib_uncertainty.py           # V3-2 test
 python research_rescue/experiments/v3/band_limited.py                # V3-3 band-limited retraining
 python research_rescue/experiments/v3/level_and_bands.py             # V3-4 band associations, V3-5 level decomposition
 python research_rescue/experiments/v3/rank_paired.py                 # V3-6 paired within-route ranking
+python research_rescue/experiments/v3/rank_scope.py                  # final audit: per-route ranking of every estimator
 python research_rescue/experiments/v3/speed_robustness.py            # V3-7 speed robustness rows
 python research_rescue/experiments/v3/nosim_index.py                 # V3-9 no-simulator index
 python research_rescue/experiments/v3/pass_density.py                # V3-10 pass density (delete a partial results/v3/pass_density.csv before rerunning)
@@ -115,6 +121,7 @@ python research_rescue/make_final_results_v3.py                      # headline 
 python research_rescue/paper/make_bib_cited.py
 cd research_rescue/paper && pdflatex supplementary.tex && pdflatex main.tex && pdflatex supplementary.tex && pdflatex main.tex && cd ../..
 python research_rescue/evaluation/verify_v3.py                       # 25 independent checks -> results/v3/verification_v3.json
+python research_rescue/evaluation/verify_final.py                    # 14 checks of the final corrections -> results/v3/verification_final.json
 ```
 
 `make_numbers_v3.py` asserts that the joint-training arm reproduces the reviewer's check c4 (within 0.0025 m/km), that
@@ -158,5 +165,5 @@ v3 analyses a few minutes each; numbers, tables, figures and the two LaTeX passe
 Nothing has been committed to git; committing (with tags at the protocol-freeze points) and publishing the code and
 the BeamNG corpus are the authors' decisions. Before submission a human should read the primary articles that are
 cited at title level or through a secondary description (`references/REFERENCE_AUDIT.md` §E) and confirm the target
-venue's page limit (main paper: 10 pages). New paired data (another car, sensor or city) are needed for any
+venue's page limit (main paper: 11 pages after the final corrections, supplement 18). New paired data (another car, sensor or city) are needed for any
 external-validity claim.

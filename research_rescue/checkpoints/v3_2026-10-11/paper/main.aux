@@ -1,0 +1,145 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{sayers1986tp45}
+\citation{astm_e1926}
+\citation{sattar2018review}
+\citation{sang2024iri}
+\citation{levenberg2021lira}
+\citation{sayers1986tp46}
+\citation{jeong2020cnn}
+\citation{rcnn2023sim}
+\citation{nitsche2014wlp}
+\citation{ngwangwa2014exp}
+\citation{speedadaptive2025}
+\citation{skar2024inversion}
+\citation{agebjar2025fusion}
+\citation{wu2023calib}
+\citation{skar2023lira}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
+\citation{sayers1986tp45}
+\citation{sayers1995iri}
+\citation{astm_e1926}
+\citation{sayers1986tp46}
+\citation{gonzalez2008accel}
+\citation{zhao2017freq}
+\citation{bridgelall2014rif}
+\citation{wu2023calib}
+\citation{skar2024inversion}
+\citation{agebjar2025fusion}
+\citation{skar2024inversion}
+\citation{thilak2021}
+\citation{mounting2026}
+\citation{opara2022roughness}
+\citation{hanson2014iri}
+\citation{sattar2018review}
+\citation{evalframework2023}
+\citation{sang2024iri}
+\citation{zhang2026semisup}
+\citation{trc2021crowd}
+\citation{jeongjo2024irinet}
+\citation{bajic2021ml}
+\citation{nitsche2014wlp}
+\citation{bajic2021ml}
+\citation{ngwangwa2010ann}
+\citation{ngwangwa2014exp}
+\citation{rcnn2023sim}
+\citation{speedadaptive2025}
+\citation{jeong2020cnn}
+\citation{tobin2017dr}
+\citation{peng2018dr}
+\citation{chebotar2019simopt}
+\citation{gambi2019beamng}
+\citation{beamng}
+\citation{skar2023lira}
+\citation{lira_data}
+\citation{skar2023lira}
+\citation{lira_data}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{II}{2}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Data and Simulation}{2}{section.3}\protected@file@percent }
+\newlabel{sec:data}{{III}{2}{Data and Simulation}{section.3}{}}
+\citation{sayers1995iri}
+\citation{astm_e1926}
+\citation{gillespie1992}
+\citation{iso8608}
+\citation{ke2017lightgbm}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Study design. Labels are recomputed from the P79 profilometer's laser profiles with an IRI implementation validated against the profilometer's own output; simulated units are labelled with the same code. Real and simulated vibration go through identical preprocessing, and every estimator is evaluated on real routes it never saw; simulated drives never use the profile of the test route.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:pipeline}{{1}{3}{Study design. Labels are recomputed from the P79 profilometer's laser profiles with an IRI implementation validated against the profilometer's own output; simulated units are labelled with the same code. Real and simulated vibration go through identical preprocessing, and every estimator is evaluated on real routes it never saw; simulated drives never use the profile of the test route}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Estimators and Evaluation}{3}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{IV}{3}{Estimators and Evaluation}{section.4}{}}
+\citation{bajic2021ml}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results}{4}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{V}{4}{Results}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Real cars}{4}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:res_real}{{\mbox  {V-A}}{4}{Real cars}{subsection.5.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Real cars (LiRA-CD), leave-one-route-out, 100\,m segments. Within-route metrics are computed per held-out route and averaged over the four routes; ``partial $\rho $'': Spearman correlation with IRI given segment mean speed. $\Delta $MAE: paired difference to the real-trained LightGBM with a 95\,\% cluster-bootstrap interval over 5\,km blocks (40 clusters); ``routes'': number of held-out routes on which the estimator is better. Neural nets: 5-seed ensembles.}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:real}{{I}{5}{Real cars (LiRA-CD), leave-one-route-out, 100\,m segments. Within-route metrics are computed per held-out route and averaged over the four routes; ``partial $\rho $'': Spearman correlation with IRI given segment mean speed. $\Delta $MAE: paired difference to the real-trained LightGBM with a 95\,\% cluster-bootstrap interval over 5\,km blocks (40 clusters); ``routes'': number of held-out routes on which the estimator is better. Neural nets: 5-seed ensembles}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Zero-shot transfer: the ranking transfers, the level does not}{5}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:res_zero}{{\mbox  {V-B}}{5}{Zero-shot transfer: the ranking transfers, the level does not}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Where the simulated vibration differs}{5}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:res_mech}{{\mbox  {V-C}}{5}{Where the simulated vibration differs}{subsection.5.3}{}}
+\citation{skar2023lira}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Simulator variants: LightGBM trained only on simulated drives (zero-shot), tested on the held-out real routes. Pooled segment MAE and bias in m/km; level: mean log(prediction/label) over the segments of a road class (0.10 is about 10\,\% over-prediction); within-route Spearman $\rho $. Right: pooled MAE with 5 or 20\,km of paired drives (about ten passes per segment) used for a level offset (2.5--97.5\,\% range over the 20 draws in brackets) or for joint training; means over 20 draws. Real-only LightGBM on the same drives: 0.68\,m/km (5\,km), 0.46\,m/km (20\,km). Class E except V0. Scale $b$ and speed elasticities: Table~\ref {S-tab:variants_s_gbm}.}}{6}{table.2}\protected@file@percent }
+\newlabel{tab:variants}{{II}{6}{Simulator variants: LightGBM trained only on simulated drives (zero-shot), tested on the held-out real routes. Pooled segment MAE and bias in m/km; level: mean log(prediction/label) over the segments of a road class (0.10 is about 10\,\% over-prediction); within-route Spearman $\rho $. Right: pooled MAE with 5 or 20\,km of paired drives (about ten passes per segment) used for a level offset (2.5--97.5\,\% range over the 20 draws in brackets) or for joint training; means over 20 draws. Real-only LightGBM on the same drives: \vbRealOnlyFive \,m/km (5\,km), \vbRealOnlyTwenty \,m/km (20\,km). Class E except V0. Scale $b$ and speed elasticities: Table~\ref {S-tab:variants_s_gbm}}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Simulator variants, LightGBM trained on simulated drives only and tested on the held-out real routes. (a) Within-route Spearman $\rho $ (real-trained model in blue; dashed: the untrained statistic RMS$/v^{0.5}$). (b) Zero-shot level (mean log ratio of prediction to label) on urban and motorway segments. (c) Pooled segment MAE zero-shot (open circles) and with 5\,km of paired drives used for a level offset (filled circles) or joint training (triangles), means over 20 draws; lines: real-trained on all training routes (solid) or on the 5\,km only (dashed).}}{6}{figure.2}\protected@file@percent }
+\newlabel{fig:variants}{{2}{6}{Simulator variants, LightGBM trained on simulated drives only and tested on the held-out real routes. (a) Within-route Spearman $\rho $ (real-trained model in blue; dashed: the untrained statistic RMS$/v^{0.5}$). (b) Zero-shot level (mean log ratio of prediction to label) on urban and motorway segments. (c) Pooled segment MAE zero-shot (open circles) and with 5\,km of paired drives used for a level offset (filled circles) or joint training (triangles), means over 20 draws; lines: real-trained on all training routes (solid) or on the 5\,km only (dashed)}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces (a) Mean difference of log$_{10}$ power spectral density, real minus simulated, on the same segments in the same 10\,km/h speed bands (re-simulated passes of four sensor variants and the ideal sensor; bands: 95\,\% intervals from a 1\,km-block bootstrap). (b) Zero-shot bias of the nine measured-profile variants against the real/simulated amplitude ratio of the 10--15\,Hz band (log$_{10}$; diamond: V4, one vehicle), with the Spearman correlation of the bias with the ratio of every band. (c) Mean zero-shot level of each variant with all 13 features (open) and retrained on the five features without content above 10\,Hz (filled).}}{7}{figure.3}\protected@file@percent }
+\newlabel{fig:spectra}{{3}{7}{(a) Mean difference of log$_{10}$ power spectral density, real minus simulated, on the same segments in the same 10\,km/h speed bands (re-simulated passes of four sensor variants and the ideal sensor; bands: 95\,\% intervals from a 1\,km-block bootstrap). (b) Zero-shot bias of the nine measured-profile variants against the real/simulated amplitude ratio of the 10--15\,Hz band (log$_{10}$; diamond: V4, one vehicle), with the Spearman correlation of the bias with the ratio of every band. (c) Mean zero-shot level of each variant with all 13 features (open) and retrained on the five features without content above 10\,Hz (filled)}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}How much paired real data is needed}{7}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:res_value}{{\mbox  {V-D}}{7}{How much paired real data is needed}{subsection.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Simulation against paired real drives on the same 20 draws of $k$\,km of training-route road (pooled segment MAE on the held-out routes, means over draws; bold: V0, thin: V1--V8). Blue: real-only LightGBM (band: 2.5--97.5\,\% of draws) or vibration index (dashed). (a) Equal profile budget: LightGBM on simulated passes over the profiles of the same $k$\,km. (b) Simulation over all training-route profiles combined with the paired passes by a level offset (green) or joint training (pink); real-only values at 1 and 2\,km lie above the axis (LightGBM 1.63{} and 1.14, index 1.30{} and 0.94\,m/km).}}{8}{figure.4}\protected@file@percent }
+\newlabel{fig:value}{{4}{8}{Simulation against paired real drives on the same 20 draws of $k$\,km of training-route road (pooled segment MAE on the held-out routes, means over draws; bold: V0, thin: V1--V8). Blue: real-only LightGBM (band: 2.5--97.5\,\% of draws) or vibration index (dashed). (a) Equal profile budget: LightGBM on simulated passes over the profiles of the same $k$\,km. (b) Simulation over all training-route profiles combined with the paired passes by a level offset (green) or joint training (pink); real-only values at 1 and 2\,km lie above the axis (LightGBM \vbRealOnlyOne {} and \vbRealOnlyTwo , index \vbRealIdxOne {} and \vbRealIdxTwo \,m/km)}{figure.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Simulation and paired real drives on the same 20 draws of $k$\,km of training-route road, each with all real passes over it (passes: mean number of segment-passes). Pooled MAE over all segments of the held-out routes (brackets: 2.5--97.5\,\% of draws) and within-route MAE (mean of the four route MAEs), in m/km. Real-only: LightGBM or the three-parameter vibration index on the paired passes. Equal profile budget: LightGBM on V0 simulated passes over the profiles of the same $k$\,km (difference to real-only LightGBM; draws in which simulation was better). All profiles: simulation over all training-route profiles combined with the paired passes; ranges over V0--V8 of the means, and of the number of draws in which joint training beat real-only LightGBM.}}{8}{table.3}\protected@file@percent }
+\newlabel{tab:value}{{III}{8}{Simulation and paired real drives on the same 20 draws of $k$\,km of training-route road, each with all real passes over it (passes: mean number of segment-passes). Pooled MAE over all segments of the held-out routes (brackets: 2.5--97.5\,\% of draws) and within-route MAE (mean of the four route MAEs), in m/km. Real-only: LightGBM or the three-parameter vibration index on the paired passes. Equal profile budget: LightGBM on V0 simulated passes over the profiles of the same $k$\,km (difference to real-only LightGBM; draws in which simulation was better). All profiles: simulation over all training-route profiles combined with the paired passes; ranges over V0--V8 of the means, and of the number of draws in which joint training beat real-only LightGBM}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Speed dependence on a fixed road}{8}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:res_speed}{{\mbox  {V-E}}{8}{Speed dependence on a fixed road}{subsection.5.5}{}}
+\citation{skar2024inversion}
+\bibcite{sayers1986tp45}{1}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Discussion}{9}{section.6}\protected@file@percent }
+\newlabel{sec:discussion}{{VI}{9}{Discussion}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Limitations}{9}{section.7}\protected@file@percent }
+\newlabel{sec:limitations}{{VII}{9}{Limitations}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{9}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{VIII}{9}{Conclusion}{section.8}{}}
+\bibcite{astm_e1926}{2}
+\bibcite{sattar2018review}{3}
+\bibcite{sang2024iri}{4}
+\bibcite{levenberg2021lira}{5}
+\bibcite{sayers1986tp46}{6}
+\bibcite{jeong2020cnn}{7}
+\bibcite{rcnn2023sim}{8}
+\bibcite{nitsche2014wlp}{9}
+\bibcite{ngwangwa2014exp}{10}
+\bibcite{speedadaptive2025}{11}
+\bibcite{skar2024inversion}{12}
+\bibcite{agebjar2025fusion}{13}
+\bibcite{wu2023calib}{14}
+\bibcite{skar2023lira}{15}
+\bibcite{sayers1995iri}{16}
+\bibcite{gonzalez2008accel}{17}
+\bibcite{zhao2017freq}{18}
+\bibcite{bridgelall2014rif}{19}
+\bibcite{thilak2021}{20}
+\bibcite{mounting2026}{21}
+\bibcite{opara2022roughness}{22}
+\bibcite{hanson2014iri}{23}
+\bibcite{evalframework2023}{24}
+\bibcite{zhang2026semisup}{25}
+\bibcite{trc2021crowd}{26}
+\bibcite{jeongjo2024irinet}{27}
+\bibcite{bajic2021ml}{28}
+\bibcite{ngwangwa2010ann}{29}
+\bibcite{tobin2017dr}{30}
+\bibcite{peng2018dr}{31}
+\bibcite{chebotar2019simopt}{32}
+\bibcite{gambi2019beamng}{33}
+\bibcite{beamng}{34}
+\bibcite{lira_data}{35}
+\bibcite{gillespie1992}{36}
+\bibcite{iso8608}{37}
+\bibcite{ke2017lightgbm}{38}
+\@writefile{toc}{\contentsline {section}{References}{10}{section*.1}\protected@file@percent }
+\gdef \@abspage@last{10}

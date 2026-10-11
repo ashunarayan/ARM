@@ -1,0 +1,318 @@
+{
+ "note": "Headline results of the v3 paper; values are the printed LaTeX macros (paper/numbers_v3.tex, paper/numbers_v2.tex). Protocol items and evidence classes as in evaluation/PROTOCOL_V3.md.",
+ "headlines": [
+  {
+   "id": "T1",
+   "quantity": "k km of paired drives: passes per segment, segment-passes at 5 km (mean, range), km driven",
+   "values": {
+    "kdPassesFive": "9.7",
+    "kdUnitsFive": "475",
+    "kdUnitsFiveMin": "301",
+    "kdUnitsFiveMax": "640",
+    "kdKmFive": "4.9",
+    "kdDriveKmFive": "47"
+   },
+   "source": "results/v2/value_of_simulation.csv",
+   "script": "experiments/v2/value_of_simulation.py",
+   "protocol_item": "metric definition",
+   "evidence_class": "-",
+   "paper": "Sec. IV, Sec. V-D"
+  },
+  {
+   "id": "T2",
+   "quantity": "Joint training (sim + real, equal total weight) with 5 km: pooled MAE range over V0-V8, draws better than real-only",
+   "values": {
+    "poMaeFiveMin": "0.45",
+    "poMaeFiveMax": "0.47",
+    "poWinsFiveRange": "20",
+    "vbRealOnlyFive": "0.68"
+   },
+   "source": "results/v3/pooled_vs_real.csv; results/v2/value_of_simulation.csv",
+   "script": "experiments/v3/pooled_vs_real.py",
+   "protocol_item": "V3-1",
+   "evidence_class": "R",
+   "paper": "abstract, Sec. V-D, Table II, Table III, Fig. 2c, Fig. 4b"
+  },
+  {
+   "id": "T3",
+   "quantity": "Joint training with 20 km: difference to real-only (range over V0-V8), draws better; pre-registered H1",
+   "values": {
+    "poDiffTwentyMin": "-0.03",
+    "poDiffTwentyMax": "-0.01",
+    "poWinsTwentyRange": "16--20",
+    "poHoneMeas": "holds",
+    "poHoneAll": "holds",
+    "poBeatAllK": "9"
+   },
+   "source": "results/v3/pooled_summary.csv",
+   "script": "make_numbers_v3.py (from pooled_vs_real.csv)",
+   "protocol_item": "V3-1",
+   "evidence_class": "R",
+   "paper": "abstract, Sec. V-D, Supplement S1"
+  },
+  {
+   "id": "T4",
+   "quantity": "Level offset with 5 km (v2 result, re-used): pooled MAE range over V0-V8, draws better than real-only",
+   "values": {
+    "pcCalMaeFiveMin": "0.42",
+    "pcCalMaeFiveMax": "0.56",
+    "pcCalWinsFiveMin": "13",
+    "pcCalWinsFiveMax": "20"
+   },
+   "source": "results/v2/paired_vs_real.csv",
+   "script": "experiments/v2/paired_vs_real.py",
+   "protocol_item": "v2 R3/E6",
+   "evidence_class": "R/E",
+   "paper": "abstract, Sec. V-D"
+  },
+  {
+   "id": "T5",
+   "quantity": "Test-route 5 km-block intervals of the difference to real-only (level offset, joint training; 5 and 20 km)",
+   "values": {
+    "cuCalFiveDiffMin": "-0.26",
+    "cuCalFiveDiffMax": "-0.12",
+    "cuPoolFiveDiffMin": "-0.23",
+    "cuPoolFiveDiffMax": "-0.21",
+    "cuCalFiveExclNeg": "9",
+    "cuPoolFiveExclNeg": "9",
+    "cuCalTwentyExclPos": "3",
+    "cuPoolTwentyExclNeg": "9",
+    "cuCalVoneTwenty": "+0.08",
+    "cuCalVfiveTwenty": "+0.12"
+   },
+   "source": "results/v3/calib_uncertainty.csv",
+   "script": "experiments/v3/calib_uncertainty.py",
+   "protocol_item": "V3-2",
+   "evidence_class": "E",
+   "paper": "Sec. V-D, Table S18"
+  },
+  {
+   "id": "T6",
+   "quantity": "Variant dependence: spread of pooled MAE over V0-V8, joint training vs level offset (5 and 20 km); 1 km range",
+   "values": {
+    "poMaeSpreadFive": "0.02",
+    "poCalSpreadFive": "0.14",
+    "poMaeSpreadTwenty": "0.02",
+    "poCalSpreadTwenty": "0.17",
+    "poMaeOneMin": "0.44",
+    "poMaeOneMax": "0.56"
+   },
+   "source": "results/v3/pooled_summary.csv",
+   "script": "make_numbers_v3.py",
+   "protocol_item": "V3-1",
+   "evidence_class": "R",
+   "paper": "Sec. V-D"
+  },
+  {
+   "id": "T7",
+   "quantity": "Per held-out route at 20 km: variant-route cells where joint training beats real-only",
+   "values": {
+    "poRouteTwentyNeg": "31",
+    "poRouteTwentyCells": "36",
+    "poRouteTwentyPos": "5",
+    "poRouteTwentyMwThreePos": "4",
+    "poRouteTwentyCphSixPos": "1",
+    "poRouteTwentyDiffMax": "+0.016"
+   },
+   "source": "results/v3/pooled_by_route.csv",
+   "script": "make_numbers_v3.py",
+   "protocol_item": "V3-1",
+   "evidence_class": "R",
+   "paper": "Sec. V-D"
+  },
+  {
+   "id": "T8",
+   "quantity": "Which combination: joint minus level offset at 5 km by group; class-level difference and its correlation with the MAE after an offset",
+   "values": {
+    "poHiDefDiffCalFiveMin": "-0.096",
+    "poHiDefDiffCalFiveMax": "-0.062",
+    "poLoDefDiffCalFiveMin": "+0.002",
+    "poLoDefDiffCalFiveMax": "+0.032",
+    "ldSpreadMin": "0.09",
+    "ldSpreadMax": "0.30",
+    "ldSpreadCalRho": "0.88",
+    "ldHiDefSpreadMin": "0.26",
+    "ldHiDefSpreadMax": "0.30"
+   },
+   "source": "results/v3/pooled_summary.csv; results/v3/level_decomposition.csv",
+   "script": "make_numbers_v3.py; experiments/v3/level_and_bands.py",
+   "protocol_item": "V3-1, V3-5",
+   "evidence_class": "R",
+   "paper": "Sec. V-D, Discussion"
+  },
+  {
+   "id": "T9",
+   "quantity": "Affine map worse than the better of offset and joint training (number of variants of 9, 5 and 20 km)",
+   "values": {
+    "poAffWorseFive": "9",
+    "poAffWorseTwenty": "9"
+   },
+   "source": "results/v3/pooled_summary.csv",
+   "script": "make_numbers_v3.py",
+   "protocol_item": "V3-1",
+   "evidence_class": "R",
+   "paper": "Sec. V-D"
+  },
+  {
+   "id": "T10",
+   "quantity": "Pass density at 5 km, one pass per segment: segment-passes, level offset and joint ranges, real-only",
+   "values": {
+    "pdUnitsOne": "49",
+    "pdCalOneMin": "0.43",
+    "pdCalOneMax": "0.55",
+    "pdPoolOneMin": "0.44",
+    "pdPoolOneMax": "0.49",
+    "pdOneAllDraws": "in every draw",
+    "pdRealOne": "0.93"
+   },
+   "source": "results/v3/pass_density.csv; results/v3/pass_density_summary.csv",
+   "script": "experiments/v3/pass_density.py",
+   "protocol_item": "V3-10",
+   "evidence_class": "E",
+   "paper": "abstract, Sec. V-D, Table S19"
+  },
+  {
+   "id": "T11",
+   "quantity": "No-simulator index (label-free car speed exponent, affine) at 5 and 20 km",
+   "values": {
+    "nsCarAffineFive": "0.78",
+    "nsCarAffineTwenty": "0.76",
+    "nsAlphaCarMin": "0.59",
+    "nsAlphaCarMax": "0.72"
+   },
+   "source": "results/v3/nosim_index.csv; results/v3/nosim_index_alpha.csv",
+   "script": "experiments/v3/nosim_index.py",
+   "protocol_item": "V3-9",
+   "evidence_class": "E",
+   "paper": "Sec. V-D, Table S17"
+  },
+  {
+   "id": "T12",
+   "quantity": "Band associations of the zero-shot bias over V0-V8 (Spearman per band, R2)",
+   "values": {
+    "baSpHighBias": "0.97",
+    "baSpMidHighBias": "0.80",
+    "baSpRmsBias": "0.88",
+    "baSpLowBias": "0.22",
+    "baSpMidBias": "0.25",
+    "baRtwoRmsBias": "0.78",
+    "baRtwoHighBias": "0.71"
+   },
+   "source": "results/v3/band_associations.csv",
+   "script": "experiments/v3/level_and_bands.py",
+   "protocol_item": "V3-4",
+   "evidence_class": "E",
+   "paper": "Sec. V-C, Fig. 3b, Table S23"
+  },
+  {
+   "id": "T13",
+   "quantity": "Band-limited retraining: spread of the mean log level and bias over the 8 sensor variants; V4; cost; H3/H3b",
+   "values": {
+    "blFullSpreadLvl": "0.25",
+    "blLowSpreadLvl": "0.08",
+    "blRatioLvl": "32",
+    "blRatioLvlUrban": "49",
+    "blRatioLvlMotorway": "34",
+    "blFullSpreadBias": "0.52",
+    "blLowSpreadBias": "0.14",
+    "blNoHighMaxChange": "2",
+    "blLowVfourLvl": "+0.22",
+    "blLowCalMin": "0.48",
+    "blLowCalMax": "0.57",
+    "blHthreeHolds": "holds",
+    "blHthreeBHolds": "holds"
+   },
+   "source": "results/v3/band_limited.csv",
+   "script": "experiments/v3/band_limited.py",
+   "protocol_item": "V3-3",
+   "evidence_class": "E",
+   "paper": "Sec. V-C, Fig. 3c, Table S24"
+  },
+  {
+   "id": "T14",
+   "quantity": "Level decomposition of V0 and the vehicle-population effect (V4 minus V0)",
+   "values": {
+    "ldVzeroUrban": "+0.006",
+    "ldVzeroMotorway": "+0.145",
+    "ldVzeroPctMotorwayAbs": "16",
+    "vpVehicleEffBias": "+0.39",
+    "vpVfourRatioHigh": "1.93",
+    "vpVzeroRatioHigh": "1.86"
+   },
+   "source": "results/v3/level_decomposition.csv; results/v2/summary_variants.csv; results/v2/band_gain.csv",
+   "script": "experiments/v3/level_and_bands.py; make_numbers_v3.py",
+   "protocol_item": "V3-5",
+   "evidence_class": "R",
+   "paper": "Sec. V-B, Sec. V-C, Discussion"
+  },
+  {
+   "id": "T15",
+   "quantity": "Paired within-route ranking against the untrained RMS/v^0.5 (per route; bound over routes and models)",
+   "values": {
+    "rpRhoRealCphOne": "+0.042",
+    "rpRhoRealCphSix": "+0.044",
+    "rpRhoRealMwThree": "-0.020",
+    "rpRhoRealMwThirteen": "-0.023",
+    "rpRhoVzeroMwThirteen": "-0.015",
+    "rpRhoVzeroCphOne": "+0.038",
+    "rpAbsMax": "0.05",
+    "rpAbsMaxExact": "0.044"
+   },
+   "source": "results/v3/rank_paired.csv",
+   "script": "experiments/v3/rank_paired.py",
+   "protocol_item": "V3-6",
+   "evidence_class": "E",
+   "paper": "abstract, Sec. V-B, Table S5"
+  },
+  {
+   "id": "T16",
+   "quantity": "Speed robustness: real-trained urban elasticity and paired difference with the log speed SD; CV control",
+   "values": {
+    "srRealUrbanLsd": "-0.06",
+    "srRealUrbanLsdLo": "-0.16",
+    "srRealUrbanLsdHi": "+0.02",
+    "srDiffUrbanLsd": "+0.12",
+    "srDiffUrbanLsdLo": "+0.09",
+    "srDiffUrbanLsdHi": "+0.16",
+    "srDiffUrbanCv": "-0.07",
+    "srDiffUrbanCvLo": "-0.21",
+    "srDiffUrbanCvHi": "+0.01",
+    "srCorrLsdUrban": "-0.50",
+    "srCorrCvUrban": "-0.86"
+   },
+   "source": "results/v3/speed_robustness.csv",
+   "script": "experiments/v3/speed_robustness.py",
+   "protocol_item": "V3-7",
+   "evidence_class": "E",
+   "paper": "Sec. V-E, Table S26"
+  },
+  {
+   "id": "T17",
+   "quantity": "Relative errors of real-trained LightGBM by road class (%)",
+   "values": {
+    "reGbmUrban": "19",
+    "reGbmMotorway": "12"
+   },
+   "source": "results/v3/relative_errors.csv",
+   "script": "make_numbers_v3.py (from results/v2/summary_real_estimators.csv)",
+   "protocol_item": "V3-11",
+   "evidence_class": "E",
+   "paper": "Sec. V-A, Table S6"
+  },
+  {
+   "id": "T18",
+   "quantity": "M7 segment-grid fix: M13 segments and MAE before and after",
+   "values": {
+    "mtMwThirteenOldSeg": "119",
+    "mtMwThirteenNewSeg": "228",
+    "mtMwThirteenOldMae": "0.169",
+    "mtMwThirteenNewMae": "0.168"
+   },
+   "source": "checkpoints/v2_2026-10-03/results/v2/physics_inversion.csv; results/v2/physics_inversion.csv",
+   "script": "experiments/v2/physics_inversion.py",
+   "protocol_item": "V3-8",
+   "evidence_class": "R",
+   "paper": "Supplement S1"
+  }
+ ]
+}

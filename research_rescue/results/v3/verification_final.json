@@ -1,0 +1,81 @@
+[
+ {
+  "check": "rank_scope.csv re-derived from saved predictions",
+  "ok": true,
+  "max_abs_diff": 2.0383000842727483e-16,
+  "n_estimators": 16
+ },
+ {
+  "check": "every in-scope estimator within 0.05, every out-of-scope estimator beyond it",
+  "ok": true,
+  "in_scope_max": 0.0443,
+  "out_of_scope_min": 0.0991
+ },
+ {
+  "check": "new ranking macros match rank_scope.csv",
+  "ok": true,
+  "printed": "{'rkScopeAbsMax': '0.044', 'rkScopeVarAbsMax': '0.038', 'rkIdxGapMax': '0.10', 'rkNoSpeedGapMax': '0.18', 'rkSpeedOnlyGapMax': '0.72'}",
+  "expected": "{'rkScopeAbsMax': '0.044', 'rkScopeVarAbsMax': '0.038', 'rkIdxGapMax': '0.10', 'rkNoSpeedGapMax': '0.18', 'rkSpeedOnlyGapMax': '0.72'}"
+ },
+ {
+  "check": "printed bound rpAbsMax covers the in-scope estimators",
+  "ok": true,
+  "rpAbsMax": "0.05"
+ },
+ {
+  "check": "no existing macro changed its value since the audited checkpoint",
+  "ok": true,
+  "changed": [],
+  "added": [
+   "rkIdxGapMax",
+   "rkNoSpeedGapMax",
+   "rkScopeAbsMax",
+   "rkScopeVarAbsMax",
+   "rkSpeedOnlyGapMax"
+  ]
+ },
+ {
+  "check": "superseded wording absent",
+  "ok": true,
+  "hits": "{}"
+ },
+ {
+  "check": "corrected wording present",
+  "ok": true,
+  "missing": "{}"
+ },
+ {
+  "check": "PDFs newer than every source, table, macro and figure file",
+  "ok": true
+ },
+ {
+  "check": "main.pdf: clean log and no '??'",
+  "ok": true,
+  "pages": 11,
+  "log_problems": []
+ },
+ {
+  "check": "supplementary.pdf: clean log and no '??'",
+  "ok": true,
+  "pages": 18,
+  "log_problems": []
+ },
+ {
+  "check": "PROTOCOL_V3.md unchanged (frozen hash)",
+  "ok": true
+ },
+ {
+  "check": "audit report unchanged",
+  "ok": true
+ },
+ {
+  "check": "checkpoint v2_2026-10-03 matches its manifest",
+  "ok": true,
+  "mismatches": []
+ },
+ {
+  "check": "checkpoint v3_2026-10-11 matches its manifest",
+  "ok": true,
+  "mismatches": []
+ }
+]

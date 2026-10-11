@@ -1,0 +1,37 @@
+[1] M3 retrain with inner LORO: chosen configs {'CPH1': {'num_leaves': 15, 'min_child_samples': 20}, 'CPH6': {'num_leaves': 15, 'min_child_samples': 20}, 'M3': {'num_leaves': 15, 'min_child_samples': 20}, 'M13': {'num_leaves': 15, 'min_child_samples': 20}}; max |seg pred - stored| = 8.88e-16 (30s)
+[2] sim p79_train routes: {'M3': 15596, 'CPH1': 15155, 'CPH6': 13180, 'M13': 7687}  units: 51618  sensors: {'phone': 26822, 'autopi': 24796}
+[2] V0 zero-shot retrain: max |pass pred - stored| = 4.64e-07 (32s)
+[3] joint training V0 k=5 retrain: max |seg pred - stored| = 0.00e+00 (63s)
+[3] joint training V5 k=5 retrain: max |seg pred - stored| = 0.00e+00 (95s)
+      bias               lvl_mean              
+set   full   lt10 no1015     full   lt10 no1015
+vid                                            
+V0   0.010 -0.167  0.023    0.075  0.029  0.084
+V1   0.427 -0.157  0.438    0.267  0.042  0.271
+V2  -0.094 -0.131 -0.073    0.018  0.038  0.027
+V3   0.399 -0.045  0.407    0.267  0.102  0.270
+V4   0.397  0.277  0.412    0.227  0.216  0.238
+V5   0.405 -0.108  0.423    0.272  0.077  0.278
+V6  -0.041 -0.157 -0.029    0.077  0.056  0.084
+V7   0.072 -0.186  0.103    0.104  0.030  0.121
+V8   0.267 -0.163  0.277    0.181  0.021  0.186
+[4] spread over 8 sensor variants of bias: full 0.521, lt10 0.142, no1015 0.511; ratio lt10/full 0.27; no1015/full 0.980
+[4] spread over 8 sensor variants of lvl_mean: full 0.253, lt10 0.081, no1015 0.251; ratio lt10/full 0.32; no1015/full 0.993
+[4] spread over 8 sensor variants of lvl_urban: full 0.169, lt10 0.083, no1015 0.172; ratio lt10/full 0.49; no1015/full 1.015
+[4] spread over 8 sensor variants of lvl_mw: full 0.361, lt10 0.124, no1015 0.358; ratio lt10/full 0.34; no1015/full 0.994
+[4] V4 lt10 lvl_mean 0.216; sensor variants lt10 lvl_mean 0.021..0.102
+[4] max |own - stored|: bias 9.71e-17, lvl_mean 9.02e-17 (130s)
+[5] m=1 own subsample: mean calibration units 49
+[5]   real      pooled MAE 0.946; better than real-only in 0/20 draws
+[5]   cal V0    pooled MAE 0.426; better than real-only in 20/20 draws
+[5]   cal V1    pooled MAE 0.527; better than real-only in 20/20 draws
+[5]   cal V2    pooled MAE 0.420; better than real-only in 20/20 draws
+[5]   cal V3    pooled MAE 0.534; better than real-only in 20/20 draws
+[5]   cal V4    pooled MAE 0.436; better than real-only in 20/20 draws
+[5]   cal V5    pooled MAE 0.556; better than real-only in 20/20 draws
+[5]   cal V6    pooled MAE 0.447; better than real-only in 20/20 draws
+[5]   cal V7    pooled MAE 0.435; better than real-only in 20/20 draws
+[5]   cal V8    pooled MAE 0.451; better than real-only in 20/20 draws
+[5]   joint V0  pooled MAE 0.444; better than real-only in 20/20 draws
+[5]   joint V5  pooled MAE 0.490; better than real-only in 20/20 draws
+(194s)

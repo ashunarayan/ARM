@@ -28,6 +28,7 @@ After a second independent review, a third protocol (\path{evaluation/PROTOCOL_V
 It restores the joint-training arm of the first protocol (``simulation-pretrained + real'', implemented for LightGBM with equal total weight for simulated and real units, as in our first analysis round, which reported it for one simulation set and five draws; Table~\ref{tab:s_v1_fewshot}) for V0--V8 and V10 on the 20 shared draws (class R), and adds the test-route intervals of the calibration comparison, the band-limited retraining, all band associations, the level decomposition by road class, a paired test of within-route ranking, robustness rows for the speed elasticities, a no-simulator index, the pass density of the paired data and relative errors (class E).
 The reviewer had computed several of these on the same data before the protocol was written (the joint-training arm for V0, V1, V3 and V5, the band-limited retraining, the paired ranking test, the speed robustness rows and the no-simulator index), so none of them is confirmatory; where they overlap, the reviewer's values were reproduced (joint training identically for every fold and draw).
 Its hypotheses were stated before the runs: that joint training beats real-only training for every variant up to 10\,km and stays within 0.02\,m/km of it at 20\,km (\poHoneMeas{} for V0--V8 and \poHoneAll{} with V10), and that retraining below 10\,Hz halves the spread of the sensor variants' levels while dropping the 10--15\,Hz band alone changes it by less than 20\,\% (\blHthreeHolds) and leaves V4 outside their range (\blHthreeBHolds).
+All three protocols were frozen as dated files in our working copy, not registered publicly, so their timing cannot be verified independently.
 
 \textbf{Evidence classes.}
 C1: fixed before any test result. R: pre-specified re-analysis of routes whose results were already known. E: exploratory diagnostic. S: new controlled simulation with freshly generated test data.
@@ -62,7 +63,7 @@ All real-data results of the main paper except the comparison of V0 with the rea
 (i) V0 was said to match the level ``only because'' half of its passes carried a phone-holder resonance; with the same sensor mixture and one vehicle (V4) the bias is \vvVfourBias\,m/km, so the vehicle population is a second ingredient, and V0's matched pooled level hides a motorway level of \ldVzeroMotorway{} (Section~\ref{M-sec:res_zero}).
 (ii) The bias was said to follow a deficit of simulated vibration at 10--15\,Hz; it also correlates strongly with the 5--10\,Hz and overall-RMS ratios (Table~\ref{tab:s_band_assoc}), and only the removal of every feature with content above 10\,Hz reduces the spread of the sensor variants (Table~\ref{tab:s_band_limited}).
 (iii) With 10\,km or more of paired drives, real drives alone were said to beat the three variants with the largest deficit; this holds for a level offset, not for joint training (Section~\ref{M-sec:res_value}).
-(iv) The untrained statistic was said to rank segments within routes as well as the trained estimators; paired per route, all differences are within \rpAbsMax, but real-trained LightGBM ranks urban segments better and motorway segments slightly worse (Table~\ref{tab:s_rank}).
+(iv) The untrained statistic was said to rank segments within routes as well as the trained estimators; paired per route, the differences of the LightGBM models (real-trained and every simulator variant), the MLP, the CNN and M7 are within \rpAbsMax, but real-trained LightGBM ranks urban segments better and motorway segments slightly worse, and the vibration index M2c, LightGBM without speed inputs and the speed-only model rank worse (Table~\ref{tab:s_rank}).
 (v) The abstract mixed within-route and pooled MAEs, and ``$k$\,km of paired drives'' was not defined with its pass density.
 (vi) A segment-grid bug restricted M7 to \mtMwThirteenOldSeg{} of the \mtMwThirteenNewSeg{} M13 segments (MAE \mtMwThirteenOldMae, now \mtMwThirteenNewMae\,m/km); the other M7 folds change slightly because their transmissibility is fitted on more M13 segments (Table~\ref{tab:s_inv}).
 (vii) The anchor to Bajic et al.\ claimed a ``different profiler''; what differs is the reference survey and its processing (Table~\ref{tab:s_bajic}).
@@ -125,7 +126,7 @@ Table~\ref{tab:s_routes} gives every estimator per held-out route.
 Table~\ref{tab:s_inference} gives paired differences at four levels of dependence: segment, 1\,km and 5\,km blocks, and routes; Fig.~\ref{fig:s_acf}a shows why segment-level intervals are too narrow.
 Table~\ref{tab:s_vc} decomposes pass-level errors into segment, telematics-unit and residual components.
 Table~\ref{tab:s_unit} gives the unit-disjoint baseline, Table~\ref{tab:s_bajic} the within-road anchor to Bajic et al., Table~\ref{tab:s_passes} the effect of averaging passes on a fixed set of segments, Table~\ref{tab:s_inv} the calibrated quarter-car inversion per fold (with the fitted transmissibility in Fig.~\ref{fig:s_acf}b) and Table~\ref{tab:s_aran} the comparison of the two profilometers.
-Table~\ref{tab:s_rank} tests the within-route ranking of three trained estimators against the untrained statistic RMS$/v^{0.5}$ route by route, and Table~\ref{tab:s_relerr} gives relative errors by road class.
+Table~\ref{tab:s_rank} compares the within-route ranking of the trained estimators with that of the untrained statistic RMS$/v^{0.5}$ route by route (with intervals for three of them), and Table~\ref{tab:s_relerr} gives relative errors by road class.
 
 \input{../tables/v2s_routes.tex}
 \input{../tables/v3s_rank.tex}
@@ -224,8 +225,10 @@ The complete pipeline, including the second and third analysis rounds, is \path{
 \begin{verbatim}
 python run_all_experiments.py --force --only v2_physics_inversion v2_summarise \
     v2_numbers v2_tables v3_pooled v3_pooled_merge v3_calib_uncertainty \
-    v3_band_limited v3_level_and_bands v3_rank_paired v3_speed_robustness \
-    v3_nosim_index v3_pass_density v3_numbers v3_tables v3_figures bib_cited paper
+    v3_band_limited v3_level_and_bands v3_rank_paired v3_rank_scope \
+    v3_speed_robustness v3_nosim_index v3_pass_density v3_numbers v3_tables \
+    v3_figures bib_cited paper
 \end{verbatim}
 \path{README.md} lists the commands, the pinned environment (\path{environment_lock.txt}), seeds, runtimes and the provenance of every headline number.
+These files are not yet public; they will be released with the published version of the paper.
 \end{document}

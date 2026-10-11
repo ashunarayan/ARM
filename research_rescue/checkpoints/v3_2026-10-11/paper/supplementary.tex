@@ -1,0 +1,231 @@
+\documentclass[onecolumn,10pt]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,url,xcolor,float,adjustbox}
+\usepackage[section]{placeins}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\externaldocument[M-]{main}
+\graphicspath{{../figures/}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+% every number is a macro generated from the result files (make_numbers.py, make_numbers_v2.py, make_numbers_v3.py)
+\input{numbers.tex}
+\input{numbers_v2.tex}
+\input{numbers_v3.tex}
+\begin{document}
+\title{Supplementary Material:\\ Simulated Drives over Measured Road Profiles for Car-Based IRI Estimation}
+\maketitle
+
+\section{Protocols, evidence classes and deviations}
+\label{sec:s_protocol}
+\textbf{Three protocols.}
+The first protocol (\path{evaluation/FINAL_EVALUATION_PROTOCOL.md}) and the model configurations (\path{config/models.json}) were frozen before any test evaluation; they define the estimators, the simulator V0, the leave-one-route-out split and the metrics (evidence class C1).
+After an independent review of the first version of this paper, a second protocol (\path{evaluation/PROTOCOL_V2.md}) was frozen before any of the new analyses was run.
+It lists the simulator variants V1--V10 with their seeds, the calibration and equal-budget designs, the fixed-road speed analysis, the inference rule (a paired difference is ``supported'' only if its 5\,km-block interval excludes zero), the diagnostics and the controlled vehicle-number experiment, and it forbids choosing any variant, block size, $k$, draw, seed or subset after seeing its result.
+Four addenda (E5--E8, Section~8 of that file) were written after some of these results were known and are reported in full: the equal-budget arms for V1--V8, the paired per-draw comparison with real-only training, the speed scaling of raw vibration in simulation, and paired elasticity differences.
+After a second independent review, a third protocol (\path{evaluation/PROTOCOL_V3.md}, dated 2026-10-10) was frozen before its analyses were run.
+It restores the joint-training arm of the first protocol (``simulation-pretrained + real'', implemented for LightGBM with equal total weight for simulated and real units, as in our first analysis round, which reported it for one simulation set and five draws; Table~\ref{tab:s_v1_fewshot}) for V0--V8 and V10 on the 20 shared draws (class R), and adds the test-route intervals of the calibration comparison, the band-limited retraining, all band associations, the level decomposition by road class, a paired test of within-route ranking, robustness rows for the speed elasticities, a no-simulator index, the pass density of the paired data and relative errors (class E).
+The reviewer had computed several of these on the same data before the protocol was written (the joint-training arm for V0, V1, V3 and V5, the band-limited retraining, the paired ranking test, the speed robustness rows and the no-simulator index), so none of them is confirmatory; where they overlap, the reviewer's values were reproduced (joint training identically for every fold and draw).
+Its hypotheses were stated before the runs: that joint training beats real-only training for every variant up to 10\,km and stays within 0.02\,m/km of it at 20\,km (\poHoneMeas{} for V0--V8 and \poHoneAll{} with V10), and that retraining below 10\,Hz halves the spread of the sensor variants' levels while dropping the 10--15\,Hz band alone changes it by less than 20\,\% (\blHthreeHolds) and leaves V4 outside their range (\blHthreeBHolds).
+
+\textbf{Evidence classes.}
+C1: fixed before any test result. R: pre-specified re-analysis of routes whose results were already known. E: exploratory diagnostic. S: new controlled simulation with freshly generated test data.
+All real-data results of the main paper except the comparison of V0 with the real-trained estimators are R or E.
+
+\textbf{Deviations in the third analysis round.}
+\begin{itemize}
+\item The no-simulator comparison also reports the three-parameter index fitted to V0 simulated units with a level offset, which reproduces a second-round result (Table~\ref{tab:variants_s_index}); it is not used for any claim.
+\item The band associations were also computed against the motorway-minus-urban level difference; this target was not in the protocol, is kept in the result file and is not used for any claim.
+\end{itemize}
+
+\textbf{Deviations in the second analysis round.}
+\begin{itemize}
+\item V7 and V8 enter the sensor factorial with a random half of their passes (seed 7) to match V1 and V2 in size; decided before running. Results for the full sets are in Table~\ref{tab:variants_s_gbm}.
+\item The pre-specified aliasing check within one telematics unit (TMU\#10) was infeasible: that unit logged at 52.6\,Hz only on M13 and at 333\,Hz only on CPH1 and M3. TMU\#12 on M3 had no common segment $\times$ speed cell either; the check was replaced by an all-unit comparison on common cells, which is confounded with device and mounting.
+\item The keys (segment, task, pass) of the real units are not unique (12 duplicates where a ring-road pass covers a segment twice); earlier predictions are therefore aligned by position and checked against the labels.
+\item Units shorter than one Welch window have no spectrum and are excluded from the spectral cell means.
+\end{itemize}
+
+\textbf{Deviations in the first analysis round.}
+\begin{itemize}
+\item \emph{Robustness experiment.} The first version drew new random passes for every perturbation level; it was re-run with common random numbers (variance reduction). The first version is kept in \path{results/sim/robustness_v1_independent_draws.csv}.
+\item \emph{Compute allocation.} Zero-shot CNNs (three seeds, two simulation sets) and few-shot CNNs were limited before their results were known.
+\item \emph{Seeds.} Neural-net metrics are those of the 5-seed ensemble prediction in the main paper; per-seed means are in \path{results/v2/summary_real_estimators.csv}.
+\item \emph{Sensor statistics.} The telematics configuration of the simulator (55--62\,Hz, 0.01\,g, tilt s.d.\ 6$^\circ$) was set from a preliminary inspection of the unlabelled LiRA-CD files. A complete re-measurement (\path{evaluation/lira_sensor_stats.py}) gives nominal rates of \liraRateLow\,Hz (\liraRateLowShare\,\% of passes) or \liraRateHigh\,Hz, 0.01\,g quantisation in \liraLsbShare\,\% of passes and tilts with median \liraTiltMedian$^\circ$ (maximum \liraTiltMax$^\circ$). V0 was not changed; the matched configurations are the variants V5 and V6.
+\end{itemize}
+
+\textbf{Statements of the first version that were wrong and are corrected.}
+(i) Real-only training was said to need ``about 20\,km'' to match simulation; the comparator was a different simulation set, and the profile budgets were unequal (replaced by the equal-budget design). (ii) A caption called the analysis ``pre-registered''; it was frozen in advance by us, not registered. (iii) ``Sampling rate matters most'' among sensor perturbations; the holder resonance moves the bias more. (iv) The CNN deficit was presented as general; it sits on one route. (v) Transfer was attributed to the breadth of the sensor model; the sensor factorial contradicts this (main paper, Section~\ref{M-sec:res_zero}). (vi) Urban errors were said to be smaller than the disagreement between two profilometers; that disagreement is driven by a heavy tail (Table~\ref{tab:s_aran}), and the comparison was removed.
+
+\textbf{Statements of the second version that were wrong or incomplete and are corrected.}
+(i) V0 was said to match the level ``only because'' half of its passes carried a phone-holder resonance; with the same sensor mixture and one vehicle (V4) the bias is \vvVfourBias\,m/km, so the vehicle population is a second ingredient, and V0's matched pooled level hides a motorway level of \ldVzeroMotorway{} (Section~\ref{M-sec:res_zero}).
+(ii) The bias was said to follow a deficit of simulated vibration at 10--15\,Hz; it also correlates strongly with the 5--10\,Hz and overall-RMS ratios (Table~\ref{tab:s_band_assoc}), and only the removal of every feature with content above 10\,Hz reduces the spread of the sensor variants (Table~\ref{tab:s_band_limited}).
+(iii) With 10\,km or more of paired drives, real drives alone were said to beat the three variants with the largest deficit; this holds for a level offset, not for joint training (Section~\ref{M-sec:res_value}).
+(iv) The untrained statistic was said to rank segments within routes as well as the trained estimators; paired per route, all differences are within \rpAbsMax, but real-trained LightGBM ranks urban segments better and motorway segments slightly worse (Table~\ref{tab:s_rank}).
+(v) The abstract mixed within-route and pooled MAEs, and ``$k$\,km of paired drives'' was not defined with its pass density.
+(vi) A segment-grid bug restricted M7 to \mtMwThirteenOldSeg{} of the \mtMwThirteenNewSeg{} M13 segments (MAE \mtMwThirteenOldMae, now \mtMwThirteenNewMae\,m/km); the other M7 folds change slightly because their transmissibility is fitted on more M13 segments (Table~\ref{tab:s_inv}).
+(vii) The anchor to Bajic et al.\ claimed a ``different profiler''; what differs is the reference survey and its processing (Table~\ref{tab:s_bajic}).
+(viii) The mounting of the telematics unit was called unknown; the dataset article describes it (Section~\ref{M-sec:data}). The P79 survey dates of CPH6 and the ARAN survey dates were misstated (Table~\ref{tab:s_aran}).
+
+\section{The earlier pipeline}
+\label{sec:s_earlier}
+\textbf{Labels.}
+On the \iriValFiles{} LiRA-CD route-directions whose profile and IRI files are consistent, our IRI implementation reproduces the IRI reported by the P79 (an algorithm check: both are computed from the same laser profiles) with $r=$\,\iriValR, bias \iriValBias\,m/km and MAE \iriValMae\,m/km over \iriValN{} segments of 100\,m (Fig.~\ref{fig:s_iri}a).
+For the eighth file (CPH6, direction HH) the reported IRI cannot be aligned with the file's own profile (best $r=$\,\alignBestR{} over shifts of $\pm$3\,km, with or without reversal, against $r=$\,\alignControlR{} at zero shift for two control files); all labels are therefore recomputed from the profiles.
+The IRI routine of the earlier pipeline is also correct (bias \legacyCoreBias\,m/km), but its curvature-adaptive mesh correction is not: applied to the same real profiles, which contain no mesh facets, it lowers the IRI of urban segments by \legacyCorrUrbanMape\,\% on average (bias \legacyCorrUrbanBias\,m/km) and that of motorway segments by \legacyCorrMotorwayMape\,\% (Fig.~\ref{fig:s_iri}b).
+On the BeamNG corpus the correction removes \bngCorrReduction\,\% of the summed IRI (mean \bngIriRawMean{} vs \bngIriCorrMean\,m/km) and changes the condition class of \bngClassChange\,\% of the segments; the earlier labels were a smoothed roughness index, and the uncorrected ray-cast profiles give implausibly high values, so the corpus has no valid IRI label.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{iri_reference_validation.pdf}
+\caption{Label validity on real profiles (LiRA-CD, 100\,m segments, mean of both wheel paths). (a) IRI recomputed from the P79 laser profiles with our implementation vs the IRI reported by the P79. (b) The earlier label pipeline, including the curvature-adaptive mesh correction, applied to the same profiles. (c) A second profilometer (ARAN9000, other survey date) vs the P79; off-scale points are counted in the panel and included in the statistics.}
+\label{fig:s_iri}
+\end{figure}
+
+\textbf{Protocol.}
+The corpus contains \bngTrips{} manually driven trips of \bngCars{} BeamNG.tech vehicles on \bngMaps{} maps; IMU, position and elevation were polled by unsynchronised threads, which produced exact sample-and-hold duplicates in \bngImuDupMin--\bngImuDupMax\,\% of consecutive IMU rows per trip.
+Re-run with non-overlapping 100\,m test segments and the earlier labels, the earlier recipe reaches MAE \bngSthreeLegacyMae\,m/km and Spearman $\rho=$\,\bngSthreeLegacyRho{} with the earlier split, in which early stopping and isotonic calibration use one trip on the test track and two further trips on the same track form the test set; under leave-one-map-out it reaches \bngSoneLegacyMae\,m/km and $\rho=$\,\bngSoneLegacyRho, no better than an MLP on the hand-crafted features (\bngSoneCorrMlpMae\,m/km; Fig.~\ref{fig:s_bng}).
+Without the calibration fitted on the test map, the exponentiated network outputs diverge on a few segments of unseen maps (MAE \bngSoneLegacyUncalMae\,m/km).
+The earlier reporting rule hid the same failure on the earlier split: discarding test predictions above 40\,m/km removed \discardMinN--\discardMaxN{} segments per seed and turned uncalibrated MAEs of up to \discardMaxUnfiltered\,m/km into at most \discardMaxFiltered\,m/km.
+When vehicle and map are both unseen (raw-profile labels), no estimator is substantially better than predicting the training median (MAE \bngStwoConstMae; vibration index \bngStwoPhysMae; LightGBM \bngStwoGbmMae\,m/km).
+The earlier study's asymmetric Huber loss reduces to a scalar before Keras applies sample weights, so its ``two-dimensional inverse-frequency sampling'' did not re-weight individual samples; our re-implementation reproduces this behaviour.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{beamng_protocol.pdf}
+\caption{BeamNG corpus, earlier label definition: $R^2$ on held-out segments under the earlier split (validation and test trips on the same track) and under leave-one-map-out (95\,\% cluster-bootstrap CIs).}
+\label{fig:s_bng}
+\end{figure}
+
+\textbf{Transfer to real cars.}
+Trained on the BeamNG corpus and tested on LiRA-CD with the protocol of the main paper, LightGBM reaches MAE \vvBcorrMae\,m/km with the earlier labels and \vvBrawMae\,m/km with raw-profile labels (within-route $\rho$ \vvBcorrRhoWithin{} and \vvBrawRhoWithin; Table~\ref{tab:variants_s_gbm}); its estimates rise steeply with speed on a fixed road (elasticity \vvBcorrElastPooled{} and \vvBrawElastPooled).
+The three-parameter vibration index trained on the same corpus ranks segments within routes far better ($\rho$ \vvBcorrIdxRhoWithin{} with the earlier labels) but misses the level (MAE \vvBcorrIdxMae\,m/km, bias \vvBcorrIdxBias\,m/km; Table~\ref{tab:variants_s_index}), the same shape-versus-level pattern as the parametric simulator.
+The evaluated BeamNG pipeline did not transfer under this protocol; whether a game engine with measured road profiles and validated labels would transfer was not tested.
+
+\textbf{PVS.}
+On the Passive Vehicular Sensors dataset (no IRI; subjective surface and quality labels), speed separates asphalt from the other surfaces with leave-one-route-out AUC \pvsSurfSpeed{} [\pvsSurfSpeedLo, \pvsSurfSpeedHi] and ``bad'' from ``regular'' windows within cobblestone and dirt with \pvsBadSpeed, whereas the earlier simulation-trained model reaches \pvsBadModel{} [\pvsBadModelLo, \pvsBadModelHi] on the latter task (Table~\ref{tab:s_pvs}).
+The subjective labels are better predicted by how slowly the vehicle was driven than by how much it vibrated, so this dataset cannot validate an IRI estimator.
+
+\input{../tables/tableS_beamng.tex}
+\input{../tables/tableS_pvs_auc.tex}
+
+\section{Simulator}
+\label{sec:s_sim}
+The half-car is discretised exactly under a first-order hold and solved in modal coordinates; the solution deviates by at most \simModalDev{} (relative) from a direct state-space recursion and by \simRkDev{} from a fine-step Runge--Kutta integration.
+The sampled vehicles have body modes at \simBodyHzLo--\simBodyHzHi\,Hz and wheel-hop modes at \simHopHzLo--\simHopHzHi\,Hz.
+Speed is drawn independently of roughness (base speed 20--110\,km/h with Ornstein--Uhlenbeck fluctuations and random braking events).
+Table~\ref{tab:simranges} lists the parameter ranges; the variants and their seeds are listed in \path{evaluation/PROTOCOL_V2.md} and generated by \path{experiments/sim_generate.py}.
+
+\input{../tables/tableS_sim_ranges.tex}
+
+\section{Real cars: additional results}
+\label{sec:s_real}
+Table~\ref{tab:s_routes} gives every estimator per held-out route.
+Table~\ref{tab:s_inference} gives paired differences at four levels of dependence: segment, 1\,km and 5\,km blocks, and routes; Fig.~\ref{fig:s_acf}a shows why segment-level intervals are too narrow.
+Table~\ref{tab:s_vc} decomposes pass-level errors into segment, telematics-unit and residual components.
+Table~\ref{tab:s_unit} gives the unit-disjoint baseline, Table~\ref{tab:s_bajic} the within-road anchor to Bajic et al., Table~\ref{tab:s_passes} the effect of averaging passes on a fixed set of segments, Table~\ref{tab:s_inv} the calibrated quarter-car inversion per fold (with the fitted transmissibility in Fig.~\ref{fig:s_acf}b) and Table~\ref{tab:s_aran} the comparison of the two profilometers.
+Table~\ref{tab:s_rank} tests the within-route ranking of three trained estimators against the untrained statistic RMS$/v^{0.5}$ route by route, and Table~\ref{tab:s_relerr} gives relative errors by road class.
+
+\input{../tables/v2s_routes.tex}
+\input{../tables/v3s_rank.tex}
+\input{../tables/v3s_relerr.tex}
+\input{../tables/v2s_inference.tex}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{v2s_acf_transmissibility.pdf}
+\caption{(a) Autocorrelation of segment-level log errors along the road, by lag. (b) Empirical transmissibility of the real car (acceleration spectrum divided by the road displacement spectrum at the pass speed; training routes of each fold) and the fitted quarter car used by M7.}
+\label{fig:s_acf}
+\end{figure}
+
+\input{../tables/v2s_vc.tex}
+\input{../tables/v2s_unit.tex}
+\input{../tables/v2s_bajic.tex}
+\input{../tables/v2s_passes.tex}
+\input{../tables/v2s_inv.tex}
+\input{../tables/v2s_aran.tex}
+
+\section{Simulator variants: additional results}
+\label{sec:s_variants}
+Tables~\ref{tab:variants_s_gbm} and~\ref{tab:variants_s_index} list all variants for LightGBM and for the vibration index trained in simulation, including the full V7 and V8 sets and the BeamNG corpus.
+Fig.~\ref{fig:s_scatter} shows segment-level predictions of the real-trained model and of three variants.
+Table~\ref{tab:s_value_variants} compares every measured-profile variant with real-only training on the same $k$\,km, draw by draw, for the equal-budget design and the level offset, and Table~\ref{tab:s_value_more} for the affine map and joint training.
+Table~\ref{tab:s_calib_unc} gives intervals over the test routes for the level offset and joint training at 5 and 20\,km, Table~\ref{tab:s_pass_density} the effect of keeping fewer passes per segment of the paired road, and Table~\ref{tab:s_v1_fewshot} the value-of-simulation arms of our first analysis round, including the first joint-training results.
+
+\input{../tables/v2s_variants_gbm.tex}
+\input{../tables/v2s_variants_index.tex}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{v2s_scatter.pdf}
+\caption{Predicted vs P79 IRI on the held-out routes (segment means; circles urban, triangles motorway; log axes): LightGBM trained on real cars and trained only on simulator variants V0, V1 and V2.}
+\label{fig:s_scatter}
+\end{figure}
+
+\input{../tables/v2s_value_variants.tex}
+\input{../tables/v3s_value_more.tex}
+\input{../tables/v3s_calib_unc.tex}
+\input{../tables/v3s_pass_density.tex}
+\input{../tables/v3s_v1_fewshot.tex}
+
+\section{Spectra and speed: additional results}
+\label{sec:s_spectra}
+Table~\ref{tab:s_spectra} gives the band means of the spectral differences in Fig.~\ref{M-fig:spectra}a, Table~\ref{tab:s_gap} the 10--15\,Hz ratio by road class and the speed scaling of raw vibration in simulation and reality, Table~\ref{tab:s_band_assoc} the association of every band's amplitude ratio with the zero-shot bias and level, Table~\ref{tab:s_band_limited} the band-limited retraining, Fig.~\ref{fig:speed} and Table~\ref{tab:s_speed} the fixed-road speed elasticities of all estimators with paired differences to the real-trained estimators, and Table~\ref{tab:s_speed_rob} their robustness to unit fixed effects and to the within-pass speed variability.
+In the 333\,Hz passes, \hfTenTwenty\,\% of the vibration energy above 0.3\,Hz lies at 10--20\,Hz, \hfAboveTwenty\,\% above 20\,Hz and \hfAboveNyq\,\% above the 26.3\,Hz Nyquist frequency of the slower logging (medians over \hfUnits{} units).
+
+\input{../tables/v2s_spectra.tex}
+\input{../tables/v2s_gap.tex}
+\input{../tables/v3s_band_assoc.tex}
+\input{../tables/v3s_band_limited.tex}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{v2_speed.pdf}
+\caption{Speed elasticity of each estimate on a fixed real road (slope of log estimate on log speed with segment fixed effects; 95\,\% intervals from a 1\,km-block bootstrap; urban and motorway segments). Grey band: $\pm$10\,\% change between 40 and 100\,km/h. Top row: raw vibration RMS of the real car (main paper, Section~\ref{M-sec:res_speed}).}
+\label{fig:speed}
+\end{figure}
+
+\input{../tables/v2s_speed.tex}
+\input{../tables/v3s_speed_rob.tex}
+
+\section{Controlled simulation: other vehicles and sensors}
+\label{sec:s_controlled}
+LiRA-CD contains one car model, so transfer to other vehicles was examined only in simulation (class S, freshly simulated test data; Table~\ref{tab:general}, Fig.~\ref{fig:vehicles}).
+With the amount of training data fixed at 1,200 passes, the MAE on 30 unseen vehicles exceeds that on the training vehicles by \vsThreeRel\,\% with 3 training vehicles, \vsThirtyRel\,\% with 30 (the number used in V0) and \vsHundredRel\,\% with 100.
+The criterion of our earlier study (upper bound $\le$10\,\%) is met from 100 vehicles with a segment bootstrap but not with a route bootstrap (upper bounds \vsHundredRelHiRoute{} and \vsThreeHundredRelHiRoute\,\% for 100 and 300 vehicles).
+The gap closes from both sides: the error on unseen vehicles falls (\vsThreeUnseen{} to \vsHundredUnseen\,m/km from 3 to 100 vehicles) and the error on training vehicles rises as each gets fewer passes (\vsThreeSeen{} to \vsHundredSeen\,m/km).
+At $N=30$, a vehicle's error is only weakly related to its parameter distance from the nearest training vehicle (Spearman \vsDistRho{} over 30 vehicles).
+Sensor perturbations at test time (Table~\ref{tab:general}, right) reproduce in simulation what the variants showed on the real car: the sensor path moves the level.
+A holder resonance at 15\,Hz turns a bias of \rbvGbmBiasMountRigid{} into \rbvGbmBiasMountFifteen\,m/km; 25\,Hz sampling and a speed error of $+$20\,\% are the most harmful perturbations (MAE \rbvGbmMaeRateTwentyFive{} and \rbvGbmMaeSpeedPlus\,m/km), white noise, tilt and lost samples the least.
+Table~\ref{tab:generalisation} lists the controlled tests of our first analysis round (unseen vehicles, sensors and speeds on synthetic routes), and Fig.~\ref{fig:s_robust} the sensor-robustness experiment summarised in Table~\ref{tab:general}.
+
+\input{../tables/v2_general.tex}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{v2_vehicles.pdf}
+\caption{Number of training vehicles at a fixed 1,200 training passes (simulation only). Left: MAE on seen and unseen vehicles. Right: relative increase from seen to unseen vehicles with 95\,\% interval (segment bootstrap) and the upper bound of a route bootstrap; dashed: 10\,\% criterion.}
+\label{fig:vehicles}
+\end{figure}
+
+\input{../tables/table5_generalisation.tex}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{robustness.pdf}
+\caption{Sensor robustness in simulation: estimators trained on synthetic profiles, evaluated on 12 held-out synthetic routes driven by 6 unseen vehicles with the telematics sensor configuration; one property changed at a time (common random numbers).}
+\label{fig:s_robust}
+\end{figure}
+
+\section{Reproduction}
+\label{sec:s_repro}
+Every number in the paper and this supplement is a LaTeX macro generated from the result files (\path{make_numbers.py}, \path{make_numbers_v2.py}, \path{make_numbers_v3.py}); tables and figures are generated by \path{make_tables.py}, \path{make_tables_v2.py}, \path{make_tables_v3.py}, \path{make_figures.py}, \path{make_figures_v2.py} and \path{make_figures_v3.py}.
+The complete pipeline, including the second and third analysis rounds, is \path{run_all_experiments.py}; the third round alone (with the M7 fix) is
+\begin{verbatim}
+python run_all_experiments.py --force --only v2_physics_inversion v2_summarise \
+    v2_numbers v2_tables v3_pooled v3_pooled_merge v3_calib_uncertainty \
+    v3_band_limited v3_level_and_bands v3_rank_paired v3_speed_robustness \
+    v3_nosim_index v3_pass_density v3_numbers v3_tables v3_figures bib_cited paper
+\end{verbatim}
+\path{README.md} lists the commands, the pinned environment (\path{environment_lock.txt}), seeds, runtimes and the provenance of every headline number.
+\end{document}

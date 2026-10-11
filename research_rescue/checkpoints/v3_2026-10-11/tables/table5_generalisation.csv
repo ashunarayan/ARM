@@ -1,0 +1,47 @@
+test,model,result,criterion_met
+unseen vehicles (random split),M2a RMS only (alpha=0),"MAE seen 1.365 -> unseen 1.435; diff +0.070 [+0.022, +0.120]",True
+unseen vehicles (random split),M2b RMS/v^0.5,"MAE seen 1.066 -> unseen 1.201; diff +0.135 [+0.097, +0.177]",False
+unseen vehicles (random split),M2c RMS/v^alpha (alpha fitted),"MAE seen 1.042 -> unseen 1.200; diff +0.158 [+0.117, +0.204]",False
+unseen vehicles (random split),M2d legacy exponent 2,"MAE seen 2.139 -> unseen 2.097; diff -0.042 [-0.110, +0.025]",True
+unseen vehicles (random split),M3 LightGBM,"MAE seen 0.742 -> unseen 0.884; diff +0.142 [+0.113, +0.176]",False
+unseen vehicles (random split),M3 LightGBM (no speed),"MAE seen 1.025 -> unseen 1.036; diff +0.011 [-0.026, +0.049]",True
+unseen vehicles (random split),M5 1D-CNN,"MAE seen 0.809 -> unseen 1.004; diff +0.195 [+0.167, +0.224]",False
+unseen vehicles (random split),M5 1D-CNN (no speed),"MAE seen 1.137 -> unseen 1.358; diff +0.222 [+0.188, +0.256]",False
+vehicle extrapolation (f_s > 1.25 Hz unseen),M2a RMS only (alpha=0),"MAE low-f_s 1.669 vs high-f_s 1.423; diff -0.246 [-0.332, -0.161]",True
+vehicle extrapolation (f_s > 1.25 Hz unseen),M2b RMS/v^0.5,"MAE low-f_s 1.431 vs high-f_s 1.018; diff -0.413 [-0.513, -0.314]",True
+vehicle extrapolation (f_s > 1.25 Hz unseen),M2c RMS/v^alpha (alpha fitted),"MAE low-f_s 1.407 vs high-f_s 0.971; diff -0.437 [-0.531, -0.345]",True
+vehicle extrapolation (f_s > 1.25 Hz unseen),M2d legacy exponent 2,"MAE low-f_s 2.270 vs high-f_s 2.141; diff -0.128 [-0.219, -0.039]",True
+vehicle extrapolation (f_s > 1.25 Hz unseen),M3 LightGBM,"MAE low-f_s 0.819 vs high-f_s 1.285; diff +0.466 [+0.416, +0.515]",False
+vehicle extrapolation (f_s > 1.25 Hz unseen),M3 LightGBM (no speed),"MAE low-f_s 1.082 vs high-f_s 1.487; diff +0.405 [+0.349, +0.464]",False
+vehicle extrapolation (f_s > 1.25 Hz unseen),M5 1D-CNN,"MAE low-f_s 0.782 vs high-f_s 1.261; diff +0.478 [+0.377, +0.589]",False
+vehicle extrapolation (f_s > 1.25 Hz unseen),M5 1D-CNN (no speed),"MAE low-f_s 1.058 vs high-f_s 1.082; diff +0.024 [-0.038, +0.080]",True
+BeamNG: vehicle held out (S2 vs S1),M0 constant (training median),"MAE seen 7.60 -> unseen 7.60; diff +0.00 [-0.00, +0.01]",True
+BeamNG: vehicle held out (S2 vs S1),M1 speed-only (LightGBM on speed features),"MAE seen 7.49 -> unseen 7.61; diff +0.12 [+0.00, +0.23]",True
+BeamNG: vehicle held out (S2 vs S1),M2a RMS only (alpha=0),"MAE seen 6.68 -> unseen 7.27; diff +0.59 [+0.43, +0.73]",False
+BeamNG: vehicle held out (S2 vs S1),M2b RMS/v^0.5,"MAE seen 6.36 -> unseen 6.88; diff +0.52 [+0.37, +0.66]",False
+BeamNG: vehicle held out (S2 vs S1),M2c RMS/v^alpha (alpha fitted on training data),"MAE seen 6.34 -> unseen 6.88; diff +0.54 [+0.40, +0.69]",False
+BeamNG: vehicle held out (S2 vs S1),"M2d RMS*(v_ref/v)^2 (legacy exponent, gravity removed)","MAE seen 6.50 -> unseen 6.70; diff +0.20 [+0.11, +0.29]",True
+BeamNG: vehicle held out (S2 vs S1),M3 LightGBM (all features),"MAE seen 6.02 -> unseen 7.25; diff +1.24 [+0.96, +1.51]",False
+BeamNG: vehicle held out (S2 vs S1),M3 LightGBM (no speed features),"MAE seen 6.01 -> unseen 7.39; diff +1.37 [+1.10, +1.64]",False
+BeamNG: vehicle held out (S2 vs S1),M5 1D-CNN,"MAE seen 8.63 -> unseen 10.95; diff +2.32 [+1.78, +2.88]",False
+speed 40->100 km/h (sweep_iso),M2a RMS only (alpha=0),"rel. change +63.3% [+60.8, +65.5]",False
+speed 40->100 km/h (sweep_iso),M2b RMS/v^0.5,"rel. change +13.7% [+11.8, +15.4]",False
+speed 40->100 km/h (sweep_iso),M2c RMS/v^alpha (alpha fitted),"rel. change +3.1% [+1.4, +4.7]",True
+speed 40->100 km/h (sweep_iso),M2d legacy exponent 2,"rel. change -52.0% [-52.5, -51.5]",False
+speed 40->100 km/h (sweep_iso),M3 LightGBM,"rel. change +0.6% [-1.1, +2.5]",True
+speed 40->100 km/h (sweep_iso),M3 LightGBM (no speed),"rel. change +35.7% [+31.9, +38.4]",False
+speed 40->100 km/h (sweep_iso),M5 1D-CNN,"rel. change -4.4% [-5.9, -2.5]",True
+speed 40->100 km/h (sweep_iso),M5 1D-CNN (no speed),"rel. change +22.1% [+19.9, +24.2]",False
+speed 40->100 km/h (sweep_iso),"raw RMS of a_z (no model, not an IRI)","rel. change +82.5% [+79.1, +85.4]",False
+speed 40->100 km/h (sweep_p79),M2a RMS only (alpha=0),"rel. change +166.7% [+158.7, +171.4]",False
+speed 40->100 km/h (sweep_p79),M2b RMS/v^0.5,"rel. change +96.1% [+89.7, +99.9]",False
+speed 40->100 km/h (sweep_p79),M2c RMS/v^alpha (alpha fitted),"rel. change +78.3% [+72.5, +81.8]",False
+speed 40->100 km/h (sweep_p79),M2d legacy exponent 2,"rel. change -32.0% [-33.5, -31.1]",False
+speed 40->100 km/h (sweep_p79),M3 LightGBM,"rel. change +60.2% [+50.4, +67.7]",False
+speed 40->100 km/h (sweep_p79),M3 LightGBM (no speed),"rel. change +92.2% [+62.2, +117.4]",False
+speed 40->100 km/h (sweep_p79),M5 1D-CNN,"rel. change +25.2% [+22.5, +27.4]",False
+speed 40->100 km/h (sweep_p79),M5 1D-CNN (no speed),"rel. change +73.1% [+47.9, +94.2]",False
+speed 40->100 km/h (sweep_p79),"raw RMS of a_z (no model, not an IRI)","rel. change +235.0% [+223.2, +242.3]",False
+speed 40->100 km/h (sweep_p79_trained_on_p79 (LORO)),M2c RMS/v^alpha (alpha fitted),"rel. change +7.4% [+5.2, +10.0]",False
+speed 40->100 km/h (sweep_p79_trained_on_p79 (LORO)),M3 LightGBM,"rel. change -0.9% [-4.0, +2.0]",True
+speed 40->100 km/h (sweep_p79_trained_on_p79 (LORO)),M3 LightGBM (no speed),"rel. change +35.6% [+16.7, +51.4]",False
