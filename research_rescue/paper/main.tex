@@ -50,10 +50,10 @@ International Roughness Index, road roughness, vehicle vibration, connected vehi
 
 \section{Conclusion}
 \label{sec:conclusion}
-Simulated drives over measured road profiles taught gradient boosting to rank the road segments of a real car about as well as real drives did, under every sensor and vehicle model we tried, but an untrained vibration statistic ranks them nearly as well; the informative test is the level.
-The simulated level was not reliable: it depended on the simulated sensor path, through the features carrying vibration above 10\,Hz, and on the simulated vehicle population, and the simulated vibration grew faster with speed than the real car's.
-With 5\,km of profiled road and its paired drives, simulation over all profiled roads beat training on those drives alone for every simulator variant, through a level offset or joint training and even with one pass per segment; with 20\,km, joint training kept a small advantage for every variant, whereas the level offset lost it for the variants with the largest vibration deficit at 10--15\,Hz.
-For a new car type this suggests simulating over profiled roads and training jointly with a few kilometres of paired drives, using a level offset only when the simulated and real spectra, and the class levels after calibration, agree.
+Simulated drives over measured road profiles taught gradient boosting to rank a real car's road segments about as well as real drives did under every sensor and vehicle model we tried, but an untrained vibration statistic ranks them nearly as well; the informative test is the level.
+The simulated level was not reliable: it depended on the simulated sensor path, through the features carrying vibration above 10\,Hz, and on the vehicle population, and simulated vibration grew faster with speed than the real car's.
+With 5\,km of profiled road and its paired drives, simulation over all profiled roads beat training on those drives alone for every variant, by a level offset or joint training and even with one pass per segment; with 20\,km, joint training kept a small advantage for every variant, the level offset not for the variants with the largest vibration deficit at 10--15\,Hz.
+For a new car type this suggests simulating over profiled roads and training jointly with a few kilometres of paired drives, with a level offset only when simulated and real spectra and the calibrated class levels agree.
 Whether this holds for other vehicles, sensors and road networks requires new paired data, ideally collected after freezing the simulator.
 
 \input{references_cited.tex}

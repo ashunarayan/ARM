@@ -48,7 +48,7 @@ def t_real():
               ("Learned on simulation only (zero-shot)", [("V0 LightGBM, measured profiles", "Sim V0 LightGBM (zero-shot)"),
                                                           ("V10 LightGBM, measured + synthetic", "Sim V10 LightGBM (zero-shot)")])]
     L = [r"\begin{table*}[t]", r"\centering",
-         r"\caption{Real cars (LiRA-CD), leave-one-route-out, 100\,m segments. Within-route metrics are computed per held-out route and averaged over the four routes; ``partial $\rho$'': Spearman correlation with IRI given segment mean speed. $\Delta$MAE: paired difference to the real-trained LightGBM with a 95\,\% cluster-bootstrap interval over 5\,km blocks (40 clusters); ``routes'': number of held-out routes on which the estimator is better. Neural nets: 5-seed ensembles.}",
+         r"\caption{Real cars (LiRA-CD), leave-one-route-out, 100\,m segments. Within-route metrics and partial $\rho$ as defined in Section~\ref{sec:method}. $\Delta$MAE: paired difference to the real-trained LightGBM with a 95\,\% cluster-bootstrap interval over 5\,km blocks (40 clusters); ``routes'': number of held-out routes on which the estimator is better. Neural nets: 5-seed ensembles.}",
          r"\label{tab:real}", r"\setlength{\tabcolsep}{4pt}", r"\footnotesize",
          r"\begin{tabular}{@{}lcccccrc@{}}", r"\toprule",
          r"Estimator & \multicolumn{3}{c}{Within route} & \multicolumn{2}{c}{Pooled} & $\Delta$MAE vs M3 & Routes \\",

@@ -2,8 +2,8 @@
 \begin{figure*}[t]
 \centering
 \begin{tikzpicture}[
-  font=\scriptsize, node distance=2mm and 4mm,
-  box/.style={draw=black!55, rounded corners=1.5pt, align=center, inner sep=2pt, minimum height=6mm, fill=white},
+  font=\scriptsize, node distance=1.5mm and 4mm,
+  box/.style={draw=black!55, rounded corners=1.5pt, align=center, inner sep=1.6pt, minimum height=5mm, fill=white},
   real/.style={box, fill=blue!6}, sim/.style={box, fill=orange!8}, lab/.style={box, fill=green!7},
   arr/.style={-{Stealth[length=1.6mm]}, draw=black!60, line width=0.5pt}]
 % reference labels (left column)
@@ -16,8 +16,10 @@
 % simulation (right column)
 \node[sim, minimum width=46mm, right=10mm of car] (prof) {Profiles of the training routes only:\\measured P79 or ISO-8608-type synthetic};
 \node[sim, minimum width=46mm, below=of prof] (veh) {Half-car, random vehicles, sensor model;\\V0 fixed in advance, V1--V10 vary one part};
-% shared part
-\node[box, minimum width=98mm, below=6mm of $(mm.south)!0.5!(veh.south)$] (pre) {Identical preprocessing for real and simulated data: 20\,Hz low-pass, 50\,Hz, gravity alignment, 0.3\,Hz high-pass $\rightarrow$ 100\,m units};
+% shared part: anchored to the right of the left (label) column so that the wide boxes cannot overlap it
+\coordinate (mid) at ($(mm.south)!0.5!(veh.south)$);
+\coordinate (sharedNW) at (lab100.east |- mid);
+\node[box, minimum width=98mm, anchor=north west] (pre) at ([xshift=4mm, yshift=-3mm]sharedNW) {Identical preprocessing for real and simulated data: 20\,Hz low-pass, 50\,Hz, gravity alignment, 0.3\,Hz high-pass $\rightarrow$ 100\,m units};
 \node[box, minimum width=98mm, below=of pre] (models) {Estimators: map and speed baselines, vibration index, quarter-car inversion, LightGBM, MLP, 1D-CNN\\trained on real cars, on simulation only, or on simulation combined with $k$\,km of paired real drives\\(level offset, affine map or joint training)};
 \node[box, minimum width=98mm, below=of models, fill=black!4] (eval) {Leave-one-route-out on real cars: ranking (within-route $\rho$), level by road class, speed on a fixed road;\\5\,km-block bootstrap; equal-budget comparison; real vs simulated spectra on the same segments; band-limited retraining};
 % arrows
@@ -33,6 +35,6 @@
 \draw[arr] (models) -- (eval);
 \draw[arr] (lab100.south) |- (eval.west);
 \end{tikzpicture}
-\caption{Study design. Labels are recomputed from the P79 profilometer's laser profiles with an IRI implementation validated against the profilometer's own output; simulated units are labelled with the same code. Real and simulated vibration go through identical preprocessing, and every estimator is evaluated on real routes it never saw; simulated drives never use the profile of the test route.}
+\caption{Study design. Real and simulated units are labelled by the same IRI code, validated against the profilometer's own output, and preprocessed identically; every estimator is evaluated on real routes it never saw, and simulated drives never use the profile of the test route.}
 \label{fig:pipeline}
 \end{figure*}

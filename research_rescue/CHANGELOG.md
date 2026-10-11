@@ -235,3 +235,17 @@ No experiment was rerun, no protocol, split, metric or result changed. Checkpoin
 - Pipeline: `run_all_experiments.py` steps `v3_rank_scope` and `final_verify`; new `evaluation/verify_final.py`
   (14 checks -> `results/v3/verification_final.json`); supplement S8 command list includes `v3_rank_scope`.
 - Display: values that round to zero print as +0.000 in the new Table S5 panel.
+
+## 2026-10-11 (layout: main paper back to 10 pages; Fig. 1 overlap)
+
+No result, claim, number value, table body or figure image changed. Details in `FINAL_SUBMISSION_REPORT.md` §8.
+
+- Fig. 1: the shared "Identical preprocessing" / estimators / evaluation boxes are anchored right of the label column
+  (they overlapped the green "Label" box); spacing slightly reduced; caption shortened.
+- Main paper 11 -> 10 pages: correction sentences tightened; wording that duplicated content stated elsewhere in the
+  paper removed (Method joint-training history, Sec. V-D pass count, Discussion V4/V0 numbers, Limitations M7 note,
+  Data-section legacy-pipeline percentages, which stay in Supplement S2); figure captions no longer repeat the
+  legends; table captions refer to the Method's definitions (`make_tables_v2.py`, `make_tables_v3.py`); intro, contribution
+  list and Conclusion tightened; LightGBM reference shortened to "et al." (more than six authors, as for every other
+  entry; `references/build_bib.py`, `references/references.tex`).
+- `evaluation/verify_final.py`: expected phrasings updated; new check "main paper within 10 pages" (15 checks).

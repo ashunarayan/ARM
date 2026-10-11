@@ -105,11 +105,13 @@ gone = ["every trained estimator", "provided with the paper", "when real trainin
         "over-correct less on urban roads", "all differences are within", "validated them on a probe vehicle against an inertial profilometer"]
 hits = {g: [f for f, t in TXT.items() if g in t] for g in gone}
 check("superseded wording absent", not any(hits.values()), hits={k: v for k, v in hits.items() if v})
-need = {"paper/sections/discussion.tex": ["though not of every estimator", "could not be separated from within-pass speed variability"],
-        "paper/sections/method.tex": ["uses the first configuration", "mean of the levels of its two routes", "which use 1\\,km blocks",
+need = {"paper/sections/discussion.tex": ["though not of M2c, LightGBM without speed inputs or the speed-only model",
+                                       "could not be separated from within-pass speed variability"],
+        "paper/sections/method.tex": ["use the first configuration", "mean of the levels of its two routes",
+                                      "except for single-estimator speed elasticities and spectra (1\\,km)",
                                       "not registered publicly"],
         "paper/sections/intro.tex": ["We will release the code"],
-        "paper/sections/results.tex": ["intervals of single elasticities from 1\\,km blocks", "so this advantage is not established"],
+        "paper/sections/results.tex": ["1\\,km-block intervals for single elasticities", "so it is not established"],
         "paper/sections/related.tex": ["according to Bajic et al."],
         "paper/supplementary.tex": ["not yet public", "not registered publicly"],
         "tables/v3_variants.tex": ["averaged over the two routes of a road class"]}
@@ -130,6 +132,8 @@ for d, p in pdfs.items():
     R = PdfReader(p)
     text = "".join(pg.extract_text() or "" for pg in R.pages)
     check(f"{d}.pdf: clean log and no '??'", not bad and "??" not in text, pages=len(R.pages), log_problems=bad)
+    if d == "main":
+        check("main paper within 10 pages", len(R.pages) <= 10, pages=len(R.pages))
 
 # ---------------------------------------------------------------- 5. integrity
 check("PROTOCOL_V3.md unchanged (frozen hash)",

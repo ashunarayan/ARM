@@ -121,7 +121,7 @@ python research_rescue/make_final_results_v3.py                      # headline 
 python research_rescue/paper/make_bib_cited.py
 cd research_rescue/paper && pdflatex supplementary.tex && pdflatex main.tex && pdflatex supplementary.tex && pdflatex main.tex && cd ../..
 python research_rescue/evaluation/verify_v3.py                       # 25 independent checks -> results/v3/verification_v3.json
-python research_rescue/evaluation/verify_final.py                    # 14 checks of the final corrections -> results/v3/verification_final.json
+python research_rescue/evaluation/verify_final.py                    # 15 checks of the final corrections -> results/v3/verification_final.json
 ```
 
 `make_numbers_v3.py` asserts that the joint-training arm reproduces the reviewer's check c4 (within 0.0025 m/km), that
@@ -165,5 +165,5 @@ v3 analyses a few minutes each; numbers, tables, figures and the two LaTeX passe
 Nothing has been committed to git; committing (with tags at the protocol-freeze points) and publishing the code and
 the BeamNG corpus are the authors' decisions. Before submission a human should read the primary articles that are
 cited at title level or through a secondary description (`references/REFERENCE_AUDIT.md` §E) and confirm the target
-venue's page limit (main paper: 11 pages after the final corrections, supplement 18). New paired data (another car, sensor or city) are needed for any
+venue's page limit (main paper: 10 pages, supplement 18). New paired data (another car, sensor or city) are needed for any
 external-validity claim.

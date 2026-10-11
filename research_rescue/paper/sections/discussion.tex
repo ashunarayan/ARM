@@ -2,19 +2,18 @@
 \label{sec:discussion}
 
 \textbf{What simulated drives over measured profiles provide.}
-Ranking segments within a route turned out to be the easy part: an untrained, speed-normalised vibration RMS comes within \rpAbsMax{} on every route of real-trained LightGBM, the MLP, the CNN, the quarter-car inversion M7 and simulation-trained LightGBM under every variant, though not of every estimator: the vibration index M2c, LightGBM without speed inputs and the speed-only model rank some route worse than it, by up to \rkIdxGapMax, \rkNoSpeedGapMax{} and \rkSpeedOnlyGapMax{} (Table~\ref{S-tab:s_rank}).
+Ranking segments within a route turned out to be the easy part: an untrained, speed-normalised vibration RMS comes within \rpAbsMax{} on every route of real-trained LightGBM, the MLP, the CNN, M7 and simulation-trained LightGBM under every variant, though not of M2c, LightGBM without speed inputs or the speed-only model ($\rho$ up to \rkIdxGapMax, \rkNoSpeedGapMax{} and \rkSpeedOnlyGapMax{} lower; Table~\ref{S-tab:s_rank}).
 Simulation supplied the mapping from vibration to IRI up to a level that depended on two simulator choices, the sensor path, whose effect reached the estimator through the features carrying vibration above 10\,Hz, and the vehicle population; no variant was built to reproduce the absolute gain of this car's vibration path.
-For a road agency this suggests simulating the car type over roads it has already profiled and combining the simulation with a few kilometres of paired drives, which in our data did not need more than one pass per segment.
+For a road agency this suggests simulating the car type over roads it has already profiled and combining it with a few kilometres of paired drives, which in our data needed no more than one pass per segment.
 At 5\,km, a level offset was the most accurate combination for the six variants whose level error differed least between road classes, but it fell behind real drives alone from 10\,km for the other three; joint training on simulated and paired passes was better than real-only training on average for every variant and every $k$ we tested, though not on every route and draw, and depended little on the variant from 5\,km on, which makes it the safer choice when the simulator's fidelity is unknown.
 Comparing the class levels after calibration, and the real and simulated spectra of the calibration roads, shows which case applies, although the spectral association was found after the fact on nine non-independent variants.
 
 \textbf{A correction to our earlier explanations.}
-Our first version attributed the transfer of V0 to the breadth of its sensor model, our second to the holder resonance in half of its passes.
-Neither is sufficient: with the same sensor mixture and one vehicle instead of 30 (V4) the bias is \vvVfourBias\,m/km, and V0's matched pooled level hides a motorway over-prediction of about \ldVzeroPctMotorwayAbs\,\%.
+Our first version attributed the transfer of V0 to the breadth of its sensor model, our second to the holder resonance in half of its passes; neither is sufficient, given V4 and V0's motorway level (Section~\ref{sec:res_zero}).
 V0's zero-shot accuracy is a fortunate combination of simulator choices, not a property of randomising over sensors or vehicles, and we do not report it as evidence that a simulator can be used without real data.
 
 \textbf{Speed.}
-Smooth roads are driven fast, so estimators trained on real cars can use speed as a cue for low roughness, which is consistent with their over-correction on a fixed road; simulation-trained estimators, whose training speeds are independent of roughness, over-corrected less on urban roads in our main design, but on urban roads speed could not be separated from within-pass speed variability (with the speed coefficient of variation as a covariate the difference changed sign, and with the speed SD as a covariate the interval of the real-trained urban elasticity included zero).
+Smooth roads are driven fast, so estimators trained on real cars can use speed as a cue for low roughness, consistent with their over-correction on a fixed road; simulation-trained estimators, whose training speeds are independent of roughness, over-corrected less on urban roads, but not robustly, because there speed could not be separated from within-pass speed variability (Section~\ref{sec:res_speed}).
 We recommend reporting such fixed-road elasticities from repeated passes, with the within-pass speed variability as a control, instead of speed sweeps in simulation alone.
 
 \textbf{Statistics and reference.}
@@ -34,4 +33,4 @@ We compared three ways of combining simulated and real data with one learner and
 \emph{Simulator.}
 The simulator is a linear half-car without roll or body flexibility, driven by the mean of the two wheel-path profiles, with parameter ranges for sensitivity rather than a calibrated fleet; its vibration differs from the real car's at 2--5\,Hz and above 10\,Hz and in its speed scaling.
 \emph{Other.}
-M7 is not a reproduction of~\cite{skar2024inversion} and the CNN is the architecture of our earlier study without tuning; the reference surveys preceded the car passes by two to fifteen months, segments are 100\,m long, and we did not train on real data from several cities.
+The CNN is the architecture of our earlier study without tuning; the reference surveys preceded the car passes by two to fifteen months, segments are 100\,m long, and we did not train on real data from several cities.

@@ -51,8 +51,13 @@
  {
   "check": "main.pdf: clean log and no '??'",
   "ok": true,
-  "pages": 11,
+  "pages": 10,
   "log_problems": []
+ },
+ {
+  "check": "main paper within 10 pages",
+  "ok": true,
+  "pages": 10
  },
  {
   "check": "supplementary.pdf: clean log and no '??'",

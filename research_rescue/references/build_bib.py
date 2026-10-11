@@ -67,7 +67,7 @@ MANUAL = {
     "gillespie1992": "T. D. Gillespie, \\emph{Fundamentals of Vehicle Dynamics}. Warrendale, PA: Society of Automotive Engineers, 1992.",
     "fhwa490": "U.S. Federal Highway Administration, ``National Performance Management Measures; Assessing Pavement Condition,'' 23 CFR Part 490, Subpart C, \\S\\,490.313 (IRI condition thresholds).",
     "beamng": "BeamNG GmbH, ``BeamNG.tech documentation,'' 2024. [Online]. Available: \\url{https://documentation.beamng.com/beamng_tech/}",
-    "ke2017lightgbm": "G. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, Q. Ye, and T.-Y. Liu, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \\emph{Advances in Neural Information Processing Systems 30}, 2017, pp. 3146--3154.",
+    "ke2017lightgbm": "G. Ke \\emph{et al.}, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \\emph{Advances in Neural Information Processing Systems 30}, 2017, pp. 3146--3154.",
     "sayers1995iri": "M. W. Sayers, ``On the calculation of International Roughness Index from longitudinal road profile,'' \\emph{Transportation Research Record}, no.~1501, pp.~1--12, 1995.",
     "holm1979": "S. Holm, ``A simple sequentially rejective multiple test procedure,'' \\emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp.~65--70, 1979.",
     "bajic2021ml": "M. Bajic, S. M. Pour, A. Skar, M. Pettinari, E. Levenberg, and T. S. Alstr{\\o}m, ``Road roughness estimation using machine learning,'' arXiv:2107.01199, 2021.",

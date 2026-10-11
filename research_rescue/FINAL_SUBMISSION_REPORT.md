@@ -24,11 +24,11 @@ existing result changed. The audit report is unchanged (SHA-256 identical to its
 
 | # | Audit issue | Resolution | Evidence | Status |
 |---|---|---|---|---|
-| B1 | Discussion: untrained RMS/v^0.5 "within 0.05 of every trained estimator we tested" (false for M2c, LightGBM without speed inputs and the speed-only model) | Narrowed to real-trained LightGBM, MLP, CNN, M7 and simulation-trained LightGBM under every variant; the three exceptions are named with their largest gaps (0.10, 0.18, 0.72). Results V-B adds the other variants, MLP, CNN and M7 as point estimates (largest gap over V0-V8 0.038). Supplement S1 (iv) and the S4 text aligned. The per-route values existed in result files but were not printed; they are now Table S5 (bottom panel), from the new read-only script `experiments/v3/rank_scope.py`. | `results/v3/rank_scope.csv`; agrees with `rank_paired.csv` to 1e-6 (asserted) and with a re-derivation from the saved predictions to 2e-16 (`verify_final.py`) | Resolved |
+| B1 | Discussion: untrained RMS/v^0.5 "within 0.05 of every trained estimator we tested" (false for M2c, LightGBM without speed inputs and the speed-only model) | Narrowed to real-trained LightGBM, MLP, CNN, M7 and simulation-trained LightGBM under every variant; the three exceptions are named with their largest gaps (0.10, 0.18, 0.72). Results V-B adds the other variants, MLP, CNN and M7 as point estimates (largest gap over V0-V8 0.038, shown in Table S5). Supplement S1 (iv) and the S4 text aligned. The per-route values existed in result files but were not printed; they are now Table S5 (bottom panel), from the new read-only script `experiments/v3/rank_scope.py`. | `results/v3/rank_scope.csv`; agrees with `rank_paired.csv` to 1e-6 (asserted) and with a re-derivation from the saved predictions to 2e-16 (`verify_final.py`) | Resolved |
 | B2 | Method: LightGBM configuration "chosen by inner leave-one-route-out validation when real training routes are available" | Now states the implementation: inner selection only for LightGBM trained on whole real training routes (M1, M3, unit-disjoint check); every other LightGBM, including the simulation-trained models, the k-km real-only comparator and joint training, uses the first configuration. | Code: `exp_lira.part_ladder`, `real_baselines_v2.gbm_inner` (inner selection); `value_of_simulation.py`, `pooled_vs_real.py`, `simreal_variants.py`, Bajic anchor (first configuration). The audit showed that the choice does not change the comparisons (first configuration best or tied). | Resolved |
 | B3 | Intro: code, protocols, configurations and predictions "are provided with the paper" (nothing is public) | Now: "We will release the code, protocols, configurations and all predictions with the published version of the paper." Method and supplement S1 add that the protocols were frozen as dated files in the working copy, not registered publicly, so their timing cannot be verified independently; supplement S8 says the files are not yet public. No release was created (section 5). | - | Resolved (statement accurate); release itself open |
 | B4 | Table II caption: class level "over the segments of a road class", values are the mean of the two route levels | Caption fixed in `make_tables_v3.py` (same fix in the Table S24 caption); Method defines the class level as the mean of its two route levels; Fig. 2b caption says the same. Tables regenerated. | `level_decomposition.csv` and `band_limited.py` average the two route levels; no value changed | Resolved |
-| B5 | Speed: Sec. V-E's closing sentence and the Discussion state the urban result without its caveat; 1 km-block intervals unlabelled | V-E now says the urban advantage of simulation-trained LightGBM holds in the main design and with the telematics-unit and speed-SD controls but not with the speed-CV control, so it is not established. The Discussion speed paragraph says that with the CV control the difference changes sign and that with the speed-SD control the real-trained urban elasticity's interval includes zero. V-E labels single elasticities (1 km blocks) and paired differences / robustness rows (5 km). The Method says intervals use 5 km blocks except single-estimator speed elasticities and spectra (1 km). | `speed_real.py` (1 km), `speed_paired.py`, `speed_robustness.py`, `speed_scaling_sim.py` (5 km); `results/v3/speed_robustness.csv` | Resolved |
+| B5 | Speed: Sec. V-E's closing sentence and the Discussion state the urban result without its caveat; 1 km-block intervals unlabelled | V-E now says the urban advantage of simulation-trained LightGBM holds in the main design and with the telematics-unit and speed-SD controls but not with the speed-CV control, so it is not established. The Discussion speed paragraph says the urban difference is not robust because speed could not be separated from within-pass speed variability, and refers to Sec. V-E, which gives both robustness results. V-E labels single elasticities (1 km blocks) and paired differences / robustness rows (5 km). The Method says intervals use 5 km blocks except single-estimator speed elasticities and spectra (1 km). | `speed_real.py` (1 km), `speed_paired.py`, `speed_robustness.py`, `speed_scaling_sim.py` (5 km); `results/v3/speed_robustness.csv` | Resolved |
 | E5 / C-13 | Nitsche 2014 and Ngwangwa 2014 described from secondary sources only | Ngwangwa 2014: accepted manuscript read (University of Pretoria repository). The network was trained on responses of a full Land Rover model over slightly modified measured profiles and tested on that vehicle's measured responses; Related Work now says so. Nitsche 2014: abstract read (AIT repository). It confirms simulated-response training, probe-vehicle validation and the wLP target, but not the measured profile, the profilometer reference or the speed condition; those three details are now attributed to Bajic et al., whose full text states them. | `references/REFERENCE_AUDIT.md` section F | Ngwangwa resolved; Nitsche partly (full text not read) |
 | E4 / C-17 | Venue requirements unverified | No target venue is specified in the repository or the conversation (only candidate venue types in `FINAL_REPORT.md` §I). Venue-dependent formatting left unchanged; nothing cut. | - | Unverified (needs the venue) |
 | C-14 | No version control / public freeze | Local commits on branch `paper/final-audit-corrections` (section 1); nothing pushed or published. The commits date from 2026-10-11 and cannot attest the earlier protocol-freeze times. | - | Partly resolved (local only) |
@@ -55,13 +55,13 @@ scripts other than the new one, `numbers.tex`, `numbers_v2.tex`, the protocols, 
 |---|---|
 | Pipeline `run_all_experiments.py --force --only v3_rank_scope v3_numbers v3_tables bib_cited paper v3_verify final_verify` | all steps ok |
 | `evaluation/verify_v3.py` (25 existing checks) | 25 passed |
-| `evaluation/verify_final.py` (14 new checks: ranking scope re-derived from saved predictions; new macros; no existing macro changed; superseded wording absent and corrected wording present in main, supplement and tables; PDFs newer than every input; clean logs; no `??`; protocol hash; checkpoint manifests; audit report unchanged) | 14 passed |
+| `evaluation/verify_final.py` (15 checks after the layout round, including "main paper within 10 pages": ranking scope re-derived from saved predictions; new macros; no existing macro changed; superseded wording absent and corrected wording present in main, supplement and tables; PDFs newer than every input; clean logs; no `??`; protocol hash; checkpoint manifests; audit report unchanged) | 14 passed |
 | Clean-room rebuild (copy of `paper/`, `tables/`, `figures/`; supplement, main, supplement, main) | text and byte size identical to the shipped PDFs; no undefined reference, overfull box or missing figure |
 | Macro values versus the audited checkpoint (`numbers.tex`, `numbers_v2.tex`, `numbers_v3.tex`) | no value changed; added `rkScopeAbsMax` 0.044, `rkScopeVarAbsMax` 0.038, `rkIdxGapMax` 0.10, `rkNoSpeedGapMax` 0.18, `rkSpeedOnlyGapMax` 0.72 |
 | Numbers in the PDF text versus the checkpoint PDFs (multiset of numeric tokens) | main paper: none removed; added only the four new values printed in the text plus labels ("1 km", "5 km", "M7", "V0-V8") and the page number 11. Supplement: only the old page number 19 removed; added the new Table S5 panel |
 | Search for every corrected claim across main paper, supplement and all tables | no contradictory wording left |
 | Visual inspection | main pages 9-11 and supplement page 6 (Table S5) at readable resolution; all supplement pages as a contact sheet; no layout defect |
-| Page counts | main 11 pages (was 10: the added text pushes half a column of references onto page 11); supplement 18 (was 19: float reflow) |
+| Page counts | main 10 pages after the layout round (section 8; the corrections had pushed it to 11); supplement 18 (was 19: float reflow) |
 
 ## 5. Code-availability statement
 
@@ -74,7 +74,7 @@ the co-author's agreement. When a release exists, replace the intro sentence wit
 ## 6. Unresolved items
 
 1. Target venue not specified, so page limit, abstract length (about 266 words) and anonymity rules are unchecked.
-   The main paper is 11 pages.
+   The main paper is 10 pages.
 2. No public release yet (section 5). The work is committed locally on branch `paper/final-audit-corrections`
    (not merged into `main`, not pushed).
 3. Nitsche et al. 2014 full text not read; three details rest on Bajic et al. and are attributed to them. `mounting2026`,
@@ -89,3 +89,26 @@ files (per-route within-route Spearman differences). They narrow a sentence that
 the evidence for a claim the abstract already made (that the ranking bound holds for every simulator variant).
 Negative findings and limitations are unchanged; the speed result is now reported with its caveat in every place
 it is interpreted.
+
+## 8. Layout round: 10 pages and Fig. 1 (2026-10-11, after commit `6fc0eb7`)
+
+At the authors' request the main paper was brought back to 10 pages and an overlap in Fig. 1 was fixed. No result,
+claim, number value, table body or figure image changed.
+
+* Fig. 1 (`paper/fig_pipeline.tex`): the "Identical preprocessing" box (wider than its nominal 98 mm because of its
+  text) was centred under the middle and right columns and overlapped the green "Label" box. The three shared boxes
+  are now anchored to the right of the left column; internal spacing reduced slightly; caption shortened (same facts).
+* Space (the corrections had pushed 43 lines of references onto page 11): the correction sentences of this round
+  rewritten more concisely; duplicated wording removed where the same content is stated elsewhere in the paper
+  (joint-training history in the Method, kept in "Evidence classes" and Supplement S1; the 475 segment-passes in the
+  Sec. V-D opener, kept in the Method and Table III; V4's bias and V0's 16 % motorway level in the Discussion, kept in
+  Sec. V-B and Table II; "M7 is not a reproduction" in the Limitations, kept in Related Work; the legacy pipeline's
+  28 % label shift and 48-68 % duplicated IMU samples in the Data section, kept in Supplement S2); figure captions
+  no longer describe markers and colours that the figure legends show; table captions (generators
+  `make_tables_v2.py`, `make_tables_v3.py`) refer to the Method for definitions it already gives; intro "three parts"
+  paragraph, contribution list and Conclusion tightened without changing a claim; the LightGBM reference now uses
+  "et al." like every other entry with more than six authors (`references/build_bib.py`, `references.tex`).
+* Checks: numbers in the main-paper PDF text compared with commit `6fc0eb7`: none added or changed; the removed ones
+  are the duplicates listed above (all still printed elsewhere in the paper or supplement) and labels (P79, V1-V8,
+  [12], RMS/v^0.5). Supplement numerically identical. `verify_v3.py` 25/25, `verify_final.py` 15/15 (new check:
+  main paper within 10 pages). Main paper 10 pages, supplement 18; no undefined reference or overfull box.
