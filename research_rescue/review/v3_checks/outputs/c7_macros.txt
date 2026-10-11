@@ -1,0 +1,16 @@
+liraKm                       = 168
+vrGbmMaeWithin               = 0.39
+vvBiasMin                    = -0.09
+vvBiasMax                    = +0.43
+vrSimVzeroMaeWithin          = 0.42
+pcCalMaeFiveMin              = 0.42
+pcCalMaeFiveMax              = 0.56
+vbRealOnlyFive               = 0.68
+pcCalWinsFiveMin             = 13
+pcCalWinsFiveMax             = 20
+bgRhoHigh                    = 0.97
+bgRhoLow                     = 0.22
+bgRhoMid                     = 0.25
+pcCalHiDefWinsTenMin         = 3
+pcCalHiDefWinsTenMax         = 5
+possibly undefined number macros: []

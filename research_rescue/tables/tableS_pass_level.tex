@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Real cars (LiRA-CD), leave-one-route-out, pass level (every segment-pass is a unit; CIs from a cluster bootstrap over segments).}
+\label{tab:tableS_pass_level}
+\begin{adjustbox}{max width=\columnwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Model} & \textbf{MAE (m/km)} & \textbf{Spearman} & \textbf{kappa} & \textbf{units} & \textbf{clusters} \\
+\midrule
+M0 constant (training median) & 1.59 [1.53, 1.64] & -0.69 [-0.71, -0.66] & -0.63 & 16293 & 1678 \\
+M1 speed-only (LightGBM on speed features) & 0.72 [0.69, 0.75] & 0.73 [0.71, 0.74] & 0.73 & 16293 & 1678 \\
+M2a RMS only (alpha=0) & 1.44 [1.39, 1.49] & -0.40 [-0.43, -0.37] & -0.32 & 16293 & 1678 \\
+M2b RMS/v\textasciicircum{}0.5 & 1.14 [1.09, 1.18] & 0.14 [0.11, 0.18] & 0.17 & 16293 & 1678 \\
+M2c RMS/v\textasciicircum{}alpha (alpha fitted on training data) & 0.72 [0.69, 0.76] & 0.87 [0.86, 0.88] & 0.72 & 16293 & 1678 \\
+M2d RMS*(v\_ref/v)\textasciicircum{}2 (legacy exponent, gravity removed) & 0.74 [0.71, 0.78] & 0.87 [0.86, 0.87] & 0.71 & 16293 & 1678 \\
+M3 LightGBM (all features) & 0.44 [0.42, 0.46] & 0.91 [0.90, 0.91] & 0.86 & 16293 & 1678 \\
+M3 LightGBM (no speed features) & 0.72 [0.69, 0.75] & 0.73 [0.72, 0.75] & 0.66 & 16293 & 1678 \\
+M4 MLP & 0.43 [0.41, 0.45] & 0.92 [0.91, 0.92] & 0.87 & 16293 & 1678 \\
+M5 1D-CNN & 0.48 [0.46, 0.51] & 0.91 [0.90, 0.91] & 0.85 & 16293 & 1678 \\
+M5 1D-CNN (no speed input) & 0.59 [0.56, 0.62] & 0.84 [0.83, 0.85] & 0.78 & 16293 & 1678 \\
+M6 inner-validation-selected model & 0.43 [0.41, 0.45] & 0.92 [0.91, 0.92] & 0.87 & 16293 & 1678 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

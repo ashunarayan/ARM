@@ -1,0 +1,64 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,url,xcolor,tikz}
+\usetikzlibrary{positioning,calc,arrows.meta}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{../figures/}}
+% every experimental number in this paper is a macro generated from results/ by make_numbers.py
+\input{numbers.tex}
+
+\begin{document}
+
+\title{How Far Can Simulation Take Vehicle-Based IRI Estimation? A Route-Disjoint Study on Profilometer-Referenced Car Data}
+
+\author{
+\IEEEauthorblockN{Nishkarsh Singhal}
+\IEEEauthorblockA{\textit{Department of Electronics and Communication Engineering} \\
+\textit{Faculty of Technology, University of Delhi}\\
+New Delhi, India}
+\and
+\IEEEauthorblockN{Geetanjali Bhola}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
+\textit{Faculty of Technology, University of Delhi}\\
+New Delhi, India}
+}
+
+\maketitle
+
+\begin{abstract}
+Estimating the International Roughness Index (IRI) from the vibration of ordinary cars would make roughness monitoring cheap, and simulation is attractive because simulated roads come with exact labels.
+Starting from a simulation-trained estimator of our own, we examine which conclusions survive validated labels and route-disjoint evaluation on public car data with profilometer IRI (LiRA-CD, \liraKm\,km, four routes).
+Labels derived from game-engine road meshes with a curvature-adaptive correction were not IRI: on real profilometer profiles the correction lowers urban IRI by \legacyCorrUrbanMape\,\%.
+On real cars, gradient boosting on vibration and speed features reaches a segment-level mean absolute error (MAE) of \liraGbmMae\,m/km (Spearman \liraGbmRho), indistinguishable from an MLP and better than a 1D-CNN (\liraCnnMae\,m/km) and a speed-only model (\liraSpeedMae\,m/km).
+Speed is confounded with road class, and on a crowdsourced dataset without IRI it predicts the subjective quality labels better than vibration does.
+Trained only on a randomised half-car and sensor simulator driven over measured profiles of other roads, the same estimator reaches \zsPsevenGbmMae\,m/km on real cars; a model trained on real data needs about 20\,km of profilometer-labelled road to match it, whereas training on the game-engine corpus does not transfer (\zsBngCorrGbmMae\,m/km).
+In controlled simulations, learned speed corrections hold only for the road spectra seen in training, and no accurate estimator meets an unseen-vehicle criterion fixed in advance.
+Simulation driven by measured profiles can thus replace scarce labels for the vehicle type tested, while claims of speed invariance and vehicle independence require controlled tests.
+\end{abstract}
+
+\begin{IEEEkeywords}
+International Roughness Index, road roughness, vehicle vibration, connected vehicles, simulation-to-real transfer, evaluation protocol.
+\end{IEEEkeywords}
+
+\input{sections/intro}
+\input{fig_pipeline}
+\input{sections/related}
+\input{sections/rq}
+\input{sections/data}
+\input{sections/method}
+\input{sections/protocol}
+\input{sections/results}
+\input{sections/discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+We re-examined a simulation-based IRI estimator under validated labels and a route-disjoint protocol, and three results stand.
+First, labels and protocol decide the outcome: a heuristic mesh correction turned IRI into a smoothed index, and calibration on the test track together with prediction filtering hid diverging predictions.
+Second, on real cars with profilometer IRI, gradient boosting on hand-crafted vibration and speed features is as accurate as any estimator we tried (\liraGbmMae\,m/km), and speed has to be treated as a confounder, not only as an input.
+Third, a randomised half-car and sensor simulator driven by measured road profiles transfers to real cars almost as well as real training data and replaces about 20\,km of labelled road, whereas a game-engine corpus does not.
+The open problems are generalisation to unseen vehicles, which no accurate estimator achieved even in simulation, and validation on other vehicles and sensors, which requires new field data with reference profiles.
+
+\input{references_cited.tex}
+
+\end{document}

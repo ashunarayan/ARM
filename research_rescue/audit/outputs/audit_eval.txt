@@ -1,0 +1,67 @@
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\numpy\lib\function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\numpy\lib\function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\numpy\lib\function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\numpy\lib\function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\tf\lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+    hopper trip_2: phantom distance from stops = 16.9 m over 14 gaps
+    hopper trip_3: phantom distance from stops = 1.4 m over 1 gaps
+    sunburst2 trip_2: phantom distance from stops = 1.0 m over 4 gaps
+    vivace trip_2: phantom distance from stops = 0.8 m over 3 gaps
+reconstructed test windows: 1903 (stored: 1903 )
+vivace_trip_2       934
+hopper_trip_2       665
+hopper_trip_3       164
+sunburst2_trip_2    140
+independent-ish 100 m blocks in test: 192
+
+                                                   MAE       R2      r     w10     w15     w20
+Run1 seed 42 (+PICA)                            1.572    0.551  0.753  50.815  65.265  75.775
+Run1 seed 42 raw                                1.828   -1.718  0.318  44.088  59.853  74.777
+Run1 seed 43 (+PICA)                            1.665    0.523  0.733  47.136  61.219  73.305
+Run1 seed 43 raw                                1.788    0.018  0.525  41.356  57.698  71.781
+Run1 seed 44 (+PICA)                            1.700    0.491  0.724  46.506  62.218  73.358
+Run1 seed 44 raw                                2.379  -16.597  0.110  44.298  62.323  75.302
+Run1 seed 45 (+PICA)                            1.718    0.497  0.713  46.190  59.643  70.783
+Run1 seed 45 raw                                5.038 -508.426  0.007  44.456  58.119  72.307
+Run1 seed 46 (+PICA)                            1.578    0.552  0.756  50.920  65.108  76.668
+Run1 seed 46 raw                                2.355  -44.553  0.081  45.507  63.479  76.090
+constant = train median                         2.610   -0.054    NaN  24.645  36.416  55.334
+constant = train mean                           2.846   -0.011    NaN  18.917  28.061  38.150
+speed-only log-linear (train)                   2.408    0.121  0.354  26.222  40.515  56.280
+speed-only LightGBM (speed_mean, speed_std)     2.444    0.123  0.371  29.427  42.827  54.020
+13 context features only, LightGBM log-target   1.843    0.469  0.725  42.512  55.386  67.578
+13 ctx LightGBM + val-PICA                      1.721    0.467  0.721  46.558  59.117  70.888
+speed-only isotonic fitted on VAL (same track)  2.407    0.153  0.402  24.540  37.625  56.174
+
+Run1 5-seed mean: {'MAE': 1.647, 'R2': 0.523, 'r': 0.736, 'w10': 48.313, 'w15': 62.69, 'w20': 73.978}
+
+Seed-42 model, 100 m-block bootstrap 95% CI: MAE [1.36, 1.81], R2 [0.36, 0.69]
+13-ctx LightGBM, 100 m-block bootstrap 95% CI: MAE [1.62, 2.08], R2 [0.25, 0.62]
+
+Per-trip (seed-42, +PICA):
+  hopper_trip_2      n_win= 665 n_100m= 67  MAE=1.47  R2=0.77  label mean=4.55 sd=4.38
+  hopper_trip_3      n_win= 164 n_100m= 17  MAE=2.31  R2=-0.01  label mean=4.68 sd=4.39
+  sunburst2_trip_2   n_win= 140 n_100m= 14  MAE=1.29  R2=0.49  label mean=3.21 sd=2.27
+  vivace_trip_2      n_win= 934 n_100m= 94  MAE=1.56  R2=0.44  label mean=4.27 sd=3.22
+
+Test label bins [0,4) [4,8) [8,14) [14,inf): [1120  542  177   64]
+  bin [0,4): n=1120, blocks=132, MAE=0.98, mean bias=+0.52
+  bin [4,8): n=542, blocks=84, MAE=1.80, mean bias=-0.23
+  bin [8,14): n=177, blocks=35, MAE=2.81, mean bias=-1.41
+  bin [14,1000000000.0): n=64, blocks=12, MAE=6.51, mean bias=-6.47
+
+Spearman(speed_mean, y) train/val/test: [-0.558, -0.364, -0.38]
+Label distribution train/val/test mean,median,p90: [(4.71, 3.45, 9.5), (4.54, 3.37, 8.98), (4.32, 3.24, 8.47)]

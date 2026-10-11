@@ -1,0 +1,4 @@
+sweep,model,n_seg_veh,rel_change_40_100,ci_lo,ci_hi,invariant_40_100
+sweep_p79_trained_on_p79 (LORO),M2c RMS/v^alpha (alpha fitted),2947,0.07404641436234773,0.052136884613726724,0.10046977615320776,False
+sweep_p79_trained_on_p79 (LORO),M3 LightGBM,2947,-0.008597014699030743,-0.039772313519567545,0.0203700710745097,True
+sweep_p79_trained_on_p79 (LORO),M3 LightGBM (no speed),2947,0.35583667564430044,0.16704679243378937,0.5141233899518033,False

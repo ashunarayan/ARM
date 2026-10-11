@@ -1,0 +1,22 @@
+\section{Related Work}
+\label{sec:related}
+
+\textbf{Response-type measurement and physical vehicle models.}
+IRI is defined on the longitudinal profile through a reference quarter car (the ``Golden Car'') driven at 80\,km/h~\cite{sayers1986tp45,sayers1995iri,astm_e1926}.
+Response-type systems measure a vehicle's reaction instead of the profile and must be correlated with a reference profiler for each vehicle~\cite{sayers1986tp46}.
+Model-based methods estimate roughness from the responses of a specific vehicle with fixed or identified vehicle models and transfer functions~\cite{gonzalez2008accel,zhao2017freq}; Bridgelall's road impact factor normalises vertical-acceleration energy for connected vehicles~\cite{bridgelall2014rif}.
+Closest to our data, Skar and Levenberg~\cite{skar2024inversion} invert road profiles from the accelerations of ten nominally identical electric cars with a quarter-car model, a PID controller and nonlinear error minimisation, and compare them with a laser profilometer; Agebj\"ar et al.~\cite{agebjar2025fusion} identify a vehicle model of a production car and reconstruct the profile with a Kalman filter.
+These methods need a model of each vehicle with known or identified parameters.
+Our baseline M7 follows the same idea with a quarter car calibrated on the training routes; the vehicle parameters calibrated in~\cite{skar2024inversion} are not available to us (its open code contains only the Golden-Car parameters), so M7 is not a reproduction.
+
+\textbf{Learned estimators on real data.}
+Smartphone studies report agreement with reference roughness that depends on speed, vehicle and phone~\cite{thilak2021}, on mounting~\cite{mounting2026} and on the number of repeated runs~\cite{opara2022roughness}; see also~\cite{hanson2014iri,sattar2018review}.
+Data-driven models accounting for speed, vehicle type and mounting were trained on real smartphone data~\cite{sang2024iri}, and semi-supervised learning exploits unlabelled responses of crowdsourced vehicles~\cite{zhang2026semisup,trc2021crowd}.
+On LiRA data, Bajic et al.~\cite{bajic2021ml} trained regressors on the car's vertical acceleration and speed along the M3 motorway and tested them on the last 20\,\% of the same road; an evaluation framework for smartphone systems is proposed in~\cite{evalframework2023}.
+We test on routes not used for training and report uncertainty that accounts for spatial dependence.
+
+\textbf{Learning from simulated responses.}
+Neural networks trained on simulated vehicle responses have been used to reconstruct profiles and classify roughness~\cite{ngwangwa2010ann}, to classify roughness grades from quarter-car simulations~\cite{rcnn2023sim} and, with simulation and a real-vehicle test, from the unsprung-mass response~\cite{speedadaptive2025}, and, closest to our question, to estimate IRI without vehicle-specific calibration: Jeong et al.~\cite{jeong2020cnn} trained CNNs on simulated responses of four vehicle types with real driving-speed profiles and validated them numerically with real road IRI information.
+Domain randomisation is the standard device for transferring models from simulation to real data~\cite{tobin2017dr}.
+Game engines provide vehicle dynamics for software testing~\cite{gambi2019beamng,beamng}, but IRI labels derived from their authored road meshes need validation (Supplement~\ref{S-sec:s_earlier}).
+We add a real-car, route-disjoint test of simulation-trained estimators, a decomposition of what transfers (ranking, level, speed dependence), and the amount of paired real data still needed.

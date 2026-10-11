@@ -1,0 +1,12 @@
+| factor | setting_a | mae_a | setting_b | mae_b | domain |
+|---|---|---|---|---|---|
+| speed normalisation | alpha = 0 | 1.51 [1.45, 1.56] | alpha fitted | 0.67 [0.64, 0.71] | LiRA-CD (real) |
+| speed normalisation | alpha = 0.5 | 1.13 [1.09, 1.18] | alpha = 2 (legacy) | 0.73 [0.69, 0.78] | LiRA-CD (real) |
+| speed input | GBM with speed | 0.42 [0.39, 0.45] | GBM without speed | 0.65 [0.62, 0.69] | LiRA-CD (real) |
+| speed input | CNN with speed | 0.48 [0.45, 0.51] | CNN without speed | 0.54 [0.51, 0.58] | LiRA-CD (real) |
+| architecture | LightGBM | 0.42 [0.39, 0.45] | 1D-CNN | 0.48 [0.45, 0.51] | LiRA-CD (real) |
+| architecture | MLP | 0.42 [0.40, 0.45] | 1D-CNN | 0.48 [0.45, 0.51] | LiRA-CD (real) |
+| profile source (sim) | ISO-type synthetic | 0.71 [0.69, 0.74] | measured P79 profiles | 0.44 [0.41, 0.47] | sim -> LiRA-CD |
+| vehicle randomisation (sim) | one fixed vehicle | 0.63 [0.60, 0.65] | randomised vehicles | 0.44 [0.41, 0.47] | sim -> LiRA-CD |
+| sensor model (sim) | ideal sensor | 0.67 [0.64, 0.69] | sensor model | 0.44 [0.41, 0.47] | sim -> LiRA-CD |
+| label source (sim) | BeamNG legacy labels | 1.36 [1.30, 1.43] | parametric sim, P79 labels | 0.44 [0.41, 0.47] | sim -> LiRA-CD |

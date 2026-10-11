@@ -1,0 +1,38 @@
+% Fig. 1 - study design. Real and simulated data share byte-identical preprocessing; all evaluation is route-disjoint.
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize, node distance=3mm and 4mm,
+  box/.style={draw=black!55, rounded corners=1.5pt, align=center, inner sep=2.5pt, minimum height=7mm, fill=white},
+  real/.style={box, fill=blue!6}, sim/.style={box, fill=orange!8}, lab/.style={box, fill=green!7},
+  arr/.style={-{Stealth[length=1.6mm]}, draw=black!60, line width=0.5pt}]
+% reference labels (left column)
+\node[lab, minimum width=36mm] (p79) {P79 profilometer\\laser profiles (0.1\,m, GPS)};
+\node[lab, minimum width=36mm, below=of p79] (iri) {Quarter-car IRI (ASTM E1926),\\validated against the P79's own IRI};
+\node[lab, minimum width=36mm, below=of iri] (lab100) {Label: IRI per 100\,m\\(mean of both wheel paths)};
+% real cars (middle column)
+\node[real, minimum width=40mm, right=10mm of p79] (car) {Real cars (LiRA-CD): AutoPi\\accelerometer, CAN speed, GPS};
+\node[real, minimum width=40mm, below=of car] (mm) {GPS map matching\\to the P79 chainage};
+% simulation (right column)
+\node[sim, minimum width=44mm, right=10mm of car] (prof) {Road profiles: measured P79 (training\\routes only) or ISO-8608-type synthetic};
+\node[sim, minimum width=44mm, below=of prof] (veh) {Half-car with randomised vehicles + sensor\\model; labels from the same IRI code};
+% shared part
+\node[box, minimum width=96mm, below=9mm of $(mm.south)!0.5!(veh.south)$] (pre) {Identical preprocessing for real and simulated data: 20\,Hz low-pass, 50\,Hz, gravity alignment, 0.3\,Hz high-pass $\rightarrow$ 100\,m units};
+\node[box, minimum width=96mm, below=of pre] (models) {Estimators: constant, speed only, vibration indices RMS$/v^{\alpha}$, LightGBM, MLP, 1D-CNN\\trained on real data, on simulated data, or on simulated + few real data};
+\node[box, minimum width=96mm, below=of models, fill=black!4] (eval) {Leave-one-route-out evaluation on unseen routes: 100\,m segments, cluster bootstrap, paired tests};
+% arrows
+\draw[arr] (p79) -- (iri);
+\draw[arr] (iri) -- (lab100);
+\draw[arr] (car) -- (mm);
+\draw[arr] (prof) -- (veh);
+\draw[arr] (p79.east) -- (car.west) node[midway, above, font=\tiny] {chainage};
+\draw[arr] (p79.north) -- ++(0,2.5mm) -| (prof.north) node[pos=0.25, above, font=\tiny] {measured profiles};
+\draw[arr] (mm.south) -- (mm.south |- pre.north);
+\draw[arr] (veh.south) -- (veh.south |- pre.north);
+\draw[arr] (pre) -- (models);
+\draw[arr] (models) -- (eval);
+\draw[arr] (lab100.south) |- (eval.west);
+\end{tikzpicture}
+\caption{Study design. Labels are recomputed from the P79 profilometer's laser profiles with an IRI implementation validated against the profilometer's own output; simulated units are labelled with the same code. Real and simulated vibration go through identical preprocessing, and every estimator is evaluated on routes it never saw.}
+\label{fig:pipeline}
+\end{figure*}

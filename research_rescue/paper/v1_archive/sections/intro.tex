@@ -1,0 +1,20 @@
+\section{Introduction}
+\label{sec:intro}
+The International Roughness Index (IRI) is the standard summary of longitudinal road roughness~\cite{sayers1986tp45,astm_e1926}.
+Measuring it requires a longitudinal profile, typically from an inertial laser profilometer, which is too expensive to survey minor roads frequently.
+Ordinary vehicles that already carry accelerometers---smartphones, telematics units, connected cars---could close this gap if their vibration could be mapped to IRI~\cite{sattar2018review,sang2024iri,levenberg2021lira}.
+Two obstacles recur: labelled data are scarce because each label requires a profilometer run, and the mapping from vibration to IRI depends on vehicle, mounting and driving speed~\cite{sayers1986tp46,thilak2021,mounting2026}.
+Simulation is attractive for the first obstacle because the label of a simulated road is known exactly.
+
+This paper started as a revision of our own earlier, unpublished study, which trained a CNN on vibration from the BeamNG.tech game engine, reported an MAE of 1.65\,m/km on a simulated test track, and claimed speed invariance and real-world validity from a crowdsourced dataset without IRI labels.
+Re-examining that work revealed problems that are easy to make and hard to see in the final numbers: the labels were not IRI, the test track was also used for early stopping and calibration, test predictions above a threshold were discarded, and the crowdsourced labels were explained by driving speed.
+Rather than polish that result, we asked which conclusions survive a protocol that excludes these failure modes, and we moved the main evaluation to public car data with profilometer labels.
+
+We make four contributions.
+(i) An IRI implementation that reproduces the P79 profilometer's reported IRI on public data ($r=$\,\iriValR{} over \iriValN{} segments), and evidence that the heuristic label correction used for game-engine roads lowers the IRI of real urban roads by \legacyCorrUrbanMape\,\% (Section~\ref{sec:res_labels}).
+(ii) A quantification of how test-domain calibration and prediction filtering shaped our earlier results (Section~\ref{sec:res_protocol}).
+(iii) A route-disjoint comparison of constant, speed-only, vibration-index, gradient-boosting, MLP and CNN estimators on \liraKm\,km of real car data with profilometer IRI, with segment-level uncertainty, and an analysis of speed as a confounder (Sections~\ref{sec:res_real}--\ref{sec:res_speed}).
+(iv) Zero-shot and few-shot transfer from a randomised half-car and sensor simulator to real cars, and controlled tests of speed invariance, unseen vehicles and sensor robustness with criteria fixed in advance (Sections~\ref{sec:res_sim}--\ref{sec:res_controlled}).
+
+In brief, simulation over measured profiles nearly matches real training (\zsPsevenGbmMae{} vs.\ \liraGbmMae\,m/km), but no accurate estimator meets our unseen-vehicle criterion, fixed in advance.
+Code, protocol, configuration and all predictions are provided with the paper.

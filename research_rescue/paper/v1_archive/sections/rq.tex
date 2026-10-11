@@ -1,0 +1,13 @@
+\section{Research Questions and Hypotheses}
+\label{sec:rq}
+The study addresses five questions. The evaluation protocol, including splits, metrics and the two claim criteria below, was written down before any model was evaluated on a test route; it is part of the released material but was not registered with a third party.
+\begin{itemize}
+\item[\textbf{RQ1}] \emph{Label validity.} Does the IRI computation reproduce a reference profilometer, and does the curvature-adaptive ``mesh correction'' used to derive labels from game-engine road meshes preserve IRI?
+\item[\textbf{RQ2}] \emph{Evaluation validity.} How much of a previously reported simulation result survives route-disjoint evaluation without calibration on, or filtering of, the test data?
+\item[\textbf{RQ3}] \emph{Speed.} How much of the apparent skill is explained by driving speed rather than by vibration?
+\item[\textbf{RQ4}] \emph{Real-car accuracy.} On unseen routes with profilometer IRI, how do constant, speed-only, vibration-index, gradient-boosting, MLP and CNN estimators compare?
+\item[\textbf{RQ5}] \emph{Value of simulation.} Do estimators trained only on simulated vehicle responses transfer to real cars, and how much real labelled data does simulation replace?
+\end{itemize}
+RQ1--RQ3 test hypotheses formed in an earlier audit of our pipeline, before any experiment reported here: (H1) the mesh correction does not preserve IRI; (H2) the earlier result depends on calibration on, and filtering of, test data; (H3) driving speed explains a large part of the apparent skill.
+RQ4 and RQ5 were asked without a directional hypothesis.
+Two properties are tested in a controlled simulator with criteria fixed in advance: an estimator is called \emph{speed-invariant on [40,100]\,km/h} only if its mean prediction changes by less than $\pm$10\,\% between 40 and 100\,km/h on the same road (95\,\% CI inside the band), and it \emph{generalises to unseen vehicles} only if its MAE on unseen vehicle parameter sets is at most 10\,\% higher than on seen ones (upper CI bound).

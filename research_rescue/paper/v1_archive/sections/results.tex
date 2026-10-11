@@ -1,0 +1,213 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Label validity (RQ1)}
+\label{sec:res_labels}
+On the \iriValFiles{} LiRA-CD route-directions whose profile and IRI files are consistent, our implementation reproduces the IRI reported by the P79 profilometer (an algorithm check: both are computed from the same laser profiles) with $r=$\,\iriValR, bias \iriValBias\,m/km and MAE \iriValMae\,m/km over \iriValN{} segments of 100\,m (95\,\% limits of agreement \iriValLoaLo{} to \iriValLoaHi\,m/km; Fig.~\ref{fig:iri}a).
+For the eighth file (CPH6, direction HH) the reported IRI cannot be aligned with the file's own profile (best $r=$\,\alignBestR{} over shifts of $\pm$3\,km, with or without reversal, against $r=$\,\alignControlR{} at zero shift for two control files); we therefore recompute all labels from the profiles.
+The IRI routine of the earlier pipeline is also correct (bias \legacyCoreBias\,m/km), but its curvature-adaptive mesh correction is not: applied to the same real profiles, which contain no mesh facets, it lowers the IRI of urban segments by \legacyCorrUrbanMape\,\% on average (bias \legacyCorrUrbanBias\,m/km) and that of motorway segments by \legacyCorrMotorwayMape\,\% (Fig.~\ref{fig:iri}b).
+The 10\,m curvature criterion is triggered by ordinary roughness, and the 5\,m smoothing attenuates wavelengths shorter than about 5\,m, which include the Golden Car's wheel-hop sensitivity peak near 2\,m.
+On the BeamNG corpus the correction removes \bngCorrReduction\,\% of the summed IRI (mean \bngIriRawMean{} vs.\ \bngIriCorrMean\,m/km) and changes the FHWA condition class of \bngClassChange\,\% of the segments, so the earlier labels were a smoothed roughness index, not IRI; the uncorrected ray-cast profiles of the authored meshes give implausibly high values, so the corpus has no valid IRI label at all.
+Two professional devices disagree substantially on urban roads: the ARAN9000, surveyed on another date, differs from the P79 by \aranUrbanMae\,m/km on average ($r=$\,\aranUrbanR) on urban and by \aranMotorwayMae\,m/km ($r=$\,\aranMotorwayR) on motorway segments (Fig.~\ref{fig:iri}c).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{iri_reference_validation.pdf}
+\caption{Label validity on real profiles (LiRA-CD, 100\,m segments, mean of both wheel paths). (a) IRI recomputed from the P79 laser profiles with our implementation vs.\ the IRI reported by the P79. (b) The earlier label pipeline, including the curvature-adaptive mesh correction, applied to the same profiles. (c) A second profilometer (ARAN9000, other survey date) vs.\ the P79; off-scale points are counted in the panel and included in the statistics.}
+\label{fig:iri}
+\end{figure*}
+
+\subsection{What survives a clean protocol (RQ2)}
+\label{sec:res_protocol}
+We re-ran the earlier recipe on the BeamNG corpus with non-overlapping 100\,m test segments and the earlier label definition (Table~\ref{tab:ablations}, bottom).
+With the earlier split, in which early stopping and isotonic calibration use one trip on the test track and two further trips on the same track form the test set, it reaches MAE \bngSthreeLegacyMae\,m/km and Spearman $\rho=$\,\bngSthreeLegacyRho; under leave-one-map-out it reaches \bngSoneLegacyMae\,m/km and $\rho=$\,\bngSoneLegacyRho, no better than an MLP on the hand-crafted features (\bngSoneCorrMlpMae\,m/km).
+Calibration is load-bearing: the exponentiated network outputs diverge on a few segments of unseen maps, and without calibration the leave-one-map-out MAE is \bngSoneLegacyUncalMae\,m/km.
+The earlier reporting rule hid the same failure on the earlier split: discarding test predictions above 40\,m/km removes \discardMinN--\discardMaxN{} segments per seed and turns uncalibrated MAEs of up to \discardMaxUnfiltered\,m/km into at most \discardMaxFiltered\,m/km.
+When vehicle and map are both unseen (raw-profile labels), no estimator is substantially better than predicting the training median (MAE \bngStwoConstMae; fitted vibration index \bngStwoPhysMae; LightGBM \bngStwoGbmMae; CNN \bngStwoCnnMae\,m/km).
+
+\subsection{Real cars with profilometer IRI (RQ4)}
+\label{sec:res_real}
+Table~\ref{tab:ladder} and Fig.~\ref{fig:lira} show the route-disjoint results on LiRA-CD.
+LightGBM on vibration and speed features reaches a segment-level MAE of \liraGbmMae\,m/km [\liraGbmMaeLo, \liraGbmMaeHi], $\rho=$\,\liraGbmRho{} and quadratic-weighted $\kappa=$\,\liraGbmKappa{} on the FHWA bands.
+The MLP is indistinguishable (difference \liraMlpDmae\,m/km, $p=$\,\liraMlpP) and is the model selected by inner leave-one-route-out validation on every fold (M6); the CNN is worse by \liraCnnDmae{} [\liraCnnDmaeLo, \liraCnnDmaeHi]\,m/km ($p$\,\liraCnnP).
+The standard deviation of the MAE over training seeds is \liraMlpSeedSd\,m/km for the MLP and \liraCnnSeedSd\,m/km for the CNN.
+Errors differ by road class: \liraGbmMaeCphOne{} and \liraGbmMaeCphSix\,m/km on the urban routes (mean IRI \liraIriUrban\,m/km) and \liraGbmMaeMwThree{} and \liraGbmMaeMwThirteen\,m/km on the motorways (mean IRI \liraIriMotorway\,m/km).
+The urban errors are smaller than the disagreement between the two profilometers on the same roads (\aranUrbanMae\,m/km).
+Averaging more passes per segment helps on both road classes: LightGBM's MAE falls from \passGbmUrbanOne{} with one pass to \passGbmUrbanFive\,m/km with five passes on urban segments and from \passGbmMotorwayOne{} to \passGbmMotorwayFive\,m/km on motorway segments.
+Pass-level results and a 1\,km-block bootstrap are given in Tables~S5 and~S6.
+
+\begin{table}[t]
+\centering
+\caption{Real cars (LiRA-CD), leave-one-route-out, \liraSegments{} segments of 100\,m on four held-out routes. 95\,\% cluster-bootstrap CIs; $\Delta$: paired MAE difference to LightGBM (Holm-adjusted $p<0.001$ except $^{\dagger}$).}
+\label{tab:ladder}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Estimator & MAE (m/km) & $\rho$ & $\kappa$ & $\Delta$MAE \\
+\midrule
+M0 constant & \liraConstMae\ [\liraConstMaeLo, \liraConstMaeHi] & \liraConstRho & \liraConstKappa & \liraConstDmae \\
+M1 speed only & \liraSpeedMae\ [\liraSpeedMaeLo, \liraSpeedMaeHi] & \liraSpeedRho & \liraSpeedKappa & \liraSpeedDmae \\
+M2a RMS & \liraPhysAMae\ [\liraPhysAMaeLo, \liraPhysAMaeHi] & \liraPhysARho & \liraPhysAKappa & \liraPhysADmae \\
+M2b RMS$/v^{0.5}$ & \liraPhysBMae\ [\liraPhysBMaeLo, \liraPhysBMaeHi] & \liraPhysBRho & \liraPhysBKappa & \liraPhysBDmae \\
+M2c RMS$/v^{\alpha}$, $\alpha$ fitted & \liraPhysCMae\ [\liraPhysCMaeLo, \liraPhysCMaeHi] & \liraPhysCRho & \liraPhysCKappa & \liraPhysCDmae \\
+M2d RMS$\,(v_{\mathrm{ref}}/v)^{2}$ & \liraPhysDMae\ [\liraPhysDMaeLo, \liraPhysDMaeHi] & \liraPhysDRho & \liraPhysDKappa & \liraPhysDDmae \\
+M3 LightGBM & \textbf{\liraGbmMae}\ [\liraGbmMaeLo, \liraGbmMaeHi] & \liraGbmRho & \liraGbmKappa & -- \\
+\quad M3 without speed &\liraGbmNoSpeedMae\ [\liraGbmNoSpeedMaeLo, \liraGbmNoSpeedMaeHi] & \liraGbmNoSpeedRho & \liraGbmNoSpeedKappa & \liraGbmNoSpeedDmae \\
+M4 MLP (= M6) & \textbf{\liraMlpMae}\ [\liraMlpMaeLo, \liraMlpMaeHi] & \liraMlpRho & \liraMlpKappa & \liraMlpDmae$^{\dagger}$ \\
+M5 1D-CNN & \liraCnnMae\ [\liraCnnMaeLo, \liraCnnMaeHi] & \liraCnnRho & \liraCnnKappa & \liraCnnDmae \\
+\quad M5 without speed &\liraCnnNoSpeedMae\ [\liraCnnNoSpeedMaeLo, \liraCnnNoSpeedMaeHi] & \liraCnnNoSpeedRho & \liraCnnNoSpeedKappa & \liraCnnNoSpeedDmae \\
+\bottomrule
+\multicolumn{5}{@{}l}{\scriptsize $^{\dagger}p=$\,\liraMlpP. The constant's negative $\rho$ comes from its per-fold training medians.}
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{lira_main.pdf}
+\caption{Real cars (LiRA-CD), segment-level MAE on held-out routes with 95\,\% cluster-bootstrap CIs. Blue: trained on real data of the three other routes; orange: trained only on simulated vehicle responses (parametric simulator or BeamNG corpus). (b) Per held-out route for estimators trained on real data.}
+\label{fig:lira}
+\end{figure*}
+
+\subsection{Speed as signal and as shortcut (RQ3)}
+\label{sec:res_speed}
+Speed is confounded with roughness in both naturalistic datasets. On LiRA-CD the segment-level Spearman correlation between mean speed and IRI is \speedIriRhoCphOne{} and \speedIriRhoCphSix{} on the urban routes, and pooling routes turns speed into a proxy for road class: a model that sees only speed reaches MAE \liraSpeedMae\,m/km, close to the vibration indices M2c and M2d (\liraPhysCMae{} and \liraPhysDMae\,m/km), whereas raw vibration RMS ranks segments in the wrong order across routes ($\rho=$\,\liraPhysARho), as expected when smooth motorways are driven fast and rough streets slowly.
+Within each held-out route, however, vibration carries roughness information that speed does not: controlling for segment speed, the partial Spearman correlation of LightGBM's predictions with IRI is \liraGbmPartialUrban{} on urban and \liraGbmPartialMotorway{} on motorway routes, against \liraSpeedPartialUrban{} and \liraSpeedPartialMotorway{} for the speed-only model.
+
+On PVS, speed dominates. Mean speed is \pvsSpeedAsphalt\,km/h on asphalt and \pvsSpeedDirt{} and \pvsSpeedCobble\,km/h on dirt and cobblestone, and in leave-one-route-out logistic regressions speed alone separates asphalt from the other surfaces with AUC \pvsSurfSpeed{} [\pvsSurfSpeedLo, \pvsSurfSpeedHi], the earlier simulation-trained model with \pvsSurfModel{} and RMS$/\sqrt{v}$ with \pvsSurfRmsV.
+Within cobblestone and dirt, speed separates ``bad'' from ``regular'' windows (AUC \pvsBadSpeed), the earlier model does not (\pvsBadModel{} [\pvsBadModelLo, \pvsBadModelHi]), and raw vibration ranks them in reverse (\pvsBadRms): the subjective quality labels are better predicted by how slowly the vehicle was driven than by how much it vibrated (Fig.~\ref{fig:speed}a).
+
+Controlled sweeps in the simulator separate the two roles of speed (Fig.~\ref{fig:speed}b, Table~\ref{tab:generalisation}).
+Estimators trained on synthetic profiles are speed-invariant on held-out synthetic profiles (change of the mean prediction between 40 and 100\,km/h: LightGBM \spIsoGbm\,\% [\spIsoGbmLo, \spIsoGbmHi], fitted index \spIsoPhysC\,\%), but not on measured P79 profiles driven by the same simulated vehicles (LightGBM \spPsevenGbm\,\%, fitted index \spPsevenPhysC\,\%), on which raw vibration RMS changes by \spPsevenRaw\,\%.
+Trained on simulated drives over the measured profiles of the other routes, LightGBM meets the criterion on the held-out route (\spPtrainPsevenGbm\,\% [\spPtrainPsevenGbmLo, \spPtrainPsevenGbmHi]); without speed inputs it does not (\spPtrainPsevenGbmNoSpeed\,\%).
+The kinetic normalisation $(v_{\mathrm{ref}}/v)^2$ of the earlier study over-corrects on both profile families (\spIsoPhysD\,\% on synthetic and \spPsevenPhysD\,\% on measured profiles).
+In LiRA-CD, vibration RMS at fixed IRI scales as $v^{\gamma}$ with $\gamma=$\,\gammaLiraUrban{} [\gammaLiraUrbanLo, \gammaLiraUrbanHi] on urban and \gammaLiraMw{} [\gammaLiraMwLo, \gammaLiraMwHi] on motorway routes, far from 2 (Fig.~\ref{fig:simreal}b).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{speed_shortcut.pdf}
+\caption{(a) PVS, leave-one-route-out AUC (95\,\% CI) for separating asphalt from cobblestone and dirt, and ``bad'' from ``regular'' within cobblestone and dirt; ``legacy model'': the earlier simulation-trained CNN. (b) Constant-speed sweeps in the parametric simulator: mean prediction relative to 60\,km/h for estimators trained on synthetic profiles, on held-out synthetic profiles (solid) and on measured P79 profiles (dashed); grey band: $\pm$10\,\% criterion.}
+\label{fig:speed}
+\end{figure*}
+
+\subsection{Learning from simulation (RQ5)}
+\label{sec:res_sim}
+Estimators trained only on simulated vehicle responses transfer to real cars on unseen routes (Table~\ref{tab:main}, Fig.~\ref{fig:lira}).
+Trained on simulated drives over the measured profiles of the three other routes, LightGBM reaches MAE \zsPsevenGbmMae\,m/km [\zsPsevenGbmMaeLo, \zsPsevenGbmMaeHi] on the held-out route without having been trained on any real vehicle data (only the sensor configuration was informed by unlabelled LiRA-CD streams), a paired difference of \zsPsevenGbmDmae\,m/km [\zsPsevenGbmDmaeLo, \zsPsevenGbmDmaeHi] to the same model trained on real data ($p=$\,\zsPsevenGbmP).
+The difference is confined to motorways (\zsPsevenGbmMaeMotorway{} vs.\ \liraGbmMaeMotorway\,m/km); on urban routes the two are equal (\zsPsevenGbmMaeUrban{} vs.\ \liraGbmMaeUrban\,m/km).
+With synthetic profiles only, the error rises to \zsIsoGbmMae\,m/km (CNN \zsIsoCnnMae\,m/km).
+Each randomised component of the simulator matters (Table~\ref{tab:ablations}): driving all simulated passes with one mid-range vehicle raises the MAE to \zsFixVehGbmMae\,m/km, and an ideal sensor (100\,Hz, no noise, quantisation, tilt, bias or sample loss) to \zsIdealGbmMae\,m/km.
+A post-hoc check, prompted by the corrected sensor statistics (Section~\ref{sec:limitations}), points the same way: replacing the telematics half of the sensor mixture by a configuration matched to the measured LiRA-CD rates changes the MAE little (\phMixGbmMae{} vs.\ \phPrimGbmMae\,m/km), whereas a single matched telematics configuration without the smartphone-like half gives \phMeasGbmMae\,m/km; transfer depends more on randomising over sensor types than on matching the target sensor.
+Training on the BeamNG corpus does not transfer: LightGBM reaches \zsBngCorrGbmMae\,m/km with the earlier labels and \zsBngRawGbmMae\,m/km with raw-profile labels ($\rho=$\,\zsBngRawGbmRho).
+On the \gapN{} road segments driven at 60--100\,km/h in both domains, simulated and measured vibration levels agree in rank ($\rho=$\,\gapRho), real vibration is \gapRatio{} times higher, and the simulator's speed exponent ($\gamma=$\,\gammaSim) is larger than the real car's (Fig.~\ref{fig:simreal}): the transfer works despite a visible gap in vibration level and speed dependence.
+
+When some real labels are available (Fig.~\ref{fig:fewshot}), pooling them with the simulated units gives the lowest mean error at every budget.
+A real-only LightGBM needs about 20\,km of profilometer-labelled road to match the simulation-only model (\fsRealGbmTwenty{} vs.\ \fsSimOnlyGbmZero\,m/km; \fsRealGbmFive\,m/km with 5\,km), a real-only vibration index does not match it even with all training routes (\fsRealPhysAll\,m/km), and with all training routes the benefit of simulation for LightGBM vanishes (\fsRealGbmAll{} vs.\ \fsSimRealGbmAll\,m/km).
+Re-estimating only the intercept of a simulation-fitted vibration index from 1\,km of real road gives \fsSimPhysIntOne\,m/km.
+The CNN is brittle with little data: with 1\,km, real-only training and fine-tuning of a simulation-pretrained CNN both produce diverging predictions on some draws (median MAE \fsRealCnnOneMed{} and \fsFtCnnOneMed\,m/km).
+
+\begin{table}[t]
+\centering
+\caption{How far simulation takes LightGBM on real cars (LiRA-CD, segment-level MAE in m/km, all four held-out routes). Sim.: randomised half-car and sensor model; ``both'': measured and synthetic profiles; $k$\,km rows: contiguous 1\,km blocks of the training routes, mean of five draws; ``all real'': one run.}
+\label{tab:main}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Training data & All [95\,\% CI] & Urban & Motorw. & $\rho$ \\
+\midrule
+Real, 3 other routes & \liraGbmMae\ [\liraGbmMaeLo, \liraGbmMaeHi] & \liraGbmMaeUrban & \liraGbmMaeMotorway & \liraGbmRho \\
+Real, 20\,km & \fsRealGbmTwenty & \fsRealGbmTwentyUrban & \fsRealGbmTwentyMotorway & -- \\
+Real, 5\,km & \fsRealGbmFive & \fsRealGbmFiveUrban & \fsRealGbmFiveMotorway & -- \\
+Real, 1\,km & \fsRealGbmOne & \fsRealGbmOneUrban & \fsRealGbmOneMotorway & -- \\
+\midrule
+Sim., measured profiles & \zsPsevenGbmMae\ [\zsPsevenGbmMaeLo, \zsPsevenGbmMaeHi] & \zsPsevenGbmMaeUrban & \zsPsevenGbmMaeMotorway & \zsPsevenGbmRho \\
+Sim., synthetic profiles & \zsIsoGbmMae\ [\zsIsoGbmMaeLo, \zsIsoGbmMaeHi] & \zsIsoGbmMaeUrban & \zsIsoGbmMaeMotorway & \zsIsoGbmRho \\
+Sim., both & \zsBothGbmMae\ [\zsBothGbmMaeLo, \zsBothGbmMaeHi] & \zsBothGbmMaeUrban & \zsBothGbmMaeMotorway & \zsBothGbmRho \\
+Sim., both + 1\,km real & \fsSimRealGbmOne & \fsSimRealGbmOneUrban & \fsSimRealGbmOneMotorway & -- \\
+Sim., both + 5\,km real & \fsSimRealGbmFive & \fsSimRealGbmFiveUrban & \fsSimRealGbmFiveMotorway & -- \\
+Sim., both + all real & \fsSimRealGbmAll & \fsSimRealGbmAllUrban & \fsSimRealGbmAllMotorway & -- \\
+\midrule
+BeamNG corpus & \zsBngCorrGbmMae\ [\zsBngCorrGbmMaeLo, \zsBngCorrGbmMaeHi] & \zsBngCorrGbmMaeUrban & \zsBngCorrGbmMaeMotorway & \zsBngCorrGbmRho \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.75\textwidth]{value_of_simulation.pdf}
+\caption{Segment-level MAE vs.\ profilometer-labelled real road used for training (pooled over four held-out routes; shaded: range over five draws; rightmost points: all training routes). Horizontal lines: trained on simulation only. (b) uses a logarithmic MAE axis.}
+\label{fig:fewshot}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{sim_vs_real.pdf}
+\caption{Simulation vs.\ real cars. (a) Simulated and measured vibration (log RMS of the dynamic vertical acceleration) on the same 100\,m segments, units driven at 60--100\,km/h. (b) Speed exponent $\gamma$ of vibration at fixed IRI per domain (95\,\% cluster-bootstrap CIs).}
+\label{fig:simreal}
+\end{figure*}
+
+\begin{table}[t]
+\centering
+\caption{One-factor-at-a-time ablations (segment-level MAE in m/km; CIs in Tables~\ref{tab:ladder}, \ref{tab:main} and S3).}
+\label{tab:ablations}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\emph{Simulator (zero-shot on LiRA-CD)} & LightGBM & RMS$/v^{\alpha}$ \\
+\quad full: measured profiles, randomised & \zsPsevenGbmMae & \zsPsevenPhysMae \\
+\quad one fixed vehicle & \zsFixVehGbmMae & \zsFixVehPhysMae \\
+\quad ideal sensor & \zsIdealGbmMae & \zsIdealPhysMae \\
+\quad telematics half matched to LiRA-CD$^{\ast}$ & \phMixGbmMae & \phMixPhysMae \\
+\quad single matched telematics sensor$^{\ast}$ & \phMeasGbmMae & \phMeasPhysMae \\
+\quad synthetic instead of measured profiles & \zsIsoGbmMae & \zsIsoPhysMae \\
+\quad BeamNG corpus instead (earlier labels) & \zsBngCorrGbmMae & \zsBngCorrPhysMae \\
+\midrule
+\emph{Real data (LiRA-CD)} & with speed & without \\
+\quad LightGBM & \liraGbmMae & \liraGbmNoSpeedMae \\
+\quad 1D-CNN & \liraCnnMae & \liraCnnNoSpeedMae \\
+\midrule
+\emph{Earlier recipe (BeamNG)} & S3 split & leave-map-out \\
+\quad with isotonic calibration & \bngSthreeLegacyMae & \bngSoneLegacyMae \\
+\quad uncalibrated (worst seed) & \discardMaxUnfiltered & -- \\
+\quad uncalibrated, mean over seeds & -- & \bngSoneLegacyUncalMae \\
+\quad uncalibrated, $>$40\,m/km discarded & $\leq$\,\discardMaxFiltered & -- \\
+\bottomrule
+\multicolumn{3}{@{}l}{\scriptsize $^{\ast}$Post-hoc sensitivity analysis (Section~\ref{sec:limitations}, Section S1).}
+\end{tabular}
+\end{table}
+
+\subsection{Unseen vehicles and sensor robustness}
+\label{sec:res_controlled}
+Accurate estimators do not meet the unseen-vehicle criterion fixed in advance (Table~\ref{tab:generalisation}).
+In the parametric simulator, LightGBM's MAE rises by \uvGbmRelAbs\,\% (upper CI \uvGbmRelHiAbs\,\%) from seen to unseen vehicle parameter sets, the CNN's by \uvCnnRelAbs\,\% and the fitted vibration index's by \uvPhysRelAbs\,\%; in BeamNG, holding out the vehicle raises LightGBM's MAE by \bngVehGbmRelAbs\,\% and the CNN's by \bngVehCnnRelAbs\,\%.
+In both simulators only estimators that are less accurate to begin with meet the criterion (parametric: LightGBM without speed input and the fixed exponents 0 and 2; BeamNG: constant, speed-only and the exponent-2 index).
+Extrapolating from soft to stiff suspensions (training vehicles with body frequency below 1.25\,Hz) adds \rgGbmDiff\,m/km to LightGBM's MAE with a positive bias of \rgGbmBias\,m/km, whereas the fitted vibration index is not hurt (\rgPhysDiff\,m/km).
+Among sensor perturbations (Table~\ref{tab:generalisation}, Fig.~S1), the sampling rate matters most (LightGBM \rbGbmRateTwoHundred{} at 200\,Hz, \rbGbmRateFifty{} at 50\,Hz and \rbGbmRateTwentyFive\,m/km at 25\,Hz), speed errors affect every estimator that uses speed (\rbGbmSpeedZero{} $\rightarrow$ \rbGbmSpeedPlusTwenty\,m/km for $+$20\,\%), and white noise up to eight times a typical MEMS density, quantisation up to 0.05\,g and mounting tilt with a standard deviation of up to 20$^{\circ}$ have no material effect.
+
+\begin{table}[t]
+\centering
+\caption{Controlled tests in simulation with criteria fixed in advance, and sensor robustness. Speed: change of the mean prediction between 40 and 100\,km/h on the same roads (criterion: 95\,\% CI within $\pm$10\,\%). Vehicles: relative MAE increase on unseen vs.\ seen vehicles (criterion: upper CI $\leq$10\,\%). Robustness: MAE (m/km) of estimators trained on synthetic profiles, on 12 held-out synthetic routes driven by 6 unseen vehicles with the telematics sensor configuration, when one sensor property is changed.}
+\label{tab:generalisation}
+\setlength{\tabcolsep}{2.5pt}
+\footnotesize
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Test & LightGBM & 1D-CNN & RMS$/v^{\alpha}$ \\
+\midrule
+Speed, synth.\,$\rightarrow$\,synth. & \spIsoGbm\,\% (\spIsoGbmPass) & \spIsoCnn\,\% (\spIsoCnnPass) & \spIsoPhysC\,\% (\spIsoPhysCPass) \\
+Speed, synth.\,$\rightarrow$\,measured & \spPsevenGbm\,\% (\spPsevenGbmPass) & \spPsevenCnn\,\% (\spPsevenCnnPass) & \spPsevenPhysC\,\% (\spPsevenPhysCPass) \\
+Speed, measured\,$\rightarrow$\,measured & \spPtrainPsevenGbm\,\% (\spPtrainPsevenGbmPass) & -- & \spPtrainPsevenPhysC\,\% (\spPtrainPsevenPhysCPass) \\
+Unseen vehicles, parametric & \uvGbmRel\,\% (\uvGbmPass) & \uvCnnRel\,\% (\uvCnnPass) & \uvPhysRel\,\% (\uvPhysPass) \\
+Unseen vehicle, BeamNG & \bngVehGbmRel\,\% (\bngVehGbmPass) & \bngVehCnnRel\,\% (\bngVehCnnPass) & \bngVehPhysRel\,\% (\bngVehPhysPass) \\
+\midrule
+Telematics sensor (reference) & \rbGbmSpeedZero & \rbCnnSpeedZero & \rbPhysSpeedZero \\
+\quad 25\,Hz sampling & \rbGbmRateTwentyFive & \rbCnnRateTwentyFive & \rbPhysRateTwentyFive \\
+\quad speed $+$20\,\% & \rbGbmSpeedPlusTwenty & \rbCnnSpeedPlusTwenty & \rbPhysSpeedPlusTwenty \\
+\quad 40\,\% samples lost & \rbGbmMissForty & \rbCnnMissForty & \rbPhysMissForty \\
+\quad noise $\times$8 & \rbGbmNoiseEight & \rbCnnNoiseEight & \rbPhysNoiseEight \\
+\quad tilt s.d.\ 20$^{\circ}$ & \rbGbmTiltTwenty & \rbCnnTiltTwenty & \rbPhysTiltTwenty \\
+\bottomrule
+\end{tabular}
+\end{table}

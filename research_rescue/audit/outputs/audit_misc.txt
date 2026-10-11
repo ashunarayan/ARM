@@ -1,0 +1,12 @@
+params total: 25769 trainable: 25457
+top raw predictions (seed 45): pred, true, speed_kmh, speed_std, mean(az_norm)
+     2553.8   2.95  114.3   6.78    -13.8
+     2029.1   2.73   94.6  10.85    -44.2
+     1701.1   2.73  104.8   8.96    -30.5
+       44.2   7.08   56.4   3.39    -24.9
+       32.4   5.62  113.1   1.31     -5.0
+       27.7   7.71  104.2   1.64     -5.9
+       26.5   7.32  106.0   1.81     -5.7
+       25.7   8.09  102.6   1.38     -6.1
+test windows with mean speed < 25 km/h: 10 | train: 125
+train mean(az_norm) range: -165.67636108398438 -2.2637882232666016

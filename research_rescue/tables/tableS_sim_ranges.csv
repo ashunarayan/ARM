@@ -1,0 +1,14 @@
+group,parameter,range,unit,source
+vehicle,m_s,1000 - 1800,kg,"G, Z"
+vehicle,r_y,1 - 1.3,m,G (pitch radius of gyration ~ sqrt(a*b))
+vehicle,L,2.4 - 3,m,"G, Z"
+vehicle,a_frac,0.4 - 0.5,-,front-heavy passenger cars
+vehicle,f_s,1 - 1.6,Hz,"G, S"
+vehicle,rear_freq_ratio,1 - 1.2,-,G (flat-ride tuning)
+vehicle,zeta,0.2 - 0.45,-,"G, S"
+vehicle,m_u_per_wheel,30 - 50,kg,G
+vehicle,k_t_per_tire,150000 - 300000,N/m,G (wheel hop 10-15 Hz)
+vehicle,x_s,-0.5 - 1.2,m,sensor between CG and front axle (LiRA readme: near front axle)
+sensor: autopi,rate / LSB / noise / tilt SD,55-62 Hz / 0.01 g / 150-400 ug/rtHz / 6.0 deg,-,"M, D"
+sensor: phone,rate / LSB / noise / tilt SD,90-210 Hz / 0.0006 g / 100-300 ug/rtHz / 12.0 deg,-,"D (smartphone IMUs); cradle resonance range is an assumption, treated as sensitivity"
+speed,base speed,20-110,km/h,design choice (independent of roughness)

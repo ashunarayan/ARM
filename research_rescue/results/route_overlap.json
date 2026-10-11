@@ -1,0 +1,36 @@
+{
+ "CPH1": {
+  "n_segments": 509,
+  "within_15m": 3,
+  "within_30m": 3,
+  "nearest_other_route_m_median": 2225.0591395561146,
+  "routes_within_30m": [
+   "CPH6"
+  ]
+ },
+ "CPH6": {
+  "n_segments": 426,
+  "within_15m": 4,
+  "within_30m": 4,
+  "nearest_other_route_m_median": 1115.234546298722,
+  "routes_within_30m": [
+   "CPH1"
+  ]
+ },
+ "M13": {
+  "n_segments": 228,
+  "within_15m": 0,
+  "within_30m": 0,
+  "nearest_other_route_m_median": 6491.556680362735,
+  "routes_within_30m": []
+ },
+ "M3": {
+  "n_segments": 515,
+  "within_15m": 0,
+  "within_30m": 0,
+  "nearest_other_route_m_median": 3665.987189477504,
+  "routes_within_30m": []
+ },
+ "total_segments": 1678,
+ "total_within_15m": 7
+}

@@ -1,0 +1,15 @@
+{
+ "modal_vs_direct_max_rel_dev": 3.8700956291642903e-13,
+ "body_modes_hz_range": [
+  0.9544998935005361,
+  2.519835352607836
+ ],
+ "wheel_hop_hz_range": [
+  9.062132163740335,
+  16.066834711165505
+ ],
+ "ramp_steady_accel_rms_ms2": 2.2339678098621452e-09,
+ "preprocess_rms_ratio_ideal_sensor": 0.9969368175076196,
+ "modal_vs_rk4_max_rel_dev": 4.425381356211154e-09,
+ "passed": true
+}

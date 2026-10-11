@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Segment-level MAE (m/km) and Spearman $\rho$ per held-out LiRA-CD route.}
+\label{tab:perroute}
+\begin{adjustbox}{max width=\columnwidth}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+\textbf{Model} & \textbf{CPH1 MAE} & \textbf{CPH1 rho} & \textbf{CPH6 MAE} & \textbf{CPH6 rho} & \textbf{M3 MAE} & \textbf{M3 rho} & \textbf{M13 MAE} & \textbf{M13 rho} \\
+\midrule
+M0 constant (training median) & 2.12 & -- & 2.03 & -- & 1.31 & 0.06 & 0.79 & -- \\
+M1 speed-only (LightGBM on speed features) & 1.1 & 0.48 & 1.11 & 0.42 & 0.31 & 0.2 & 0.25 & 0.45 \\
+M2c RMS/v\textasciicircum{}alpha (alpha fitted on training data) & 1.03 & 0.74 & 0.86 & 0.74 & 0.35 & 0.86 & 0.25 & 0.7 \\
+M3 LightGBM (all features) & 0.6 & 0.88 & 0.7 & 0.84 & 0.13 & 0.9 & 0.15 & 0.72 \\
+M4 MLP & 0.6 & 0.88 & 0.71 & 0.83 & 0.14 & 0.89 & 0.16 & 0.72 \\
+M5 1D-CNN & 0.75 & 0.87 & 0.7 & 0.78 & 0.16 & 0.88 & 0.17 & 0.71 \\
+M6 inner-validation-selected model & 0.6 & 0.88 & 0.71 & 0.83 & 0.14 & 0.89 & 0.16 & 0.72 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

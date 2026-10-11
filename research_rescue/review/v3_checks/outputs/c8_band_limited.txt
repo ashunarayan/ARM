@@ -1,0 +1,302 @@
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V0', 'features': 'full', 'mae': 0.4388104208512284, 'bias': 0.009767584001846527, 'bias_urban': -0.11621949203259727, 'bias_motorway': 0.16831121265891916, 'rho_within': 0.8344980608813723, 'lvl_urban': np.float64(0.0062910969532795225), 'lvl_motorway': np.float64(0.14457191287371252), 'mae_level5km': 0.42455621974033964}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V0', 'features': 'no1015', 'mae': 0.44459168598504556, 'bias': 0.02329562243930718, 'bias_urban': -0.10349906516922351, 'bias_motorway': 0.18285555906646228, 'rho_within': 0.8329886057548495, 'lvl_urban': np.float64(0.009368621605693543), 'lvl_motorway': np.float64(0.1582049028955071), 'mae_level5km': 0.4252498439826173}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V0', 'features': 'lt10', 'mae': 0.4877703114051055, 'bias': -0.16722989986006254, 'bias_urban': -0.42400687218139094, 'bias_motorway': 0.15590128334376266, 'rho_within': 0.8035566782946632, 'lvl_urban': np.float64(-0.08542893816005279), 'lvl_motorway': np.float64(0.14338319767035046), 'mae_level5km': 0.5080732856022293}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V1', 'features': 'full', 'mae': 0.6779948641602447, 'bias': 0.42670511876365014, 'bias_urban': 0.32433127880638224, 'bias_motorway': 0.5555335714689602, 'rho_within': 0.8276039447908502, 'lvl_urban': np.float64(0.13667535781253326), 'lvl_motorway': np.float64(0.3975591526737595), 'mae_level5km': 0.5284792926051675}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V1', 'features': 'no1015', 'mae': 0.6857300518901073, 'bias': 0.4379690765846424, 'bias_urban': 0.3384107411294267, 'bias_motorway': 0.5632544650780834, 'rho_within': 0.8279867091609716, 'lvl_urban': np.float64(0.14043763298206696), 'lvl_motorway': np.float64(0.4014126293476994), 'mae_level5km': 0.5269907204056926}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V1', 'features': 'lt10', 'mae': 0.5075694659903095, 'bias': -0.1568592334006525, 'bias_urban': -0.45534788309784197, 'bias_motorway': 0.21876241864089818, 'rho_within': 0.805407268948289, 'lvl_urban': np.float64(-0.10118187924329694), 'lvl_motorway': np.float64(0.18570150057102824), 'mae_level5km': 0.5454140549077976}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V2', 'features': 'full', 'mae': 0.40926162093289675, 'bias': -0.09410987441257493, 'bias_urban': -0.21922604129078369, 'bias_motorway': 0.06333779184735129, 'rho_within': 0.8317090873735142, 'lvl_urban': np.float64(-0.025235258328042492), 'lvl_motorway': np.float64(0.0621027840729845), 'mae_level5km': 0.41984265907231144}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V2', 'features': 'no1015', 'mae': 0.4100539212139269, 'bias': -0.07254807344900979, 'bias_urban': -0.1898783584621299, 'bias_motorway': 0.07510174685686807, 'rho_within': 0.8309442981284434, 'lvl_urban': np.float64(-0.017889151086232166), 'lvl_motorway': np.float64(0.07101469857788778), 'mae_level5km': 0.41895629095916603}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V2', 'features': 'lt10', 'mae': 0.481292286768681, 'bias': -0.13127626266533954, 'bias_urban': -0.34117073146887844, 'bias_motorway': 0.1328574228411327, 'rho_within': 0.8015555254338509, 'lvl_urban': np.float64(-0.04981694332759329), 'lvl_motorway': np.float64(0.12525991600632613), 'mae_level5km': 0.48605332616644503}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V3', 'features': 'full', 'mae': 0.6657968429985303, 'bias': 0.39943817895471817, 'bias_urban': 0.27436276507114243, 'bias_motorway': 0.5568345611635247, 'rho_within': 0.8331812907559375, 'lvl_urban': np.float64(0.13209282385746962), 'lvl_motorway': np.float64(0.4020213567294404), 'mae_level5km': 0.5394849831331264}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V3', 'features': 'no1015', 'mae': 0.6687131986793944, 'bias': 0.40693848496971846, 'bias_urban': 0.28435794960020633, 'bias_motorway': 0.5611952825073954, 'rho_within': 0.833393219825908, 'lvl_urban': np.float64(0.13455402814043213), 'lvl_motorway': np.float64(0.404877402869003), 'mae_level5km': 0.542007099843448}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V3', 'features': 'lt10', 'mae': 0.5339566497658749, 'bias': -0.04458644236724132, 'bias_urban': -0.31190060353604065, 'bias_motorway': 0.2918048640834012, 'rho_within': 0.8015172798040977, 'lvl_urban': np.float64(-0.036821051100788565), 'lvl_motorway': np.float64(0.2405070355197948), 'mae_level5km': 0.5614663574442152}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V4', 'features': 'full', 'mae': 0.6257631803552964, 'bias': 0.3971138705119158, 'bias_urban': 0.3894018066880888, 'bias_motorway': 0.40681882296854877, 'rho_within': 0.8286686569434787, 'lvl_urban': np.float64(0.1600635701823221), 'lvl_motorway': np.float64(0.2940108524146129), 'mae_level5km': 0.43526333486407537}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V4', 'features': 'no1015', 'mae': 0.6382133619357984, 'bias': 0.4119562244628314, 'bias_urban': 0.4036442314328121, 'bias_motorway': 0.42241613493802377, 'rho_within': 0.8283004953464743, 'lvl_urban': np.float64(0.16495024146326082), 'lvl_motorway': np.float64(0.3118419076731868), 'mae_level5km': 0.44125036043146737}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V4', 'features': 'lt10', 'mae': 0.6218818142554903, 'bias': 0.27667606010649626, 'bias_urban': 0.13527567099489615, 'bias_motorway': 0.45461598449323387, 'rho_within': 0.7989372776847752, 'lvl_urban': np.float64(0.1004725209645552), 'lvl_motorway': np.float64(0.332499068446347), 'mae_level5km': 0.5279293375514041}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V5', 'features': 'full', 'mae': 0.6872784843480677, 'bias': 0.40496154970081866, 'bias_urban': 0.2487279423335145, 'bias_motorway': 0.6015677716233349, 'rho_within': 0.8213509918852625, 'lvl_urban': np.float64(0.12088033585906083), 'lvl_motorway': np.float64(0.4226991273597295), 'mae_level5km': 0.5621689710847425}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V5', 'features': 'no1015', 'mae': 0.6985078642424912, 'bias': 0.42266750390771407, 'bias_urban': 0.2695362822827422, 'bias_motorway': 0.6153696468678065, 'rho_within': 0.8203271132207862, 'lvl_urban': np.float64(0.1268345091050634), 'lvl_motorway': np.float64(0.4292800297290837), 'mae_level5km': 0.5639958043697251}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V5', 'features': 'lt10', 'mae': 0.5339514247210002, 'bias': -0.10786765218248788, 'bias_urban': -0.4242736732873653, 'bias_motorway': 0.29030143224962573, 'rho_within': 0.7955481754845876, 'lvl_urban': np.float64(-0.08777310595415734), 'lvl_motorway': np.float64(0.2422713434083806), 'mae_level5km': 0.5668864759928021}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V6', 'features': 'full', 'mae': 0.45525445180299495, 'bias': -0.04054062974992486, 'bias_urban': -0.2449680227967768, 'bias_motorway': 0.21671322287296413, 'rho_within': 0.8296758118662395, 'lvl_urban': np.float64(-0.03259918103380951), 'lvl_motorway': np.float64(0.18718669029034507), 'mae_level5km': 0.44704212750677164}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V6', 'features': 'no1015', 'mae': 0.4601173867171359, 'bias': -0.028560327987667482, 'bias_urban': -0.23922134150171728, 'bias_motorway': 0.23653798646137225, 'rho_within': 0.829494762827861, 'lvl_urban': np.float64(-0.03144729031944951), 'lvl_motorway': np.float64(0.20001583471495182), 'mae_level5km': 0.4476807883185826}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V6', 'features': 'lt10', 'mae': 0.5295516479329707, 'bias': -0.1570061183533137, 'bias_urban': -0.4554775405447343, 'bias_motorway': 0.21859385439093704, 'rho_within': 0.792513760392021, 'lvl_urban': np.float64(-0.09076822246892546), 'lvl_motorway': np.float64(0.20343584969949863), 'mae_level5km': 0.5545873630824693}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V7', 'features': 'full', 'mae': 0.46268808417465385, 'bias': 0.07230228367928737, 'bias_urban': -0.05212648755939934, 'bias_motorway': 0.22888492312501024, 'rho_within': 0.8348836970953674, 'lvl_urban': np.float64(0.024007044137822613), 'lvl_motorway': np.float64(0.18486934267149208), 'mae_level5km': 0.4318189767274355}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V7', 'features': 'no1015', 'mae': 0.47841728364763275, 'bias': 0.10323450934792441, 'bias_urban': -0.028193734492540534, 'bias_motorway': 0.2686253680166118, 'rho_within': 0.8338206676449723, 'lvl_urban': np.float64(0.029603171149233557), 'lvl_motorway': np.float64(0.21303358210392287), 'mae_level5km': 0.43299107996271247}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V7', 'features': 'lt10', 'mae': 0.5177421780957993, 'bias': -0.18630881310207403, 'bias_urban': -0.5040229782712888, 'bias_motorway': 0.21350645531409812, 'rho_within': 0.8023166860048325, 'lvl_urban': np.float64(-0.1196917191940493), 'lvl_motorway': np.float64(0.17923198991877254), 'mae_level5km': 0.5321130018800704}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V8', 'features': 'full', 'mae': 0.554572048884614, 'bias': 0.2665802476976484, 'bias_urban': 0.2079984235856873, 'bias_motorway': 0.3403003089960112, 'rho_within': 0.8367474661755507, 'lvl_urban': np.float64(0.10111433006640921), 'lvl_motorway': np.float64(0.26166541546673106), 'mae_level5km': 0.45278897164022913}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V8', 'features': 'no1015', 'mae': 0.5631109250404938, 'bias': 0.27662317656432034, 'bias_urban': 0.2210946531516527, 'bias_motorway': 0.346500928099777, 'rho_within': 0.8349719323194175, 'lvl_urban': np.float64(0.10523734586085062), 'lvl_motorway': np.float64(0.26598222568653235), 'mae_level5km': 0.4530719693988243}
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nishk\anaconda3\envs\torch_gpu\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+{'vid': 'V8', 'features': 'lt10', 'mae': 0.474325490719013, 'bias': -0.1626820150642464, 'bias_urban': -0.39022397313998886, 'bias_motorway': 0.12365947995704463, 'rho_within': 0.801883466572885, 'lvl_urban': np.float64(-0.07737439158996234), 'lvl_motorway': np.float64(0.11851574353189186), 'mae_level5km': 0.4824348699435069}
+
+bias:
+features   full   lt10  no1015
+vid                           
+V0        0.010 -0.167   0.023
+V1        0.427 -0.157   0.438
+V2       -0.094 -0.131  -0.073
+V3        0.399 -0.045   0.407
+V4        0.397  0.277   0.412
+V5        0.405 -0.108   0.423
+V6       -0.041 -0.157  -0.029
+V7        0.072 -0.186   0.103
+V8        0.267 -0.163   0.277
+
+mae:
+features   full   lt10  no1015
+vid                           
+V0        0.439  0.488   0.445
+V1        0.678  0.508   0.686
+V2        0.409  0.481   0.410
+V3        0.666  0.534   0.669
+V4        0.626  0.622   0.638
+V5        0.687  0.534   0.699
+V6        0.455  0.530   0.460
+V7        0.463  0.518   0.478
+V8        0.555  0.474   0.563
+
+mae_level5km:
+features   full   lt10  no1015
+vid                           
+V0        0.425  0.508   0.425
+V1        0.528  0.545   0.527
+V2        0.420  0.486   0.419
+V3        0.539  0.561   0.542
+V4        0.435  0.528   0.441
+V5        0.562  0.567   0.564
+V6        0.447  0.555   0.448
+V7        0.432  0.532   0.433
+V8        0.453  0.482   0.453
+
+lvl_motorway:
+features   full   lt10  no1015
+vid                           
+V0        0.145  0.143   0.158
+V1        0.398  0.186   0.401
+V2        0.062  0.125   0.071
+V3        0.402  0.241   0.405
+V4        0.294  0.332   0.312
+V5        0.423  0.242   0.429
+V6        0.187  0.203   0.200
+V7        0.185  0.179   0.213
+V8        0.262  0.119   0.266
+
+range over V0-V8 of the pooled zero-shot bias:
+features
+full      -0.094 .. +0.427 (spread 0.521)
+lt10      -0.186 .. +0.277 (spread 0.463)
+no1015    -0.073 .. +0.438 (spread 0.511)
+Name: bias, dtype: object

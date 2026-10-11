@@ -1,0 +1,61 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,url,xcolor,tikz}
+\usetikzlibrary{positioning,calc,arrows.meta}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\externaldocument[S-]{supplementary}
+\graphicspath{{../figures/}}
+% every experimental number is a macro generated from the result files (make_numbers.py, make_numbers_v2.py, make_numbers_v3.py)
+\input{numbers.tex}
+\input{numbers_v2.tex}
+\input{numbers_v3.tex}
+
+\begin{document}
+\raggedbottom
+\makeatletter\@secpenalty=0\makeatother % fill columns before section headings
+
+\title{Simulated Drives over Measured Road Profiles for Car-Based IRI Estimation: What Transfers and What Needs Calibration}
+
+\author{
+\IEEEauthorblockN{Nishkarsh Singhal}
+\IEEEauthorblockA{\textit{Department of Electronics and Communication Engineering} \\
+\textit{Faculty of Technology, University of Delhi}\\
+New Delhi, India}
+\and
+\IEEEauthorblockN{Geetanjali Bhola}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
+\textit{Faculty of Technology, University of Delhi}\\
+New Delhi, India}
+}
+
+\maketitle
+
+\begin{abstract}
+Estimating the International Roughness Index (IRI) from the vibration of ordinary cars needs paired data: drives of the car type over road sections with surveyed profiles. Vehicle simulation can generate such pairs from the profiles alone. We test what estimators trained on simulated drives transfer to a real car, using public profilometer-referenced data from one car model (LiRA-CD, four routes, \liraKm\,km), held-out routes and 5\,km-block bootstrap intervals. Gradient boosting trained on real drives reaches a within-route mean absolute error (MAE) of \vrGbmMaeWithin\,m/km. Trained only on a randomised half-car simulation over the measured profiles of the other routes, it ranks segments within routes about as well under each of nine sensor and vehicle models, but so does, within \rpAbsMax{} in Spearman correlation on every route, an untrained, speed-normalised vibration RMS. What has to be learned is the level: the zero-shot bias ranges from \vvBiasMin{} to \vvBiasMax\,m/km and depends on the simulated sensor path, through the features carrying vibration above 10\,Hz, and on the simulated vehicle population. With 5\,km of profiled road and its paired drives, a level offset (pooled MAE \pcCalMaeFiveMin--\pcCalMaeFiveMax\,m/km) or joint training on simulated and real passes (\poMaeFiveMin--\poMaeFiveMax\,m/km) beat training on those drives alone (\vbRealOnlyFive\,m/km) for every variant, even with one pass per segment. With 20\,km, joint training stayed better for every variant, whereas real drives alone beat the level offset for the three variants with the largest vibration deficit at 10--15\,Hz. Simulated vibration also grows faster with speed than the real car's. For this car, simulation over profiled roads replaced most paired drives; whether this holds for other vehicles requires new paired data.
+\end{abstract}
+
+\begin{IEEEkeywords}
+International Roughness Index, road roughness, vehicle vibration, connected vehicles, simulation-to-real transfer, calibration.
+\end{IEEEkeywords}
+
+\input{sections/intro}
+\input{fig_pipeline}
+\input{sections/related}
+\input{sections/data}
+\input{sections/method}
+\input{sections/results}
+\input{sections/discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+Simulated drives over measured road profiles taught gradient boosting to rank the road segments of a real car about as well as real drives did, under every sensor and vehicle model we tried, but an untrained vibration statistic ranks them nearly as well; the informative test is the level.
+The simulated level was not reliable: it depended on the simulated sensor path, through the features carrying vibration above 10\,Hz, and on the simulated vehicle population, and the simulated vibration grew faster with speed than the real car's.
+With 5\,km of profiled road and its paired drives, simulation over all profiled roads beat training on those drives alone for every simulator variant, through a level offset or joint training and even with one pass per segment; with 20\,km, joint training kept a small advantage for every variant, whereas the level offset lost it for the variants with the largest vibration deficit at 10--15\,Hz.
+For a new car type this suggests simulating over profiled roads and training jointly with a few kilometres of paired drives, using a level offset only when the simulated and real spectra, and the class levels after calibration, agree.
+Whether this holds for other vehicles, sensors and road networks requires new paired data, ideally collected after freezing the simulator.
+
+\input{references_cited.tex}
+
+\end{document}

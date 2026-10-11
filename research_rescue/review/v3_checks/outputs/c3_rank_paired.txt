@@ -1,0 +1,36 @@
+
+=== within-route rho: point estimates ===
+CPH1 {'real GBM': np.float64(0.881), 'sim V0 GBM': np.float64(0.876), 'sim V1 GBM': np.float64(0.86), 'untrained RMS/v^0.5': np.float64(0.839)}
+CPH6 {'real GBM': np.float64(0.836), 'sim V0 GBM': np.float64(0.809), 'sim V1 GBM': np.float64(0.793), 'untrained RMS/v^0.5': np.float64(0.791)}
+M3 {'real GBM': np.float64(0.899), 'sim V0 GBM': np.float64(0.926), 'sim V1 GBM': np.float64(0.922), 'untrained RMS/v^0.5': np.float64(0.919)}
+M13 {'real GBM': np.float64(0.719), 'sim V0 GBM': np.float64(0.727), 'sim V1 GBM': np.float64(0.735), 'untrained RMS/v^0.5': np.float64(0.742)}
+--- paired differences (model - untrained), bootstrap over b5 blocks within route, B=2000
+real GBM     CPH1:+0.042[+0.027,+0.062]  CPH6:+0.044[+0.032,+0.066]  M3:-0.020[-0.034,-0.008]  M13:-0.023[-0.033,-0.010]  mean:+0.011[+0.004,+0.020]
+sim V0 GBM   CPH1:+0.038[+0.016,+0.064]  CPH6:+0.017[+0.002,+0.040]  M3:+0.007[-0.005,+0.020]  M13:-0.015[-0.055,+0.023]  mean:+0.012[-0.001,+0.025]
+sim V1 GBM   CPH1:+0.021[-0.003,+0.047]  CPH6:+0.002[-0.023,+0.027]  M3:+0.004[-0.018,+0.017]  M13:-0.007[-0.042,+0.036]  mean:+0.005[-0.008,+0.020]
+n 5 km blocks per route: {'CPH1': 12, 'CPH6': 10, 'M3': 12, 'M13': 6}
+--- paired differences (model - untrained), bootstrap over b1 blocks within route, B=2000
+real GBM     CPH1:+0.042[+0.027,+0.061]  CPH6:+0.044[+0.025,+0.067]  M3:-0.020[-0.041,-0.001]  M13:-0.023[-0.040,-0.003]  mean:+0.011[+0.002,+0.021]
+sim V0 GBM   CPH1:+0.038[+0.020,+0.057]  CPH6:+0.017[-0.004,+0.037]  M3:+0.007[-0.006,+0.020]  M13:-0.015[-0.044,+0.014]  mean:+0.012[+0.001,+0.023]
+sim V1 GBM   CPH1:+0.021[+0.004,+0.040]  CPH6:+0.002[-0.022,+0.025]  M3:+0.004[-0.011,+0.018]  M13:-0.007[-0.037,+0.021]  mean:+0.005[-0.006,+0.016]
+
+=== within-route partial rho: point estimates ===
+CPH1 {'real GBM': 0.84, 'sim V0 GBM': 0.833, 'sim V1 GBM': 0.813, 'untrained RMS/v^0.5': 0.815}
+CPH6 {'real GBM': 0.803, 'sim V0 GBM': 0.775, 'sim V1 GBM': 0.757, 'untrained RMS/v^0.5': 0.783}
+M3 {'real GBM': 0.902, 'sim V0 GBM': 0.928, 'sim V1 GBM': 0.922, 'untrained RMS/v^0.5': 0.922}
+M13 {'real GBM': 0.705, 'sim V0 GBM': 0.712, 'sim V1 GBM': 0.719, 'untrained RMS/v^0.5': 0.728}
+--- paired differences (model - untrained), bootstrap over b5 blocks within route, B=2000
+real GBM     CPH1:+0.026[+0.019,+0.037]  CPH6:+0.020[+0.006,+0.038]  M3:-0.020[-0.032,-0.011]  M13:-0.023[-0.041,+0.004]  mean:+0.001[-0.006,+0.009]
+sim V0 GBM   CPH1:+0.019[-0.002,+0.037]  CPH6:-0.008[-0.038,+0.020]  M3:+0.006[-0.003,+0.016]  M13:-0.016[-0.063,+0.026]  mean:+0.000[-0.015,+0.014]
+sim V1 GBM   CPH1:-0.001[-0.022,+0.016]  CPH6:-0.026[-0.071,+0.007]  M3:+0.000[-0.013,+0.011]  M13:-0.009[-0.040,+0.045]  mean:-0.009[-0.024,+0.007]
+n 5 km blocks per route: {'CPH1': 12, 'CPH6': 10, 'M3': 12, 'M13': 6}
+--- paired differences (model - untrained), bootstrap over b1 blocks within route, B=2000
+real GBM     CPH1:+0.026[+0.014,+0.038]  CPH6:+0.020[+0.004,+0.041]  M3:-0.020[-0.036,-0.006]  M13:-0.023[-0.045,+0.002]  mean:+0.001[-0.008,+0.010]
+sim V0 GBM   CPH1:+0.019[+0.004,+0.033]  CPH6:-0.008[-0.030,+0.011]  M3:+0.006[-0.003,+0.015]  M13:-0.016[-0.051,+0.018]  mean:+0.000[-0.011,+0.011]
+sim V1 GBM   CPH1:-0.001[-0.015,+0.012]  CPH6:-0.026[-0.053,-0.003]  M3:+0.000[-0.013,+0.013]  M13:-0.009[-0.038,+0.026]  mean:-0.009[-0.020,+0.003]
+
+real	10m22.292s
+user	0m0.249s
+sys	0m0.483s
+
+[exited with code 0]

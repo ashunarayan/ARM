@@ -1,0 +1,234 @@
+{
+ "note": "Headline results of the revised paper; values are the printed LaTeX macros (paper/numbers_v2.tex). Evidence classes as in evaluation/PROTOCOL_V2.md.",
+ "headlines": [
+  {
+   "id": "H1",
+   "quantity": "Real-trained LightGBM, within-route MAE (m/km)",
+   "values": {
+    "vrGbmMaeWithin": "0.39"
+   },
+   "source": "results/v2/summary_real_estimators.csv",
+   "script": "experiments/v2/summarise_v2.py",
+   "evidence_class": "C1",
+   "paper": "Table I, abstract"
+  },
+  {
+   "id": "H2",
+   "quantity": "V0 simulation-trained LightGBM (zero-shot), within-route MAE (m/km)",
+   "values": {
+    "vrSimVzeroMaeWithin": "0.42"
+   },
+   "source": "results/v2/summary_real_estimators.csv",
+   "script": "experiments/v2/summarise_v2.py",
+   "evidence_class": "C1",
+   "paper": "Table I, abstract"
+  },
+  {
+   "id": "H3",
+   "quantity": "V0 minus real-trained, pooled segment MAE difference with 5 km-block 95 % CI (m/km)",
+   "values": {
+    "vrSimVzeroDfive": "+0.019",
+    "vrSimVzeroDfiveLo": "-0.003",
+    "vrSimVzeroDfiveHi": "+0.040"
+   },
+   "source": "results/v2/summary_real_estimators.csv / inference_blocks.csv",
+   "script": "experiments/v2/summarise_v2.py, experiments/v2/inference_blocks.py",
+   "evidence_class": "C1 estimand, R inference",
+   "paper": "Table I, Sec. V-B"
+  },
+  {
+   "id": "H4",
+   "quantity": "Within-route Spearman of simulation-trained LightGBM over V0-V8 (real-trained: vrGbmRhoWithin)",
+   "values": {
+    "vvRhoMin": "0.82",
+    "vvRhoMax": "0.84",
+    "vrGbmRhoWithin": "0.83"
+   },
+   "source": "results/v2/summary_variants.csv",
+   "script": "experiments/v2/simreal_variants.py",
+   "evidence_class": "E",
+   "paper": "Table II, Fig. 2a, abstract"
+  },
+  {
+   "id": "H5",
+   "quantity": "Zero-shot pooled bias over V0-V8 (m/km)",
+   "values": {
+    "vvBiasMin": "-0.09",
+    "vvBiasMax": "+0.43"
+   },
+   "source": "results/v2/summary_variants.csv",
+   "script": "experiments/v2/simreal_variants.py",
+   "evidence_class": "E",
+   "paper": "Table II, Fig. 2b, abstract"
+  },
+  {
+   "id": "H6",
+   "quantity": "Holder-resonance effect on the bias, telematics-like / phone-like sensor (m/km)",
+   "values": {
+    "vvHolderEffTele": "-0.35",
+    "vvHolderEffPhone": "-0.36"
+   },
+   "source": "results/v2/summary_variants.csv",
+   "script": "experiments/v2/simreal_variants.py",
+   "evidence_class": "E",
+   "paper": "Sec. V-B"
+  },
+  {
+   "id": "H7",
+   "quantity": "Spearman (9 variants) of zero-shot bias with the 10-15 Hz real/sim amplitude ratio",
+   "values": {
+    "bgRhoHigh": "0.97"
+   },
+   "source": "results/v2/band_gain.csv + summary_variants.csv",
+   "script": "experiments/v2/band_gain.py",
+   "evidence_class": "E",
+   "paper": "Fig. 3b, Sec. V-C"
+  },
+  {
+   "id": "H8",
+   "quantity": "Simulation on all profiles + level offset from 5 km of paired drives, MAE range over V0-V8 (m/km)",
+   "values": {
+    "pcCalMaeFiveMin": "0.42",
+    "pcCalMaeFiveMax": "0.56"
+   },
+   "source": "results/v2/paired_vs_real.csv (variants_calibration.csv)",
+   "script": "experiments/v2/simreal_variants.py, experiments/v2/paired_vs_real.py",
+   "evidence_class": "R",
+   "paper": "Table III, Fig. 4b, abstract"
+  },
+  {
+   "id": "H9",
+   "quantity": "Real-only LightGBM trained on the same 5 km, MAE (m/km)",
+   "values": {
+    "vbRealOnlyFive": "0.68"
+   },
+   "source": "results/v2/summary_value_of_sim.csv",
+   "script": "experiments/v2/value_of_simulation.py, experiments/v2/summarise_v2.py",
+   "evidence_class": "R",
+   "paper": "Table III, abstract"
+  },
+  {
+   "id": "H10",
+   "quantity": "Draws (of 20) in which simulation + 5 km level beats real-only LightGBM on 5 km, range over V0-V8",
+   "values": {
+    "pcCalWinsFiveMin": "13",
+    "pcCalWinsFiveMax": "20"
+   },
+   "source": "results/v2/paired_vs_real.csv",
+   "script": "experiments/v2/paired_vs_real.py",
+   "evidence_class": "E",
+   "paper": "Sec. V-D, abstract"
+  },
+  {
+   "id": "H11",
+   "quantity": "Draws (of 20) in which simulation + level beats real-only LightGBM for V1/V3/V5 at 10 km and 20 km",
+   "values": {
+    "pcCalHiDefWinsTenMin": "3",
+    "pcCalHiDefWinsTenMax": "5",
+    "pcCalHiDefWinsTwentyMax": "0"
+   },
+   "source": "results/v2/paired_vs_real.csv",
+   "script": "experiments/v2/paired_vs_real.py",
+   "evidence_class": "E",
+   "paper": "Sec. V-D, abstract"
+  },
+  {
+   "id": "H12",
+   "quantity": "Equal profile budget, simulation minus real-only LightGBM at 20 km, range over V0-V8 (m/km)",
+   "values": {
+    "pcSameDiffTwentyMin": "-0.02",
+    "pcSameDiffTwentyMax": "+0.24"
+   },
+   "source": "results/v2/paired_vs_real.csv (value_of_simulation*.csv)",
+   "script": "experiments/v2/value_of_simulation.py, experiments/v2/value_of_simulation_variants.py",
+   "evidence_class": "R (V0) / E (V1-V8)",
+   "paper": "Sec. V-D, Fig. 4a"
+  },
+  {
+   "id": "H13",
+   "quantity": "Fixed-road speed elasticity: real-trained LightGBM, V0 LightGBM, paired difference (5 km blocks)",
+   "values": {
+    "elRealGbmPooled": "-0.15",
+    "elSimGbmPooled": "-0.06",
+    "epVzeroPooled": "+0.09",
+    "epVzeroPooledLo": "+0.06",
+    "epVzeroPooledHi": "+0.12"
+   },
+   "source": "results/v2/speed_real.csv, speed_paired.csv",
+   "script": "experiments/v2/speed_real.py, experiments/v2/speed_paired.py",
+   "evidence_class": "R / E",
+   "paper": "Sec. V-E, Fig. 5"
+  },
+  {
+   "id": "H14",
+   "quantity": "Raw vibration RMS speed elasticity on a fixed road: real urban / motorway vs simulated ranges over V0-V8",
+   "values": {
+    "ssRealUrban": "0.60",
+    "ssRealMotorway": "0.85",
+    "ssSimUrbanMin": "0.92",
+    "ssSimUrbanMax": "1.30",
+    "ssSimMotorwayMin": "1.07",
+    "ssSimMotorwayMax": "1.40"
+   },
+   "source": "results/v2/speed_scaling_sim.csv",
+   "script": "experiments/v2/speed_scaling_sim.py",
+   "evidence_class": "E",
+   "paper": "Sec. V-C"
+  },
+  {
+   "id": "H15",
+   "quantity": "Unseen-vehicle penalty at 30 / 100 training vehicles (%), route-bootstrap upper bound at 100",
+   "values": {
+    "vsThirtyRel": "+16",
+    "vsHundredRel": "+6",
+    "vsHundredRelHiRoute": "11"
+   },
+   "source": "results/v2/vehicle_sweep.csv",
+   "script": "experiments/v2/vehicle_sweep.py",
+   "evidence_class": "S",
+   "paper": "Table IV, Fig. 6"
+  },
+  {
+   "id": "H16",
+   "quantity": "Residual autocorrelation of segment errors at 100 m and 1 km (real-trained LightGBM)",
+   "values": {
+    "acfGbmHundred": "0.44",
+    "acfGbmKm": "0.11"
+   },
+   "source": "results/v2/residual_acf.csv",
+   "script": "experiments/v2/inference_blocks.py",
+   "evidence_class": "R",
+   "paper": "Sec. IV"
+  },
+  {
+   "id": "H17",
+   "quantity": "Calibrated quarter-car inversion M7: within-route MAE and paired difference to LightGBM",
+   "values": {
+    "vrInvMaeWithin": "0.46",
+    "vrInvDfive": "+0.081",
+    "vrInvDfiveLo": "+0.043",
+    "vrInvDfiveHi": "+0.115"
+   },
+   "source": "results/v2/summary_real_estimators.csv (physics_inversion*.csv)",
+   "script": "experiments/v2/physics_inversion.py",
+   "evidence_class": "R",
+   "paper": "Table I, Sec. V-A"
+  },
+  {
+   "id": "H18",
+   "quantity": "Unit-disjoint vs size-matched real training, MAE on CPH1 / CPH6 / M13",
+   "values": {
+    "udCphOneDis": "0.63",
+    "udCphOneCtrl": "0.63",
+    "udCphSixDis": "0.69",
+    "udCphSixCtrl": "0.70",
+    "udMwThirteenDis": "0.15",
+    "udMwThirteenCtrl": "0.15"
+   },
+   "source": "results/v2/unit_disjoint.csv",
+   "script": "experiments/v2/real_baselines_v2.py",
+   "evidence_class": "R",
+   "paper": "Sec. V-A, Table S7"
+  }
+ ]
+}

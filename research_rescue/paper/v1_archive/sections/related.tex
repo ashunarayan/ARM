@@ -1,0 +1,20 @@
+\section{Related Work}
+\label{sec:related}
+
+\textbf{Response-type roughness measurement.}
+IRI is defined on the longitudinal profile through a reference quarter-car (the ``Golden Car'') driven at 80\,km/h~\cite{sayers1986tp45,sayers1995iri,astm_e1926}.
+Measuring the response of an ordinary vehicle instead of the profile is a long-standing, cheaper alternative; such response-type systems are not self-calibrating and must be correlated with a reference profiler~\cite{sayers1986tp46}.
+Model-based approaches estimate roughness from the responses of a specific vehicle, either with fixed vehicle models or with a vehicle model identified from drive tests and frequency-domain analysis~\cite{gonzalez2008accel,zhao2017freq}; Bridgelall's road impact factor normalises vertical-acceleration energy for connected vehicles~\cite{bridgelall2014rif}.
+
+\textbf{Smartphones and connected vehicles.}
+Crowdsourced road sensing started with event detection~\cite{eriksson2008pothole,mohan2008nericell}; a review summarises the many smartphone studies since~\cite{sattar2018review}.
+Studies comparing smartphone estimates with reference roughness measurements report agreement that depends on speed, vehicle and phone~\cite{thilak2021}, on mounting~\cite{mounting2026}, and on the number of repeated runs~\cite{opara2022roughness}; see also~\cite{hanson2014iri}.
+A data-driven model accounting for speed, vehicle type and mounting was trained on smartphone data from real vehicles~\cite{sang2024iri}, and semi-supervised learning has been used to exploit unlabelled responses of public or crowdsourced vehicles~\cite{zhang2026semisup,trc2021crowd}.
+The LiRA project collected CAN-bus and accelerometer data from a fleet of production cars~\cite{levenberg2021lira}, released together with P79 profilometer surveys of the same lanes as LiRA-CD~\cite{skar2023lira}, the real-data backbone of this study; members of the project proposed a machine-learning pipeline that predicts roughness from car vertical acceleration and speed~\cite{bajic2021ml}.
+An evaluation framework for smartphone roughness systems has been proposed in~\cite{evalframework2023}.
+
+\textbf{Learning from simulated vehicle responses.}
+Neural networks trained on simulated vehicle responses have been used to reconstruct road profiles and classify roughness~\cite{ngwangwa2010ann}, to classify roughness grades of white-noise road models from quarter-car simulations~\cite{rcnn2023sim}, and to build speed-adaptive roughness classifiers from quarter-car simulations and real-vehicle tests~\cite{speedadaptive2025}; a CNN was proposed for vehicle-calibration-free roughness assessment~\cite{jeong2020cnn}.
+Game engines such as BeamNG.tech provide soft-body vehicles and are used in software-testing research~\cite{gambi2019beamng,beamng}, but the elevation of their authored road meshes is not a measured profile, so IRI labels derived from them need validation (Section~\ref{sec:res_labels}).
+Domain randomisation is a standard device for simulation-to-real transfer~\cite{tobin2017dr}.
+Compared with this work, we (i) validate the label computation against a profilometer, (ii) evaluate route-disjointly on public profilometer-referenced data from production cars, and (iii) separate roughness information from speed, which is confounded with road type in naturalistic driving.

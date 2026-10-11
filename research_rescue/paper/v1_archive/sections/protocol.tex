@@ -1,0 +1,18 @@
+\section{Experimental Protocol}
+\label{sec:protocol}
+\textbf{Splits.}
+LiRA-CD: leave-one-route-out over \{CPH1, CPH6, M3, M13\}, both directions of the test route held out together; hyper-parameters, $\alpha$ and model selection use only the three training routes.
+The routes share no road section: only \overlapWithin{} of the \liraSegments{} segments lie within 15\,m of a segment of another route (crossings of CPH1 and CPH6).
+BeamNG: leave-one-map-out (S1); leave-one-vehicle-and-map-out (S2); and, to quantify protocol effects, the earlier study's split (S3: validation and test trips on the same test track).
+PVS: leave-one-route-out.
+
+\textbf{Units and metrics.}
+Evaluation units are non-overlapping 100\,m segments. On LiRA-CD the primary unit is the segment, predicted by the mean of its pass-level predictions; pass-level results are reported in the supplementary material.
+We report MAE (primary), RMSE, bias, Spearman's $\rho$, $R^2$ (descriptive; not compared across datasets) and quadratic-weighted $\kappa$ on the FHWA condition bands (good $<$1.50, fair 1.50--2.68, poor $\geq$2.68\,m/km~\cite{fhwa490}).
+No prediction is filtered, capped (other than at 0) or recalibrated on test data.
+To separate roughness information from speed, we also compute, within each held-out route, the partial Spearman correlation between segment predictions and IRI given segment mean speed (correlation of the rank residuals after regressing out the speed ranks), averaged over the two routes of each road class.
+
+\textbf{Uncertainty.}
+95\,\% intervals come from a cluster bootstrap~\cite{fieldwelsh2007} with 2000 resamples of independent physical units: 100\,m segments on LiRA-CD (all passes of a segment resampled together; a 1\,km-block bootstrap is reported as a sensitivity analysis), 100\,m location cells on BeamNG (so repeated traversals by different trips and vehicles are resampled together) and GPS cells on PVS.
+Differences between models are paired bootstrap differences on the same resamples, with Holm's correction~\cite{holm1979} within each table; seed variation of neural nets is reported separately and never used as the interval.
+These intervals describe sampling of segments within the four routes; with four routes, the variation between routes cannot be bootstrapped and is shown per route instead.

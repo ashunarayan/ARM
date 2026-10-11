@@ -1,0 +1,20 @@
+{
+ "sim": {
+  "n": 25813,
+  "coef_log_iri": 0.9279751531340308,
+  "coef_log_v": 1.2156005297350672,
+  "alpha_equiv": 1.3099494373633231
+ },
+ "real": {
+  "n": 16293,
+  "coef_log_iri": 0.6471019296583729,
+  "coef_log_v": 0.7477782210746426,
+  "alpha_equiv": 1.1555802676549276
+ },
+ "segment_match": {
+  "n_segments": 885,
+  "spearman": 0.7670683902451354,
+  "pearson": 0.7619914157173411,
+  "mean_log_ratio_real_minus_sim": 0.20563717186450958
+ }
+}

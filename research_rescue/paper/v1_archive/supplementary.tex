@@ -1,0 +1,60 @@
+\documentclass[onecolumn,10pt]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,url,xcolor,float,adjustbox}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{../figures/}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\input{numbers.tex}
+\begin{document}
+\title{Supplementary Material:\\ How Far Can Simulation Take Vehicle-Based IRI Estimation?}
+\maketitle
+
+\section*{S1. Protocol, deviations and fixes}
+The evaluation protocol (\path{evaluation/FINAL_EVALUATION_PROTOCOL.md}) and the model configurations (\path{config/models.json}) were frozen before any test evaluation. The following decisions were taken afterwards; none was taken in response to a test result unless stated. All are logged in \path{CHANGELOG.md}.
+\begin{itemize}
+\item \emph{CPH6-HH labels.} LiRA-CD's CPH6-HH profile file and IRI file cannot be aligned: the best Pearson correlation between the 10\,m IRI recomputed from the profile and the reported 10\,m IRI over shifts of $\pm$3\,km, with and without reversal, is \alignBestR, while two control files align at zero shift with $r=$\,\alignControlR{} (\path{evaluation/cph6hh_alignment.py}). The pair fails the a-priori consistency rule (10\,m agreement $r\geq0.95$); all labels are therefore recomputed from the profiles, which carry GPS.
+\item \emph{Skipped passes.} \liraSkipped{} LiRA-CD passes lack accelerometer or CAN speed data (\liraGpsOnly{} contain GPS only, \liraNoSpeed{} have no speed signal) and were skipped; \liraNoUnits{} further passes yield no valid unit. On the CPH1 ring road the chainage wraps around; GPS tracks are split into runs of plausible progression (a data-engineering fix found from unit counts, before any model was evaluated).
+\item \emph{Simulator realisation.} The simulator's first implementation used a polynomial (second-order-section) realisation that deviated by up to 19\,\% from the state-space solution; it was replaced by the modal first-order-hold realisation before any simulated data were used. A Runge--Kutta check of the final solver was added to the unit tests later; its first version started the continuous and the discrete system from different initial states, which was a fault of the test only (the simulator removes the initial profile offset).
+\item \emph{Sensor statistics.} The telematics sensor configuration of the simulator (55--62\,Hz, 0.01\,g, tilt s.d.\ 6$^\circ$) was set from a preliminary inspection of the unlabelled LiRA-CD car files that read the accelerometer rates as 56--260\,Hz and the tilt as up to 11$^\circ$. A complete re-measurement for the paper (\path{evaluation/lira_sensor_stats.py}) gives nominal rates of \liraRateLow\,Hz (\liraRateLowShare\,\% of passes) or \liraRateHigh\,Hz, 0.01\,g quantisation in \liraLsbShare\,\% of passes and tilts with median \liraTiltMedian$^\circ$ (maximum \liraTiltMax$^\circ$). The simulator was not changed after this finding, because the zero-shot results had already been computed. Instead, a post-hoc sensitivity analysis re-ran the zero-shot experiment on measured profiles with the same training vehicles and two sensor variants (\path{sim_generate.py measuredsensor measuredmix}, \path{exp_lira.py zeroshot_sensor}): with the telematics half of the mixture matched to the statistics above, LightGBM reaches MAE \phMixGbmMae{} [\phMixGbmMaeLo, \phMixGbmMaeHi]\,m/km against \phPrimGbmMae{} [\phPrimGbmMaeLo, \phPrimGbmMaeHi] for the primary configuration in the same run (paired difference \phMixGbmDmae\,m/km; vibration index \phMixPhysMae{} vs.\ \phPrimPhysMae); with a single matched telematics sensor and no smartphone-like half it reaches \phMeasGbmMae{} [\phMeasGbmMaeLo, \phMeasGbmMaeHi]\,m/km (urban \phMeasGbmMaeUrban, motorway \phMeasGbmMaeMotorway; primary: \phPrimGbmMaeUrban{} and \phPrimGbmMaeMotorway). These results are reported but not used for any primary claim.
+\item \emph{Robustness experiment.} The first version drew new random passes for every perturbation level; it was re-run with common random numbers (variance reduction). The first version is kept in \path{results/sim/robustness_v1_independent_draws.csv}.
+\item \emph{Secondary speed experiment.} Added after observing the speed sweep of estimators trained on synthetic profiles: the same sweep for estimators trained on simulated drives over measured profiles (leave-one-route-out). Reported regardless of outcome.
+\item \emph{Compute allocation.} Zero-shot CNNs (three seeds, two simulation sets) and few-shot CNNs ($k\in\{1,5,20\}$\,km and all, three seeds) were limited before their results were known. The ``all'' few-shot budget has a single draw.
+\item \emph{Seeds.} Neural-net metrics on LiRA-CD and BeamNG are means of per-seed metrics (inside every bootstrap resample); in the controlled simulation experiments, metrics of the seed-averaged prediction.
+\item \emph{Figures.} The IRI-validation figure now reports the number of off-scale points (ARAN9000 values above the axis limit); no statistic changed.
+\end{itemize}
+
+\section*{S2. Simulator parameters}
+\input{../tables/tableS_sim_ranges.tex}
+
+\section*{S3. A property of the earlier study's loss}
+The earlier study's asymmetric Huber loss reduces to a scalar before Keras applies sample weights. In TensorFlow~2.10, moving a large weight between samples of a batch leaves the gradient unchanged; the weights only rescale the batch loss by their mean. The ``two-dimensional inverse-frequency sampling'' of the full model therefore did not re-weight individual samples. Our re-implementation reproduces this behaviour.
+
+\section*{S4. Additional results}
+Table~\ref{tab:perroute} gives the real-car results per held-out route, Table~\ref{tab:tableS_zeroshot_full} all estimators trained only on simulated data, and Table~\ref{tab:generalisation} all controlled tests. Tables~\ref{tab:tableS_pass_level} and~\ref{tab:tableS_block_bootstrap} give pass-level results and the 1\,km-block bootstrap. Table~\ref{tab:s_beamng} lists all BeamNG results and Table~\ref{tab:s_pvs} all PVS AUCs. Fig.~\ref{fig:s_robust} shows the sensor-robustness experiment and Fig.~\ref{fig:s_bng} the effect of the earlier split on $R^2$.
+
+\input{../tables/table3_real_world_per_route.tex}
+\input{../tables/tableS_zeroshot_full.tex}
+\input{../tables/table5_generalisation.tex}
+\input{../tables/tableS_pass_level.tex}
+\input{../tables/tableS_block_bootstrap.tex}
+\input{../tables/tableS_beamng.tex}
+\input{../tables/tableS_pvs_auc.tex}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{robustness.pdf}
+\caption{Sensor robustness in simulation: estimators trained on synthetic profiles, evaluated on 12 held-out synthetic routes driven by 6 unseen vehicles with the telematics sensor configuration; one property changed at a time (common random numbers).}
+\label{fig:s_robust}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{beamng_protocol.pdf}
+\caption{BeamNG corpus, earlier label definition: $R^2$ on held-out segments under the earlier split (validation and test trips on the same track) and under leave-one-map-out (95\,\% cluster-bootstrap CIs).}
+\label{fig:s_bng}
+\end{figure}
+
+\section*{S5. Reproduction}
+All numbers in the paper are LaTeX macros generated from the result files by \path{make_numbers.py}; figures and tables are generated by \path{make_figures.py} and \path{make_tables.py}. The full pipeline is \path{run_all_experiments.py}; see \path{README.md} for environments, data download and runtimes.
+\end{document}

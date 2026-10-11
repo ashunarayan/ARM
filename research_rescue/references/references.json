@@ -1,0 +1,1169 @@
+{
+ "skar2023lira": {
+  "doi": "10.1016/j.dib.2023.109426",
+  "title": "LiRA-CD: An open-source dataset for road condition modelling and research",
+  "container": "Data in Brief",
+  "year": 2023,
+  "volume": "49",
+  "issue": null,
+  "page": "109426",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Asmus",
+    "Skar"
+   ],
+   [
+    "Anders M.",
+    "Vestergaard"
+   ],
+   [
+    "Thea",
+    "Br\u00fcsch"
+   ],
+   [
+    "Shahrzad",
+    "Pour"
+   ],
+   [
+    "Ekkart",
+    "Kindler"
+   ],
+   [
+    "Tommy Sonne",
+    "Alstr\u00f8m"
+   ],
+   [
+    "Uwe",
+    "Schlotz"
+   ],
+   [
+    "Jakob Elsborg",
+    "Larsen"
+   ],
+   [
+    "Matteo",
+    "Pettinari"
+   ]
+  ],
+  "abstract": "This data article presents the details of the Live Road Assessment Custom Dataset (LiRA-CD), an open-source dataset for road condition modelling and research. The dataset captures GPS trajectories of a fleet of electric vehicles and their time-series data from 50 different sensors collected on 230 km of highway and urban roads in Copenhagen, Denmark. Additionally, road condition measurements were collected by standard survey vehicles, which serve as high-quality reference data. The in-vehicle measurements were collected onboard with an Internet-of-Things (IoT) device, then periodically transmitted before being saved in a database. Researchers can use the dataset for prediction modelling related to standard road condition parameters such as surface friction and texture, road roughness, road damages, and energy consumption. Furthermore, researchers and pavement engineers can use the dataset as a template for future studies and projects, benchmarking the performance of different algorithms and solving problems of the same type. LiRA-CD is freely available and can be accessed at https://doi.org/10.11583/DTU.c.6659909.",
+  "source": "crossref-doi"
+ },
+ "levenberg2021lira": {
+  "doi": "10.1177/03611981211016852",
+  "title": "Live Road Condition Assessment with Internal Vehicle Sensors",
+  "container": "Transportation Research Record: Journal of the Transportation Research Board",
+  "year": 2021,
+  "volume": "2675",
+  "issue": "10",
+  "page": "1442-1452",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Eyal",
+    "Levenberg"
+   ],
+   [
+    "Asmus",
+    "Skar"
+   ],
+   [
+    "Shahrzad M.",
+    "Pour"
+   ],
+   [
+    "Ekkart",
+    "Kindler"
+   ],
+   [
+    "Matteo",
+    "Pettinari"
+   ],
+   [
+    "Milena",
+    "Bajic"
+   ],
+   [
+    "Tommy S.",
+    "Alstr\u00f8m"
+   ],
+   [
+    "Uwe",
+    "Schlotz"
+   ]
+  ],
+  "abstract": "Modern cars are equipped with many sensors that measure information about the vehicle and its surroundings. These measurements are therefore related to the ride-surface conditions over which the vehicle is passing. The paper commences by outlining a four-component vision for performing road condition evaluation based on in-vehicle sensor readings and subsequent feeding of pavement management systems (PMSs) with live condition information. This is expected to enrich the functionalities of PMSs, and ultimately lead to improved maintenance and repair decisions. Next the LiRA (Live Road Assessment) project\u2014an ongoing proof-of-concept attempt to realize the vision components\u2014is presented. The project elements and software architecture are described in detail, listing any assumptions, compromises, and challenges. LiRA involves a fleet of 400 electric cars operating in Copenhagen, both within the city streets and nearby highways. Sensor data collection is performed with a customized Internet of Things (IoT) device installed in the cars. Data processing and structuring involve new software tools for quality control, spatio-temporal interpolation, and map matching. A hybrid approach, combining machine learning models with physical (mechanics-based) models, is currently being applied to convert data into relevant information for PMSs. Based on the experience thus far with LiRA, the vision actualization is deemed achievable, workable, and up-scalable.",
+  "source": "crossref-doi"
+ },
+ "menegazzo2020pvs": {
+  "doi": "10.1109/sbesc51047.2020.9277846",
+  "title": "Multi-Contextual and Multi-Aspect Analysis for Road Surface Type Classification Through Inertial Sensors and Deep Learning",
+  "container": "2020 X Brazilian Symposium on Computing Systems Engineering (SBESC)",
+  "year": 2020,
+  "volume": null,
+  "issue": null,
+  "page": "1-8",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Jeferson",
+    "Menegazzo"
+   ],
+   [
+    "Aldo",
+    "von Wangenheim"
+   ]
+  ],
+  "abstract": "The demand for a variety of situational data from the traffic environment and its participants has intensified with the development of applications in Intelligent Transport Systems (ITS). Among these data, the road surface type classification is one of the most important and can be used in the entire ITS domain. For its widespread application, it is necessary to employ a robust technology for the generation of raw data and to develop of a reliable and stable model to process these data in order to produce the classification. The developed model must operate correctly in different vehicles, under different driving styles and in different environments in which a vehicle can travel. In this work we employ inertial sensors, represented by accelerometers and gyroscopes, which are a safe, non-polluting, and low-cost alternative, ideal for large-scale use. We collect nine datasets with contextual variations, including three different vehicles, with three different drivers, in three different environments, in which there are three different road surface types, in addition to variations in the conservation state and presence of anomalies and obstacles such as potholes and speed bumps. After data collection, these data were used in experiments to evaluate various aspects, such as the influence of the vehicle data collection point, the analysis domain, the model input features, and the data window. Afterwards we evaluated the learning and generalization capacity of the models for unknown contexts. In a third step, the data were used in three Deep Neural Network (DNN) models: LSTM-based, GRU-based, and CNN-based. Through a multi-aspect and multi-contextual analysis, we considered the CNN-based model as the best one, which obtained an average accuracy between the data collection placements of 94.27% for learning and 92.70% for validation, classifying the road surface between asphalt, cobblestone or dirt road segments.",
+  "source": "crossref-doi"
+ },
+ "sang2024iri": {
+  "doi": "10.1109/jiot.2024.3369109",
+  "title": "Smartphone-Based IRI Estimation for Pavement Roughness Monitoring: A Data-Driven Approach",
+  "container": "IEEE Internet of Things Journal",
+  "year": 2024,
+  "volume": "11",
+  "issue": "11",
+  "page": "19708-19720",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Ye",
+    "Sang"
+   ],
+   [
+    "Qiqin",
+    "Yu"
+   ],
+   [
+    "Yihai",
+    "Fang"
+   ],
+   [
+    "Viet",
+    "Vo"
+   ],
+   [
+    "Richard",
+    "Wix"
+   ]
+  ],
+  "abstract": "Monitoring pavement roughness is critical for minimizing vehicle damages and ensuring road user safety. Conventional roughness measurement instruments are costly and limited in surveying frequency and spatial coverage. To overcome these limitations, vehicle-mounted smartphones have been adopted to measure pavement roughness based on the dynamic responses of traversing vehicles. Nonetheless, the accuracy and consistency of the current smartphone-based approaches are affected by practical factors, including speed, vehicle type, and mounting configuration. Existing research applied deep learning to mitigate the impact of varying practical factors, but most of them was based on simulation studies. This study introduces a method of estimating the international roughness index (IRI) using smartphone-collected real vehicle response. The approach leverages a multilayer perceptron deep learning model to account for variations in practical settings. The model achieved an RMSE of 0.60 and an $R^{2}$ of 0.79 when compared with the ground-truth IRI. The results showcase the deployability of the proposed data-driven method in crowdsourcing-based IRI surveying.",
+  "source": "crossref-doi"
+ },
+ "bridgelall2014rif": {
+  "doi": "10.1061/(asce)is.1943-555x.0000167",
+  "title": "Connected Vehicle Approach for Pavement Roughness Evaluation",
+  "container": "Journal of Infrastructure Systems",
+  "year": 2014,
+  "volume": "20",
+  "issue": "1",
+  "page": "04013001",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Raj",
+    "Bridgelall"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "hanson2014iri": {
+  "doi": "10.1139/cjce-2014-0183",
+  "title": "Evaluation of low-cost consumer-level mobile phone technology for measuring international roughness index (IRI) values",
+  "container": "Canadian Journal of Civil Engineering",
+  "year": 2014,
+  "volume": "41",
+  "issue": "9",
+  "page": "819-827",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Trevor",
+    "Hanson"
+   ],
+   [
+    "Coady",
+    "Cameron"
+   ],
+   [
+    "Eric",
+    "Hildebrand"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "sattar2018review": {
+  "doi": "10.3390/s18113845",
+  "title": "Road Surface Monitoring Using Smartphone Sensors: A Review",
+  "container": "Sensors",
+  "year": 2018,
+  "volume": "18",
+  "issue": "11",
+  "page": "3845",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Shahram",
+    "Sattar"
+   ],
+   [
+    "Songnian",
+    "Li"
+   ],
+   [
+    "Michael",
+    "Chapman"
+   ]
+  ],
+  "abstract": "Road surface monitoring is a key factor to providing smooth and safe road infrastructure to road users. The key to road surface condition monitoring is to detect road surface anomalies, such as potholes, cracks, and bumps, which affect driving comfort and on-road safety. Road surface anomaly detection is a widely studied problem. Recently, smartphone-based sensing has become increasingly popular with the increased amount of available embedded smartphone sensors. Using smartphones to detect road surface anomalies could change the way government agencies monitor and plan for road maintenance. However, current smartphone sensors operate at a low frequency, and undersampled sensor signals cause low detection accuracy. In this study, current approaches for using smartphones for road surface anomaly detection are reviewed and compared. In addition, further opportunities for research using smartphones in road surface anomaly detection are highlighted.",
+  "source": "crossref-doi"
+ },
+ "eriksson2008pothole": {
+  "doi": "10.1145/1378600.1378605",
+  "title": "The pothole patrol",
+  "container": "Proceedings of the 6th international conference on Mobile systems, applications, and services",
+  "year": 2008,
+  "volume": null,
+  "issue": null,
+  "page": "29-39",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Jakob",
+    "Eriksson"
+   ],
+   [
+    "Lewis",
+    "Girod"
+   ],
+   [
+    "Bret",
+    "Hull"
+   ],
+   [
+    "Ryan",
+    "Newton"
+   ],
+   [
+    "Samuel",
+    "Madden"
+   ],
+   [
+    "Hari",
+    "Balakrishnan"
+   ]
+  ],
+  "abstract": "This paper investigates an application of mobile sensing: detecting and reporting the surface conditions of roads. We describe a system and associated algorithms to monitor this important civil infrastructure using a collection of sensor-equipped vehicles. This system, which we call the Pothole Patrol (P2), uses the inherent mobility of the participating vehicles, opportunistically gathering data from vibration and GPS sensors, and processing the data to assess road surface conditions. We have deployed P2 on 7 taxis running in the Boston area. Using a simple machine-learning approach, we show that we are able to identify potholes and other severe road surface anomalies from accelerometer data. Via careful selection of training data and signal features, we have been able to build a detector that misidentifies good road segments as having potholes less than 0.2% of the time. We evaluate our system on data from thousands of kilometers of taxi drives, and show that it can successfully detect a number of real potholes in and around the Boston area. After clustering to further reduce spurious detections, manual inspection of reported potholes shows that over 90% contain road anomalies in need of repair.",
+  "source": "crossref-doi"
+ },
+ "mohan2008nericell": {
+  "doi": "10.1145/1460412.1460444",
+  "title": "Nericell",
+  "container": "Proceedings of the 6th ACM conference on Embedded network sensor systems",
+  "year": 2008,
+  "volume": null,
+  "issue": null,
+  "page": "323-336",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Prashanth",
+    "Mohan"
+   ],
+   [
+    "Venkata N.",
+    "Padmanabhan"
+   ],
+   [
+    "Ramachandran",
+    "Ramjee"
+   ]
+  ],
+  "abstract": "We consider the problem of monitoring road and traffic conditions in a city. Prior work in this area has required the deployment of dedicated sensors on vehicles and/or on the roadside, or the tracking of mobile phones by service providers. Furthermore, prior work has largely focused on the developed world, with its relatively simple traffic flow patterns. In fact, traffic flow in cities of the developing regions, which comprise much of the world, tends to be much more complex owing to varied road conditions (e.g., potholed roads), chaotic traffic (e.g., a lot of braking and honking), and a heterogeneous mix of vehicles (2-wheelers, 3-wheelers, cars, buses, etc.).\n To monitor road and traffic conditions in such a setting, we present Nericell, a system that performs rich sensing by piggybacking on smartphones that users carry with them in normal course. In this paper, we focus specifically on the sensing component, which uses the accelerometer, microphone, GSM radio, and/or GPS sensors in these phones to detect potholes, bumps, braking, and honking. Nericell addresses several challenges including virtually reorienting the accelerometer on a phone that is at an arbitrary orientation, and performing honk detection and localization in an energy efficient manner. We also touch upon the idea of triggered sensing, where dissimilar sensors are used in tandem to conserve energy. We evaluate the effectiveness of the sensing functions in Nericell based on experiments conducted on the roads of Bangalore, with promising results.",
+  "source": "crossref-doi"
+ },
+ "jeong2020cnn": {
+  "doi": "10.1111/mice.12546",
+  "title": "Convolutional neural networks for pavement roughness assessment using calibration-free vehicle dynamics",
+  "container": "Computer-Aided Civil and Infrastructure Engineering",
+  "year": 2020,
+  "volume": "35",
+  "issue": "11",
+  "page": "1209-1229",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Jong-Hyun",
+    "Jeong"
+   ],
+   [
+    "Hongki",
+    "Jo"
+   ],
+   [
+    "Gregory",
+    "Ditzler"
+   ]
+  ],
+  "abstract": "Road roughness is a measure of how uncomfortable a ride is, and provides an important indicator for the needs of roadway maintenance or repavement, which is closely tied to the state and federal budget prioritization. As such, accurate and timely monitoring of deteriorating road conditions and following maintenance are essential to improve the overall ride quality on the road. Various technologies, including vehicle\u2010mounted laser profiling systems, have been developed and adopted for road roughness (e.g., IRI\u2014International Roughness Index) measurement; however, their high cost limits their use. While recent advances in smartphone technologies allow us to use their embedded accelerometers for road roughness monitoring, the complicated process of necessary vehicle calibration hinders the widespread use of the technology in the actual practices. In this work, a deep learning IRI estimation method is proposed with the goal of using anonymous (i.e., calibration\u2010free) vehicles and their responses measured by smartphones as road roughness sensors. A state\u2010of\u2010the\u2010art deep learning algorithm (i.e., CNN\u2014convolutional neural network) and multimetric vehicle dynamics data (i.e., accelerometer, gyroscope), possibly measured by drivers\u2019 smartphones, are employed for the purpose. Optimized CNN architecture and data configuration have been investigated to achieve the best performance. The efficacy of the proposed method has been numerically validated using real road IRI information (i.e., Speedway, Tucson, AZ), real driving speed profiles, and four different types of vehicle data with associated uncertainties.",
+  "source": "crossref-doi"
+ },
+ "opara2022roughness": {
+  "doi": "10.1109/mits.2021.3049382",
+  "title": "Road Roughness Estimation Through Smartphone-Measured Acceleration",
+  "container": "IEEE Intelligent Transportation Systems Magazine",
+  "year": 2022,
+  "volume": "14",
+  "issue": "2",
+  "page": "209-220",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Karol R.",
+    "Opara"
+   ],
+   [
+    "Karol",
+    "Brzezinski"
+   ],
+   [
+    "Marek",
+    "Bukowicki"
+   ],
+   [
+    "Katarzyna",
+    "Kaczmarek-Majer"
+   ]
+  ],
+  "abstract": "Driving on an uneven road causes vibration of the vehicle. These vibrations affect the comfort of the road users but also convey information about the road profile. This study demonstrates the feasibility, accuracy, and repeatability of the accelerometer system for pavement evaluation that computes the international roughness index (IRI) using multiple smartphones to collect data. It uses quarter-car and half-car suspension models calibrated through rides on speed bumps or a section with a known profile. We report on a field test with eight runs over an 18.6-km route of urban asphalt roads. The correlation of our results with the reference laser profilometer IRI oscillates around 0.7 for a single measurement and reaches 0.85 in the case of using multiple sensors and repeated rides. We also demonstrate that inaccuracies in the spatial attribution of the road localization are a similarly important source of errors as the uncertainty related to mechanical models.",
+  "source": "crossref-doi"
+ },
+ "chou2020response": {
+  "doi": "10.1061/jpeodx.0000183",
+  "title": "Algorithm for Estimating International Roughness Index by Response-Based Measuring Device",
+  "container": "Journal of Transportation Engineering, Part B: Pavements",
+  "year": 2020,
+  "volume": "146",
+  "issue": "3",
+  "page": "04020031",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Chia-Pei",
+    "Chou"
+   ],
+   [
+    "Guan-Jhen",
+    "Siao"
+   ],
+   [
+    "Ai-Chin",
+    "Chen"
+   ],
+   [
+    "Cheng-Chun",
+    "Lee"
+   ]
+  ],
+  "abstract": "AbstractInertial profilers have been the mainstream measuring device for pavement roughness for decades, but many local government agencies still use profilographs and other simple measuring device...",
+  "source": "crossref-doi"
+ },
+ "gambi2019beamng": {
+  "doi": "10.1145/3338906.3338942",
+  "title": "Generating effective test cases for self-driving cars from police reports",
+  "container": "Proceedings of the 2019 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
+  "year": 2019,
+  "volume": null,
+  "issue": null,
+  "page": "257-267",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Alessio",
+    "Gambi"
+   ],
+   [
+    "Tri",
+    "Huynh"
+   ],
+   [
+    "Gordon",
+    "Fraser"
+   ]
+  ],
+  "abstract": "Autonomous driving carries the promise to drastically reduce the number of car accidents; however, recently reported fatal crashes involving self-driving cars show that such an important goal is not yet achieved. This calls for better testing of the software controlling self-driving cars, which is difficult because it requires producing challenging driving scenarios. To better test self-driving car soft- ware, we propose to specifically test car crash scenarios, which are critical par excellence. Since real car crashes are difficult to test in field operation, we recreate them as physically accurate simulations in an environment that can be used for testing self-driving car software. To cope with the scarcity of sensory data collected during real car crashes which does not enable a full reproduction, we extract the information to recreate real car crashes from the police reports which document them. Our extensive evaluation, consisting of a user study involving 34 participants and a quantitative analysis of the quality of the generated tests, shows that we can generate accurate simulations of car crashes in a matter of minutes. Compared to tests which implement non critical driving scenarios, our tests effectively stressed the test subject in different ways and exposed several shortcomings in its implementation.",
+  "source": "crossref-doi"
+ },
+ "zhang2026semisup": {
+  "doi": "10.1061/jccee5.cpeng-7395",
+  "title": "A Semisupervised Learning-Based International Roughness Index Estimation Framework Using Smartphone-Collected Public Vehicle Response",
+  "container": "Journal of Computing in Civil Engineering",
+  "year": 2026,
+  "volume": "40",
+  "issue": "6",
+  "page": "04026083",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Ye",
+    "Sang"
+   ],
+   [
+    "Qiqin",
+    "Yu"
+   ],
+   [
+    "Yihai",
+    "Fang"
+   ],
+   [
+    "Viet",
+    "Vo"
+   ],
+   [
+    "Richard",
+    "Wix"
+   ]
+  ],
+  "abstract": "\n Smartphone-collected vehicle response data have been used to estimate the International Roughness Index (IRI). While data-driven methods were approved to be effective, a model must be trained by substantial labeled data (ground truth IRI), which are scarce due to data collection costs. Yet, a wealth of unlabeled response data could be crowdsourced from road users, presenting an opportunity to employ semisupervised learning (SSL) algorithms to leverage these data for IRI estimation. This paper introduces an SSL framework to enhance a deep learning model for IRI estimation. The results demonstrate that the SSL-trained model reduces the estimation root mean square error (RMSE) compared to a fully supervised model trained solely on labeled data. These findings suggest the potential for applying SSL as a robust and cost-effective approach for continuous pavement condition monitoring.",
+  "source": "crossref-doi"
+ },
+ "mounting2026": {
+  "doi": "10.1061/jccee5.cpeng-7202",
+  "title": "Characterizing and Mitigating Mounting\u2019s Impact on Smartphone-Based Evaluation of Pavement Roughness",
+  "container": "Journal of Computing in Civil Engineering",
+  "year": 2026,
+  "volume": "40",
+  "issue": "3",
+  "page": "04026015",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Qiqin",
+    "Yu"
+   ],
+   [
+    "Yihai",
+    "Fang"
+   ],
+   [
+    "Rajitha",
+    "Ranasinghe"
+   ],
+   [
+    "Richard",
+    "Wix"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "evalframework2023": {
+  "doi": "10.1080/10298436.2023.2183402",
+  "title": "Evaluation framework for smartphone-based road roughness index estimation systems",
+  "container": "International Journal of Pavement Engineering",
+  "year": 2023,
+  "volume": "24",
+  "issue": "1",
+  "page": "2183402",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Qiqin",
+    "Yu"
+   ],
+   [
+    "Yihai",
+    "Fang"
+   ],
+   [
+    "Richard",
+    "Wix"
+   ]
+  ],
+  "abstract": "ABSTRACT Roughness is an important indicator of road deterioration and has a significant impact on road serviceability. Conventional instruments for roughness measurement, such as laser profilers, are expensive and require a complex set-up, which limits the surveying frequency and coverage. As an alternative, embedded sensors in smartphones mounted in vehicles have been leveraged to measure roughness indirectly, and multiple smartphone-based roughness index estimation (sRIE) systems have become available recently. However, there lacks a framework to evaluate the performance of sRIE systems in a systematic and repeatable manner. This research proposed an evaluation framework to assess the performance of sRIE systems in practical settings. The framework consists of statistical measures that evaluate the consistency and accuracy of sRIE systems under various mountings, vehicle types, and survey speeds. Three popular sRIE systems were assessed using the framework to validate their validity and practicality. By standardising the performance metrics, this framework allows for performance benchmarking between sRIE systems and conventional instruments.",
+  "source": "crossref-doi"
+ },
+ "speedadaptive2025": {
+  "doi": "10.3390/machines13050391",
+  "title": "Road Roughness Recognition: Feature Extraction and Speed-Adaptive Classification Based on Simulation and Real-Vehicle Tests",
+  "container": "Machines",
+  "year": 2025,
+  "volume": "13",
+  "issue": "5",
+  "page": "391",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Jie",
+    "Xing"
+   ],
+   [
+    "Zhun",
+    "Cheng"
+   ],
+   [
+    "Shuai",
+    "Ye"
+   ],
+   [
+    "Songwei",
+    "Liu"
+   ],
+   [
+    "Jiawei",
+    "Lin"
+   ]
+  ],
+  "abstract": "Road roughness exerts a direct influence on the vertical dynamic performance of vehicles, and the accurate characterization of road roughness is essential for optimizing vehicle suspension systems. This paper addresses two key challenges in roughness recognition: feature extraction and adaptive classification under different speeds. In detail, based on simulation tests of the quarter-vehicle vertical vibration model and real-vehicle test, this paper reveals the strong correlation between the unsprung mass vertical vibration response of vehicles and road roughness. The feasibility of using unsprung mass vertical vibration response as a feature for recognizing and classifying road roughness is verified. And an adaptive road roughness classifier is proposed based on vehicle-speed-related features. Both simulation and real-vehicle results confirm that (i) the unsprung vertical vibration displacement is strongly correlated with road roughness (R2 = 0.997); (ii) road roughness can be classified with high accuracy with the unsprung mass vertical vibration response taken as the only feature (simulation tests: 98.88% to 100%; real-vehicle tests: 100%); and (iii) the accuracy of the proposed speed-adaptive classifier is 20% more accurate than the conventional classifier that does not consider vehicle speed features. This research can provide accurate road excitation for the adaptive real-time control of semi-active or active vehicle suspensions.",
+  "source": "crossref-doi"
+ },
+ "rcnn2023sim": {
+  "doi": "10.3390/s23042271",
+  "title": "Pavement Roughness Grade Recognition Based on One-dimensional Residual Convolutional Neural Network",
+  "container": "Sensors",
+  "year": 2023,
+  "volume": "23",
+  "issue": "4",
+  "page": "2271",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Juncai",
+    "Xu"
+   ],
+   [
+    "Xiong",
+    "Yu"
+   ]
+  ],
+  "abstract": "A pavement\u2019s roughness seriously affects its service life and driving comfort. Considering the complexity and low accuracy of the current recognition algorithms for the roughness grade of pavements, this paper proposes a real-time pavement roughness recognition method with a lightweight residual convolutional network and time-series acceleration. Firstly, a random input pavement model is established by the white noise method, and the pavement roughness of a 1/4 vehicle vibration model is simulated to obtain the vehicle vibration response data. Then, the residual convolutional network is used to learn the deep-level information of the sample signal. The residual convolutional neural network recognizes the pavement roughness grade quickly and accurately. The experimental results show that the residual convolutional neural network has a robust feature-capturing ability for vehicle vibration signals, and the classification features can be obtained quickly. The accuracy of pavement roughness classification is as high as 98.7%, which significantly improves the accuracy and reduces the computational effort of the recognition algorithm, and is suitable for pavement roughness grade classification.",
+  "source": "crossref-doi"
+ },
+ "profilerecon2025": {
+  "doi": "10.1080/14680629.2025.2574300",
+  "title": "Vehicle vibration modelling via road profile reconstruction and simulation: coupled analysis of IRI, speed, and ride comfort for driving assistance",
+  "container": "Road Materials and Pavement Design",
+  "year": 2025,
+  "volume": null,
+  "issue": null,
+  "page": "1-26",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Jiantao",
+    "Li"
+   ],
+   [
+    "Yian",
+    "Zhao"
+   ],
+   [
+    "Hao",
+    "Zheng"
+   ],
+   [
+    "Runhua",
+    "Guo"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "perttunen2011": {
+  "doi": "10.1007/978-3-642-23641-9_8",
+  "title": "Distributed Road Surface Condition Monitoring Using Mobile Phones",
+  "container": "Lecture Notes in Computer Science",
+  "year": 2011,
+  "volume": null,
+  "issue": null,
+  "page": "64-78",
+  "type": "book-chapter",
+  "authors": [
+   [
+    "Mikko",
+    "Perttunen"
+   ],
+   [
+    "Oleksiy",
+    "Mazhelis"
+   ],
+   [
+    "Fengyu",
+    "Cong"
+   ],
+   [
+    "Mikko",
+    "Kauppila"
+   ],
+   [
+    "Teemu",
+    "Lepp\u00e4nen"
+   ],
+   [
+    "Jouni",
+    "Kantola"
+   ],
+   [
+    "Jussi",
+    "Collin"
+   ],
+   [
+    "Susanna",
+    "Pirttikangas"
+   ],
+   [
+    "Janne",
+    "Haverinen"
+   ],
+   [
+    "Tapani",
+    "Ristaniemi"
+   ],
+   [
+    "Jukka",
+    "Riekki"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "thilak2021": {
+  "doi": "10.1109/csitss54238.2021.9682804",
+  "title": "Evaluation of Pavement Roughness Using Smartphones",
+  "container": "2021 IEEE International Conference on Computation System and Information Technology for Sustainable Solutions (CSITSS)",
+  "year": 2021,
+  "volume": null,
+  "issue": null,
+  "page": "1-7",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Ram",
+    "Thilak"
+   ],
+   [
+    "",
+    "Anjaneyappa"
+   ],
+   [
+    "Jeet",
+    "Mehta"
+   ],
+   [
+    "Vivikt",
+    "Pharle"
+   ],
+   [
+    "Chaturi",
+    "Rajapur"
+   ],
+   [
+    "Sabina",
+    "Borah"
+   ]
+  ],
+  "abstract": "A well-maintained pavement network is an essential component of good road infrastructure. Roughness is an important indicator of the condition and riding quality of pavement and influences vehicle operation costs. Pavement roughness is indicated by a dimensionless index called IRI (International roughness index), which is the cumulative displacement per unit length. Bump Integrator, ROMDAS (Road Measurement Data Acquisition System) equipment are widely used to measure the IRI. This study aims to utilize the potential of smartphones equipped with sensors like accelerometer which collect the acceleration data leading to a cheaper alternative to compute pavement roughness. Roughness data was collected on the State Highway using different smartphones and vehicle types at varying speeds. The data obtained was validated using data obtained from ROMDAS. The R2 value between the smartphone-based roughness index and the roughness index obtained from ROMDAS data was found to be in the range of 0.83 to 0.93 for a vehicle speed of 40kmph, which decreased with an increase in speed. IRI obtained from smartphone placed on a two-wheeler at 40kmph was found to have R2 value of 0.78 which was lower than that of the four-wheelers. It was inferred from the study that IRI obtained was not only influenced by the vehicle type and speed but also by the smartphone hardware and performance. IRI values do not vary much with different cars given that the suspension is in good condition.",
+  "source": "crossref-doi"
+ },
+ "skar2024inversion": {
+  "doi": "10.1061/jpeodx.pveng-1385",
+  "title": "Road Profile Inversion from In-Vehicle Accelerometers",
+  "container": "Journal of Transportation Engineering, Part B: Pavements",
+  "year": 2024,
+  "volume": "150",
+  "issue": "1",
+  "page": "04023040",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Asmus",
+    "Skar"
+   ],
+   [
+    "Eyal",
+    "Levenberg"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "agebjar2025fusion": {
+  "doi": "10.23919/fusion65864.2025.11123970",
+  "title": "Road Roughness Estimation via Fusion of Standard Onboard Automotive Sensors",
+  "container": "2025 28th International Conference on Information Fusion (FUSION)",
+  "year": 2025,
+  "volume": null,
+  "issue": null,
+  "page": "1-8",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Martin",
+    "Agebj\u00e4r"
+   ],
+   [
+    "Gustav",
+    "Zetterqvist"
+   ],
+   [
+    "Fredrik",
+    "Gustafsson"
+   ],
+   [
+    "Johan",
+    "Wahlstr\u00f6m"
+   ],
+   [
+    "Gustaf",
+    "Hendeby"
+   ]
+  ],
+  "abstract": "Road roughness significantly affects vehicle vibrations and ride quality. We introduce a Kalman filter (KF)-based method for estimating road roughness in terms of the international roughness index (IRI) by fusing inertial and speed measurements, offering a cost-effective solution for pavement monitoring. The method involves system identification on a physical vehicle to estimate realistic model parameters, followed by KF-based reconstruction of the longitudinal road profile to compute IRI values. It explores IRI estimation using vertical and lateral vibrations, the latter more common in modern vehicles. Validation on 230 km of real-world data shows promising results, with IRI estimation errors ranging from 1% to 10% of the reference values. However, accuracy deteriorates significantly when using only lateral vibrations, highlighting their limitations. These findings demonstrate the potential of KF-based estimation for efficient road roughness monitoring.",
+  "source": "crossref-doi"
+ },
+ "nitsche2014wlp": {
+  "doi": "10.1061/(asce)cp.1943-5487.0000285",
+  "title": "Comparison of Machine Learning Methods for Evaluating Pavement Roughness Based on Vehicle Response",
+  "container": "Journal of Computing in Civil Engineering",
+  "year": 2014,
+  "volume": "28",
+  "issue": "4",
+  "page": "04014015",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Philippe",
+    "Nitsche"
+   ],
+   [
+    "Rainer",
+    "St\u00fctz"
+   ],
+   [
+    "Michael",
+    "Kammer"
+   ],
+   [
+    "Peter",
+    "Maurer"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "ngwangwa2014exp": {
+  "doi": "10.1016/j.jterra.2014.03.002",
+  "title": "Reconstruction of road defects and road roughness classification using Artificial Neural Networks simulation and vehicle dynamic responses: Application to experimental data",
+  "container": "Journal of Terramechanics",
+  "year": 2014,
+  "volume": "53",
+  "issue": null,
+  "page": "1-18",
+  "type": "journal-article",
+  "authors": [
+   [
+    "H.M.",
+    "Ngwangwa"
+   ],
+   [
+    "P.S.",
+    "Heyns"
+   ],
+   [
+    "H.G.A.",
+    "Breytenbach"
+   ],
+   [
+    "P.S.",
+    "Els"
+   ]
+  ],
+  "abstract": null,
+  "source": "crossref-doi"
+ },
+ "wu2023calib": {
+  "doi": "10.1080/10298436.2023.2287688",
+  "title": "Fast calibration for vibration-based pavement roughness measurement based on model updating of vehicle dynamics",
+  "container": "International Journal of Pavement Engineering",
+  "year": 2023,
+  "volume": "25",
+  "issue": "1",
+  "page": "2287688",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Difei",
+    "Wu"
+   ],
+   [
+    "Chenglong",
+    "Liu"
+   ],
+   [
+    "Bohao",
+    "Qin"
+   ],
+   [
+    "Sheng",
+    "Zhong"
+   ],
+   [
+    "Xiaoming",
+    "Zhang"
+   ],
+   [
+    "Yuchuan",
+    "Du"
+   ]
+  ],
+  "abstract": "ABSTRACT The vibration-based pavement roughness measurement method has garnered significant attention in recent years due to the development of low-cost sensors. The vehicle calibration process is necessary before field measurement due to the effect of changeable vehicle dynamics, restricting the large-scale implementation of pavement roughness measurement. This paper proposes a novel calibration method for vibration-based pavement roughness measurement. It can quickly calibrate vehicle dynamic parameters through a few controlled impact tests. The model updating technique is employed to estimate vehicle dynamic parameters, resulting in the development of a full-car numerical model that accurately simulates the vibration of the test vehicle. A road-vehicle coupled simulation system is introduced, incorporating randomly generated road profiles and the calibrated full-car model. This system can simulate vibration responses under various conditions. A linear relationship between IRI (International Roughness Index) and vehicle vibration indices (e.g., RMS \u2013 Root Mean Square of vertical acceleration) is estimated based on simulated results. The efficiency and accuracy of the calibration method are validated on actual roads in Shanghai, China. The average IRI difference between the ground truth and test data reached 0.5\u2005m/km in a 100\u2005m road section, demonstrating the reliability and practicality of this fast calibration method.",
+  "source": "crossref-doi"
+ },
+ "jeongjo2024irinet": {
+  "doi": "10.1109/jiot.2023.3312353",
+  "title": "Toward Real-World Implementation of Deep Learning for Smartphone-Crowdsourced Pavement Condition Assessment",
+  "container": "IEEE Internet of Things Journal",
+  "year": 2024,
+  "volume": "11",
+  "issue": "4",
+  "page": "6328-6337",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Jong-Hyun",
+    "Jeong"
+   ],
+   [
+    "Hongki",
+    "Jo"
+   ]
+  ],
+  "abstract": "In recent years, acrlong MCS has emerged as an effective way of collecting essential information about our urban infrastructure integrity conditions. As such, smartphone sensor data obtained while driving vehicles has been widely investigated for road condition monitoring, hoping it can be used as a cost-effective alternative to conventional methods which uses high-cost system, including inertial profilers. However, currently available smartphone methods require expensive signal processing to address various practical uncertainty issues, such as unknown mechanical characteristics of vehicles, variable driving speed, and sensor location. Hence, only a precisely calibrated setup of the vehicle and smartphone could be used for road condition monitoring under a limited environment. The authors\u2019 prior study has developed a deep-learning-based road roughness monitoring method that estimates the international roughness index (IRI) from the anonymous vehicles\u2019 vibrations at any driving speeds, measured by smartphones. The feasibility of the proposed method has been numerically validated. Building on prior efforts, this study investigates its full-scale experimental validation under a real-world environment, addressing associated critical challenges in the real-world implementation of the proposed method. A fully convolutional neural network (CNN) architecture, called IRI-Net, is developed in this study. A new data management strategy is proposed to deal with the low-resolution characteristics of crowdsourced smartphone GPS data. A large-scale data set is collected with total 29 different vehicles under a real-world uncertain environment. The performance of the proposed method is validated by comparing to the reference IRI data obtained from a conventional inertial profiler, showing a great step toward real-world practical applications.",
+  "source": "crossref-doi"
+ },
+ "peng2018dr": {
+  "doi": "10.1109/icra.2018.8460528",
+  "title": "Sim-to-Real Transfer of Robotic Control with Dynamics Randomization",
+  "container": "2018 IEEE International Conference on Robotics and Automation (ICRA)",
+  "year": 2018,
+  "volume": null,
+  "issue": null,
+  "page": "3803-3810",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Xue Bin",
+    "Peng"
+   ],
+   [
+    "Marcin",
+    "Andrychowicz"
+   ],
+   [
+    "Wojciech",
+    "Zaremba"
+   ],
+   [
+    "Pieter",
+    "Abbeel"
+   ]
+  ],
+  "abstract": "Simulations are attractive environments for training agents as they provide an abundant source of data and alleviate certain safety concerns during the training process. But the behaviours developed by agents in simulation are often specific to the characteristics of the simulator. Due to modeling error, strategies that are successful in simulation may not transfer to their real world counterparts. In this paper, we demonstrate a simple method to bridge this \u201creality gap\u201d. By randomizing the dynamics of the simulator during training, we are able to develop policies that are capable of adapting to very different dynamics, including ones that differ significantly from the dynamics on which the policies were trained. This adaptivity enables the policies to generalize to the dynamics of the real world without any training on the physical system. Our approach is demonstrated on an object pushing task using a robotic arm. Despite being trained exclusively in simulation, our policies are able to maintain a similar level of performance when deployed on a real robot, reliably moving an object to a desired location from random initial configurations. We explore the impact of various design decisions and show that the resulting policies are robust to significant calibration error.",
+  "source": "crossref-doi"
+ },
+ "chebotar2019simopt": {
+  "doi": "10.1109/icra.2019.8793789",
+  "title": "Closing the Sim-to-Real Loop: Adapting Simulation Randomization with Real World Experience",
+  "container": "2019 International Conference on Robotics and Automation (ICRA)",
+  "year": 2019,
+  "volume": null,
+  "issue": null,
+  "page": "8973-8979",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Yevgen",
+    "Chebotar"
+   ],
+   [
+    "Ankur",
+    "Handa"
+   ],
+   [
+    "Viktor",
+    "Makoviychuk"
+   ],
+   [
+    "Miles",
+    "Macklin"
+   ],
+   [
+    "Jan",
+    "Issac"
+   ],
+   [
+    "Nathan",
+    "Ratliff"
+   ],
+   [
+    "Dieter",
+    "Fox"
+   ]
+  ],
+  "abstract": "We consider the problem of transferring policies to the real world by training on a distribution of simulated scenarios. Rather than manually tuning the randomization of simulations, we adapt the simulation parameter distribution using a few real world roll-outs interleaved with policy training. In doing so, we are able to change the distribution of simulations to improve the policy transfer by matching the policy behavior in simulation and the real world. We show that policies trained with our method are able to reliably transfer to different robots in two real world tasks: swing-peg-in-hole and opening a cabinet drawer. The video of our experiments can be found at https://sites.google.com/view/simopt.",
+  "source": "crossref-doi"
+ },
+ "gonzalez2008accel": {
+  "doi": "10.1080/00423110701485050",
+  "title": "The use of vehicle acceleration measurements to estimate road roughness",
+  "container": "Vehicle System Dynamics",
+  "year": 2008,
+  "volume": "46",
+  "issue": "6",
+  "page": "483-499",
+  "type": "journal-article",
+  "authors": [
+   [
+    "A.",
+    "Gonz\u00e1lez"
+   ],
+   [
+    "E.J.",
+    "O'brien"
+   ],
+   [
+    "Y.-Y.",
+    "Li"
+   ],
+   [
+    "K.",
+    "Cashell"
+   ]
+  ],
+  "query": "The use of vehicle acceleration measurements to estimate road roughness Gonzalez OBrien Li Cashell Vehicle System Dynamics 2008",
+  "source": "crossref-query (check title!)",
+  "abstract": "Road roughness is a broad term that incorporates everything from potholes and cracks to the random deviations that exist in a profile. To build a roughness index, road irregularities need to be measured first. Existing methods of gauging the roughness are based either on visual inspections or using one of a limited number of instrumented vehicles that can take physical measurements of the road irregularities. This paper proposes the collection of data from accelerometers fixed in a specific vehicle type and the use of this data to estimate the road condition. Although the estimate is approximate, accelerometers are being increasingly used by car manufacturers to improve suspension performance and the proposed method is relatively inexpensive to implement and provide road managers with constantly updated measurements of roughness. This approach is possible due to the relationship between the power spectral densities of road surface and vehicle accelerations via a transfer function. This paper shows how road profiles can be accurately classified using axle and body accelerations from a range of simulated vehicle\u2013road dynamic scenarios."
+ },
+ "ngwangwa2010ann": {
+  "doi": "10.1016/j.jterra.2009.08.007",
+  "title": "Reconstruction of road defects and road roughness classification using vehicle responses with artificial neural networks simulation",
+  "container": "Journal of Terramechanics",
+  "year": 2010,
+  "volume": "47",
+  "issue": "2",
+  "page": "97-111",
+  "type": "journal-article",
+  "authors": [
+   [
+    "H.M.",
+    "Ngwangwa"
+   ],
+   [
+    "P.S.",
+    "Heyns"
+   ],
+   [
+    "F.J.J.",
+    "Labuschagne"
+   ],
+   [
+    "G.K.",
+    "Kululanga"
+   ]
+  ],
+  "query": "Reconstruction of road defects and road roughness classification using vehicle responses with artificial neural networks simulation Ngwangwa Heyns",
+  "source": "crossref-query (check title!)",
+  "abstract": null
+ },
+ "fieldwelsh2007": {
+  "doi": "10.1111/j.1467-9868.2007.00593.x",
+  "title": "Bootstrapping Clustered Data",
+  "container": "Journal of the Royal Statistical Society Series B: Statistical Methodology",
+  "year": 2007,
+  "volume": "69",
+  "issue": "3",
+  "page": "369-390",
+  "type": "journal-article",
+  "authors": [
+   [
+    "C. A.",
+    "Field"
+   ],
+   [
+    "A. H.",
+    "Welsh"
+   ]
+  ],
+  "query": "Bootstrapping clustered data Field Welsh Journal of the Royal Statistical Society Series B 2007",
+  "source": "crossref-query (check title!)",
+  "abstract": null
+ },
+ "tobin2017dr": {
+  "doi": "10.1109/iros.2017.8202133",
+  "title": "Domain randomization for transferring deep neural networks from simulation to the real world",
+  "container": "2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+  "year": 2017,
+  "volume": null,
+  "issue": null,
+  "page": "23-30",
+  "type": "proceedings-article",
+  "authors": [
+   [
+    "Josh",
+    "Tobin"
+   ],
+   [
+    "Rachel",
+    "Fong"
+   ],
+   [
+    "Alex",
+    "Ray"
+   ],
+   [
+    "Jonas",
+    "Schneider"
+   ],
+   [
+    "Wojciech",
+    "Zaremba"
+   ],
+   [
+    "Pieter",
+    "Abbeel"
+   ]
+  ],
+  "query": "Domain randomization for transferring deep neural networks from simulation to the real world Tobin 2017",
+  "source": "crossref-query (check title!)",
+  "abstract": "Bridging the \u2018reality gap\u2019 that separates simulated robotics from experiments on hardware could accelerate robotic research through improved data availability. This paper explores domain randomization, a simple technique for training models on simulated images that transfer to real images by randomizing rendering in the simulator. With enough variability in the simulator, the real world may appear to the model as just another variation. We focus on the task of object localization, which is a stepping stone to general robotic manipulation skills. We find that it is possible to train a real-world object detector that is accurate to 1.5 cm and robust to distractors and partial occlusions using only data from a simulator with non-realistic random textures. To demonstrate the capabilities of our detectors, we show they can be used to perform grasping in a cluttered environment. To our knowledge, this is the first successful transfer of a deep neural network trained only on simulated RGB images (without pre-training on real images) to the real world for the purpose of robotic control."
+ },
+ "zhao2017freq": {
+  "doi": "10.1016/j.proeng.2017.04.451",
+  "title": "IRI Estimation by the Frequency Domain Analysis of Vehicle Dynamic Responses",
+  "container": "Procedia Engineering",
+  "year": 2017,
+  "volume": "188",
+  "issue": null,
+  "page": "9-16",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Boyu",
+    "Zhao"
+   ],
+   [
+    "Tomonori",
+    "Nagayama"
+   ]
+  ],
+  "query": "IRI estimation by the frequency domain analysis of vehicle dynamic responses Zhao Nagayama",
+  "source": "crossref-query (check title!)",
+  "abstract": "Abstract Smartphone based Dynamic Response Intelligent Monitoring System (iDRIMS) was developed to evaluate International Roughness Index (IRI) based on dynamic responses of ordinary vehicles [1] . However, the robustness and accuracy were limited. In this paper, iDRIMS is improved mainly by employing frequency domain analysis. The algorithm consists of two steps. The first step is to identify the vehicle model and the second step is to estimate the IRI by utilizing the identified vehicle model. In the first step, a half car (HC) model is selected as the vehicle model and its parameters are identified. The vehicle parameters are identified through a drive tests over a portable hump with a known size. As opposed to previous approach in the time domain using Unscented Kalman filter, the parameters are optimized to minimize the difference between simulation and measured hump responses in the frequency domain using genetic algorithm (GA). IRI is then estimated by measuring acceleration responses of ordinary vehicles. Measured acceleration is converted to the acceleration RMS of the sprung mass of standard quarter car by multiplying a transfer function. The transfer function, estimated through the simulation of the identified HC model as opposed to a QC model in previous approaches, reflects the vehicle pitching motions and sensor installation location. The RMS is further converted to IRI. Numerical simulation is conducted to investigate the IRI estimation performance in terms of various drive speeds and sensor locations. Experiment is carried out at a 13\u00a0km road. Inacurate IRI estimation at speed change section is invesigated and compensated. Results from both simulation and experiment indicate that the proposed method accurately estimate IRI with high robustness and efficiency."
+ },
+ "trc2021crowd": {
+  "doi": "10.1016/j.trc.2021.103048",
+  "title": "Large-scale pavement roughness measurements with vehicle crowdsourced data using semi-supervised learning",
+  "container": "Transportation Research Part C: Emerging Technologies",
+  "year": 2021,
+  "volume": "125",
+  "issue": null,
+  "page": "103048",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Chenglong",
+    "Liu"
+   ],
+   [
+    "Difei",
+    "Wu"
+   ],
+   [
+    "Yishun",
+    "Li"
+   ],
+   [
+    "Yuchuan",
+    "Du"
+   ]
+  ],
+  "query": "Large-scale pavement roughness measurements with vehicle crowdsourced data using semi-supervised learning",
+  "source": "crossref-query (check title!)",
+  "abstract": "Abstract Rapid measurements of large-scale pavement roughness have long been a hot topic in pavement condition evaluation and maintenance. Most traditional methods rely on dedicated devices, such as laser, Lidar and so on, which should be set up on customized vehicles. With the rapid development of sensing technology, vehicles owned by the general public are empowered with the ability to collect vibration measurements themselves. This crowdsourced dataset is convenient, extensive coverage, inexpensive, and has high sampling frequency, making it a suitable source for large-scale pavement roughness evaluation. However, vehicle information is missing for these data due to privacy protection, which renders them quite difficult to directly use with traditional model-based methods. Thus, in this paper, we propose a semi-supervised learning (SSL) model to deal with the problem of incomplete data and multi-vehicle data fusion. A mathematical derivation of the \u2018international roughness index\u2019 (IRI) using in-car vibrations is established. Furthermore, given the multi-vehicle scenario, a self-training model is designed to iteratively estimate IRIs in a roadway network. Both the confidences of the vehicle parameters and IRI estimation are considered in the algorithm to improve its reliability and robustness. A full-car simulation model is constructed to verify the effectiveness of the proposed model. The results show that the overall relative error is less than 10% for 50 road sections in the network, which is a significant improvement compared to traditional multi-vehicle average models. The errors of the SSL model are found to be significantly dependent on the iteration order. Based on the proposed model, the coupled impact of the sampling rate and vehicle quantity on the model\u2019s accuracy is further discussed. The proposed approach provides new insights into large-scale pavement roughness measurements."
+ },
+ "menegazzo2021pvs": {
+  "doi": "10.1007/s00607-021-00914-0",
+  "title": "Road surface type classification based on inertial sensors and machine learning",
+  "container": "Computing",
+  "year": 2021,
+  "volume": "103",
+  "issue": "10",
+  "page": "2143-2170",
+  "type": "journal-article",
+  "authors": [
+   [
+    "Jeferson",
+    "Menegazzo"
+   ],
+   [
+    "Aldo",
+    "von Wangenheim"
+   ]
+  ],
+  "query": "Road surface type classification based on inertial sensors and machine learning comparison classical and deep Menegazzo von Wangenheim Computing",
+  "source": "crossref-query (check title!)",
+  "abstract": null
+ },
+ "sayers1986tp45": {
+  "manual": "M. W. Sayers, T. D. Gillespie, and C. A. V. Queiroz, \\emph{The International Road Roughness Experiment: Establishing Correlation and a Calibration Standard for Measurements}, World Bank Technical Paper No. 45, Washington, DC, 1986.",
+  "source": "manual"
+ },
+ "sayers1986tp46": {
+  "manual": "M. W. Sayers, T. D. Gillespie, and W. D. O. Paterson, \\emph{Guidelines for Conducting and Calibrating Road Roughness Measurements}, World Bank Technical Paper No. 46, Washington, DC, 1986.",
+  "source": "manual"
+ },
+ "astm_e1926": {
+  "manual": "ASTM International, \\emph{ASTM E1926-08(2021): Standard Practice for Computing International Roughness Index of Roads from Longitudinal Profile Measurements}, West Conshohocken, PA, 2021.",
+  "source": "manual"
+ },
+ "iso8608": {
+  "manual": "International Organization for Standardization, \\emph{ISO 8608:2016 Mechanical Vibration -- Road Surface Profiles -- Reporting of Measured Data}, Geneva, 2016.",
+  "source": "manual"
+ },
+ "gillespie1992": {
+  "manual": "T. D. Gillespie, \\emph{Fundamentals of Vehicle Dynamics}. Warrendale, PA: Society of Automotive Engineers, 1992.",
+  "source": "manual"
+ },
+ "fhwa490": {
+  "manual": "U.S. Federal Highway Administration, ``National Performance Management Measures; Assessing Pavement Condition,'' 23 CFR Part 490, Subpart C, \\S\\,490.313 (IRI condition thresholds).",
+  "source": "manual"
+ },
+ "beamng": {
+  "manual": "BeamNG GmbH, ``BeamNG.tech documentation,'' 2024. [Online]. Available: \\url{https://documentation.beamng.com/beamng_tech/}",
+  "source": "manual"
+ },
+ "ke2017lightgbm": {
+  "manual": "G. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, Q. Ye, and T.-Y. Liu, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \\emph{Advances in Neural Information Processing Systems 30}, 2017, pp. 3146--3154.",
+  "source": "manual"
+ },
+ "sayers1995iri": {
+  "manual": "M. W. Sayers, ``On the calculation of International Roughness Index from longitudinal road profile,'' \\emph{Transportation Research Record}, no.~1501, pp.~1--12, 1995.",
+  "source": "manual"
+ },
+ "holm1979": {
+  "manual": "S. Holm, ``A simple sequentially rejective multiple test procedure,'' \\emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp.~65--70, 1979.",
+  "source": "manual"
+ },
+ "bajic2021ml": {
+  "manual": "M. Bajic, S. M. Pour, A. Skar, M. Pettinari, E. Levenberg, and T. S. Alstr{\\o}m, ``Road roughness estimation using machine learning,'' arXiv:2107.01199, 2021.",
+  "source": "manual"
+ },
+ "lira_data": {
+  "manual": "A. Skar \\emph{et al.}, ``Live Road Assessment Custom Dataset (LiRA-CD),'' Technical University of Denmark, data collection, 2023, CC BY 4.0, doi: 10.11583/DTU.c.6659909.",
+  "source": "manual"
+ }
+}

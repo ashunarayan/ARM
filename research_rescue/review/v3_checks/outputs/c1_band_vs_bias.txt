@@ -1,0 +1,48 @@
+      bias  bias_urb  bias_mot    mae  mae_within   lvl5  r_band_0.5_2  r_band_10_15  r_band_2_5  r_band_5_10  r_rms
+vid                                                                                                                 
+V0   0.010    -0.116     0.168  0.439       0.415  0.425        -0.166         0.619       0.588       -0.010  0.118
+V1   0.427     0.324     0.556  0.678       0.656  0.528        -0.143         0.880       0.603        0.060  0.199
+V2  -0.094    -0.219     0.063  0.409       0.385  0.420        -0.191         0.307       0.565       -0.092  0.025
+V3   0.399     0.274     0.557  0.666       0.646  0.539        -0.167         0.862       0.661        0.137  0.179
+V4   0.397     0.389     0.407  0.626       0.597  0.435        -0.123         0.655       0.738        0.055  0.206
+V5   0.405     0.249     0.602  0.687       0.669  0.562        -0.202         0.818       0.606        0.072  0.160
+V6  -0.041    -0.245     0.217  0.455       0.436  0.447        -0.178         0.585       0.619       -0.023  0.111
+V7   0.072    -0.052     0.229  0.463       0.440  0.432        -0.141         0.585       0.613       -0.052  0.136
+V8   0.267     0.208     0.340  0.555       0.533  0.453        -0.148         0.637       0.545       -0.051  0.149
+
+r_band_0.5_2     Spearman with pooled bias +0.217   Pearson +0.318
+r_band_10_15     Spearman with pooled bias +0.967   Pearson +0.845
+r_band_2_5       Spearman with pooled bias +0.250   Pearson +0.441
+r_band_5_10      Spearman with pooled bias +0.800   Pearson +0.812
+r_rms            Spearman with pooled bias +0.883   Pearson +0.883
+
+drop V0: Spearman(10-15) +0.976  Spearman(rms) +0.833
+drop V1: Spearman(10-15) +0.952  Spearman(rms) +0.905
+drop V2: Spearman(10-15) +0.952  Spearman(rms) +0.833
+drop V3: Spearman(10-15) +0.976  Spearman(rms) +0.929
+drop V4: Spearman(10-15) +0.952  Spearman(rms) +0.976
+drop V5: Spearman(10-15) +0.976  Spearman(rms) +0.929
+drop V6: Spearman(10-15) +0.952  Spearman(rms) +0.833
+drop V7: Spearman(10-15) +0.976  Spearman(rms) +0.833
+drop V8: Spearman(10-15) +0.952  Spearman(rms) +0.833
+
+OLS bias = a + b*lnratio(10-15): -0.474 1.027
+V0   -0.152
+V1   -0.003
+V2    0.065
+V3   -0.012
+V4    0.198
+V5    0.039
+V6   -0.167
+V7   -0.055
+V8    0.087
+OLS bias = a + b*lnratio(rms): -0.287 3.45  R2: 0.78  vs R2(10-15): 0.714
+V0   -0.109
+V1    0.028
+V2    0.108
+V3    0.068
+V4   -0.028
+V5    0.141
+V6   -0.137
+V7   -0.111
+V8    0.040

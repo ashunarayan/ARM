@@ -1,0 +1,557 @@
+test_route,k_km,real_km,draw,model,seg_mae,n_seg
+CPH1,1,1.0,0,real-only physics index,1.5569137832214464,509
+CPH1,1,1.0,0,sim physics index + real intercept,0.6788802192602181,509
+CPH1,1,1.0,0,real-only LightGBM,2.060365472784158,509
+CPH1,1,1.0,0,sim+real LightGBM (balanced weights),0.5981212460261279,509
+CPH1,1,1.0,0,real-only 1D-CNN,6.734374624526197,509
+CPH1,1,1.0,0,sim-pretrained 1D-CNN + real fine-tuning,6.904686600644621,509
+CPH1,1,1.0,1,real-only physics index,0.9985663978533766,509
+CPH1,1,1.0,1,sim physics index + real intercept,0.6825238771251373,509
+CPH1,1,1.0,1,real-only LightGBM,1.0833928933792094,509
+CPH1,1,1.0,1,sim+real LightGBM (balanced weights),0.6339086574282569,509
+CPH1,1,1.0,1,real-only 1D-CNN,0.880127918887114,509
+CPH1,1,1.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.923593456410991,509
+CPH1,1,0.9,2,real-only physics index,2.118377179296123,509
+CPH1,1,0.9,2,sim physics index + real intercept,0.7687913601226493,509
+CPH1,1,0.9,2,real-only LightGBM,2.2724597194794027,509
+CPH1,1,0.9,2,sim+real LightGBM (balanced weights),0.5828136174839634,509
+CPH1,1,0.9,2,real-only 1D-CNN,2.4870228504795024,509
+CPH1,1,0.9,2,sim-pretrained 1D-CNN + real fine-tuning,7.493054579404205,509
+CPH1,1,1.0,3,real-only physics index,1.042777173663402,509
+CPH1,1,1.0,3,sim physics index + real intercept,0.6464559247916604,509
+CPH1,1,1.0,3,real-only LightGBM,1.94130662278676,509
+CPH1,1,1.0,3,sim+real LightGBM (balanced weights),0.5689370124305908,509
+CPH1,1,1.0,3,real-only 1D-CNN,187.87064720822568,509
+CPH1,1,1.0,3,sim-pretrained 1D-CNN + real fine-tuning,25.28187806605811,509
+CPH1,1,1.0,4,real-only physics index,1.9832814123277809,509
+CPH1,1,1.0,4,sim physics index + real intercept,0.7437736823623354,509
+CPH1,1,1.0,4,real-only LightGBM,2.0360458258463594,509
+CPH1,1,1.0,4,sim+real LightGBM (balanced weights),0.5817032174161747,509
+CPH1,1,1.0,4,real-only 1D-CNN,77751.13023981756,509
+CPH1,1,1.0,4,sim-pretrained 1D-CNN + real fine-tuning,181545502852.23322,509
+CPH1,2,1.9,0,real-only physics index,1.0239548229608573,509
+CPH1,2,1.9,0,sim physics index + real intercept,0.7172736639982902,509
+CPH1,2,1.9,0,real-only LightGBM,1.6116967641230169,509
+CPH1,2,1.9,0,sim+real LightGBM (balanced weights),0.6029890759110045,509
+CPH1,2,2.0,1,real-only physics index,0.9365890884398241,509
+CPH1,2,2.0,1,sim physics index + real intercept,0.6921004227775721,509
+CPH1,2,2.0,1,real-only LightGBM,0.9591814550183255,509
+CPH1,2,2.0,1,sim+real LightGBM (balanced weights),0.6095976389651284,509
+CPH1,2,2.0,2,real-only physics index,1.4189855684275487,509
+CPH1,2,2.0,2,sim physics index + real intercept,0.843162400269864,509
+CPH1,2,2.0,2,real-only LightGBM,1.893715240410514,509
+CPH1,2,2.0,2,sim+real LightGBM (balanced weights),0.615268530857628,509
+CPH1,2,2.0,3,real-only physics index,1.6258578315019323,509
+CPH1,2,2.0,3,sim physics index + real intercept,0.7663333206133527,509
+CPH1,2,2.0,3,real-only LightGBM,2.0840091657333106,509
+CPH1,2,2.0,3,sim+real LightGBM (balanced weights),0.5866469198911441,509
+CPH1,2,2.0,4,real-only physics index,2.0322561369402754,509
+CPH1,2,2.0,4,sim physics index + real intercept,0.7605929066954301,509
+CPH1,2,2.0,4,real-only LightGBM,2.1233301131514604,509
+CPH1,2,2.0,4,sim+real LightGBM (balanced weights),0.5924684051582998,509
+CPH1,5,5.0,0,real-only physics index,1.6319798953192721,509
+CPH1,5,5.0,0,sim physics index + real intercept,0.8826982230620326,509
+CPH1,5,5.0,0,real-only LightGBM,1.763415069036086,509
+CPH1,5,5.0,0,sim+real LightGBM (balanced weights),0.6468612229491804,509
+CPH1,5,5.0,0,real-only 1D-CNN,1.8435186300251178,509
+CPH1,5,5.0,0,sim-pretrained 1D-CNN + real fine-tuning,1.7023868407630787,509
+CPH1,5,5.0,1,real-only physics index,1.0889617744132885,509
+CPH1,5,5.0,1,sim physics index + real intercept,0.898968040861622,509
+CPH1,5,5.0,1,real-only LightGBM,0.8461897590980212,509
+CPH1,5,5.0,1,sim+real LightGBM (balanced weights),0.6140301101365557,509
+CPH1,5,5.0,1,real-only 1D-CNN,0.9189721480966044,509
+CPH1,5,5.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.9031733349582755,509
+CPH1,5,5.0,2,real-only physics index,0.7551324838125626,509
+CPH1,5,5.0,2,sim physics index + real intercept,0.694332093535862,509
+CPH1,5,5.0,2,real-only LightGBM,0.7529924560394208,509
+CPH1,5,5.0,2,sim+real LightGBM (balanced weights),0.5762893503615228,509
+CPH1,5,5.0,2,real-only 1D-CNN,1.023129343383356,509
+CPH1,5,5.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.8909096582903838,509
+CPH1,5,4.9,3,real-only physics index,1.1291962028363667,509
+CPH1,5,4.9,3,sim physics index + real intercept,0.6883182554393453,509
+CPH1,5,4.9,3,real-only LightGBM,0.8391899538405023,509
+CPH1,5,4.9,3,sim+real LightGBM (balanced weights),0.5264349920585167,509
+CPH1,5,4.9,3,real-only 1D-CNN,0.8932910414646379,509
+CPH1,5,4.9,3,sim-pretrained 1D-CNN + real fine-tuning,0.8005315728862566,509
+CPH1,5,5.0,4,real-only physics index,1.1666418202363251,509
+CPH1,5,5.0,4,sim physics index + real intercept,0.7770743984840869,509
+CPH1,5,5.0,4,real-only LightGBM,1.6486219837977953,509
+CPH1,5,5.0,4,sim+real LightGBM (balanced weights),0.6595160724870281,509
+CPH1,5,5.0,4,real-only 1D-CNN,2.7515153599574567,509
+CPH1,5,5.0,4,sim-pretrained 1D-CNN + real fine-tuning,1.326109562081603,509
+CPH1,10,9.6,0,real-only physics index,1.276263342864959,509
+CPH1,10,9.6,0,sim physics index + real intercept,0.8612423243381612,509
+CPH1,10,9.6,0,real-only LightGBM,0.8504005313750027,509
+CPH1,10,9.6,0,sim+real LightGBM (balanced weights),0.6442312136034619,509
+CPH1,10,10.0,1,real-only physics index,1.1668493161837692,509
+CPH1,10,10.0,1,sim physics index + real intercept,0.7893125415619772,509
+CPH1,10,10.0,1,real-only LightGBM,0.7287789351549985,509
+CPH1,10,10.0,1,sim+real LightGBM (balanced weights),0.6554654036935896,509
+CPH1,10,9.6,2,real-only physics index,0.9754776097796716,509
+CPH1,10,9.6,2,sim physics index + real intercept,0.82108766985409,509
+CPH1,10,9.6,2,real-only LightGBM,0.7235279219742948,509
+CPH1,10,9.6,2,sim+real LightGBM (balanced weights),0.6491869410581248,509
+CPH1,10,10.0,3,real-only physics index,1.105485975964448,509
+CPH1,10,10.0,3,sim physics index + real intercept,0.8141362202379837,509
+CPH1,10,10.0,3,real-only LightGBM,0.6301449586953358,509
+CPH1,10,10.0,3,sim+real LightGBM (balanced weights),0.5679157037427998,509
+CPH1,10,9.8,4,real-only physics index,1.0538702185962088,509
+CPH1,10,9.8,4,sim physics index + real intercept,0.786529226673387,509
+CPH1,10,9.8,4,real-only LightGBM,0.7401510871148991,509
+CPH1,10,9.8,4,sim+real LightGBM (balanced weights),0.5870074733774598,509
+CPH1,20,18.5,0,real-only physics index,0.9333024094758571,509
+CPH1,20,18.5,0,sim physics index + real intercept,0.7428533568002837,509
+CPH1,20,18.5,0,real-only LightGBM,0.6082037041252977,509
+CPH1,20,18.5,0,sim+real LightGBM (balanced weights),0.5627083454206079,509
+CPH1,20,18.5,0,real-only 1D-CNN,1.059991828583416,509
+CPH1,20,18.5,0,sim-pretrained 1D-CNN + real fine-tuning,0.9692096131498468,509
+CPH1,20,19.6,1,real-only physics index,0.908908120116838,509
+CPH1,20,19.6,1,sim physics index + real intercept,0.8355367952341479,509
+CPH1,20,19.6,1,real-only LightGBM,0.6424134643653853,509
+CPH1,20,19.6,1,sim+real LightGBM (balanced weights),0.5836210177343556,509
+CPH1,20,19.6,1,real-only 1D-CNN,0.986870819556794,509
+CPH1,20,19.6,1,sim-pretrained 1D-CNN + real fine-tuning,0.9170527198994495,509
+CPH1,20,19.6,2,real-only physics index,1.0304569706628508,509
+CPH1,20,19.6,2,sim physics index + real intercept,0.7867985426531116,509
+CPH1,20,19.6,2,real-only LightGBM,0.5975337469253621,509
+CPH1,20,19.6,2,sim+real LightGBM (balanced weights),0.5649490090984173,509
+CPH1,20,19.6,2,real-only 1D-CNN,0.9132949793278001,509
+CPH1,20,19.6,2,sim-pretrained 1D-CNN + real fine-tuning,0.8683817100398209,509
+CPH1,20,19.2,3,real-only physics index,1.03908808631304,509
+CPH1,20,19.2,3,sim physics index + real intercept,0.7827558359940628,509
+CPH1,20,19.2,3,real-only LightGBM,0.655445064893351,509
+CPH1,20,19.2,3,sim+real LightGBM (balanced weights),0.602762590334385,509
+CPH1,20,19.2,3,real-only 1D-CNN,0.8658046994988512,509
+CPH1,20,19.2,3,sim-pretrained 1D-CNN + real fine-tuning,0.8662402863030693,509
+CPH1,20,20.0,4,real-only physics index,1.010102295876956,509
+CPH1,20,20.0,4,sim physics index + real intercept,0.7948635576488331,509
+CPH1,20,20.0,4,real-only LightGBM,0.6122412428544871,509
+CPH1,20,20.0,4,sim+real LightGBM (balanced weights),0.5852800901676185,509
+CPH1,20,20.0,4,real-only 1D-CNN,0.9660680708547386,509
+CPH1,20,20.0,4,sim-pretrained 1D-CNN + real fine-tuning,0.8837006509752309,509
+CPH1,all,116.9,0,real-only physics index,1.0260406409476488,509
+CPH1,all,116.9,0,sim physics index + real intercept,0.7878700452292867,509
+CPH1,all,116.9,0,real-only LightGBM,0.6040479064732739,509
+CPH1,all,116.9,0,sim+real LightGBM (balanced weights),0.5914158398348025,509
+CPH1,all,116.9,0,real-only 1D-CNN,0.9771377325548792,509
+CPH1,all,116.9,0,sim-pretrained 1D-CNN + real fine-tuning,0.9556735017730263,509
+CPH1,0,0.0,0,sim-only physics index,0.6002807470859811,509
+CPH1,0,0.0,0,sim-only 1D-CNN,0.6439092773120806,509
+CPH1,0,0.0,0,sim-only LightGBM,0.5716483649956634,509
+CPH6,1,0.9,0,real-only physics index,0.7698851438278845,426
+CPH6,1,0.9,0,sim physics index + real intercept,0.7931938378878981,426
+CPH6,1,0.9,0,real-only LightGBM,1.5511687670283427,426
+CPH6,1,0.9,0,sim+real LightGBM (balanced weights),0.6991457183992841,426
+CPH6,1,0.9,0,real-only 1D-CNN,3.609889738268605,426
+CPH6,1,0.9,0,sim-pretrained 1D-CNN + real fine-tuning,8.144047486921513,426
+CPH6,1,1.0,1,real-only physics index,0.8770569667071813,426
+CPH6,1,1.0,1,sim physics index + real intercept,0.8752432976154642,426
+CPH6,1,1.0,1,real-only LightGBM,1.270297788111817,426
+CPH6,1,1.0,1,sim+real LightGBM (balanced weights),0.6872669699341329,426
+CPH6,1,1.0,1,real-only 1D-CNN,1.1952789386595486,426
+CPH6,1,1.0,1,sim-pretrained 1D-CNN + real fine-tuning,1.2622213099188668,426
+CPH6,1,1.0,2,real-only physics index,0.9284481576689834,426
+CPH6,1,1.0,2,sim physics index + real intercept,1.1630283485110855,426
+CPH6,1,1.0,2,real-only LightGBM,1.059844953864723,426
+CPH6,1,1.0,2,sim+real LightGBM (balanced weights),0.8500017872367187,426
+CPH6,1,1.0,2,real-only 1D-CNN,29.723090004197747,426
+CPH6,1,1.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.8726680500091918,426
+CPH6,1,1.0,3,real-only physics index,1.5656351917060103,426
+CPH6,1,1.0,3,sim physics index + real intercept,0.7824102750676608,426
+CPH6,1,1.0,3,real-only LightGBM,1.9935541835778388,426
+CPH6,1,1.0,3,sim+real LightGBM (balanced weights),0.6756624207446782,426
+CPH6,1,1.0,3,real-only 1D-CNN,87.77939141264444,426
+CPH6,1,1.0,3,sim-pretrained 1D-CNN + real fine-tuning,25.708721371485016,426
+CPH6,1,1.0,4,real-only physics index,1.5294552487476534,426
+CPH6,1,1.0,4,sim physics index + real intercept,0.8001288622504475,426
+CPH6,1,1.0,4,real-only LightGBM,2.0938048832033385,426
+CPH6,1,1.0,4,sim+real LightGBM (balanced weights),0.6911743659102896,426
+CPH6,1,1.0,4,real-only 1D-CNN,1.8203394314650934,426
+CPH6,1,1.0,4,sim-pretrained 1D-CNN + real fine-tuning,1.7613387401143548,426
+CPH6,2,1.9,0,real-only physics index,1.734003635655187,426
+CPH6,2,1.9,0,sim physics index + real intercept,0.7676203310801891,426
+CPH6,2,1.9,0,real-only LightGBM,1.6980661699855293,426
+CPH6,2,1.9,0,sim+real LightGBM (balanced weights),0.6907071906958476,426
+CPH6,2,2.0,1,real-only physics index,0.9820385121182279,426
+CPH6,2,2.0,1,sim physics index + real intercept,0.9685865493616891,426
+CPH6,2,2.0,1,real-only LightGBM,0.8727832423403382,426
+CPH6,2,2.0,1,sim+real LightGBM (balanced weights),0.7935868886113467,426
+CPH6,2,2.0,2,real-only physics index,0.7470508625201937,426
+CPH6,2,2.0,2,sim physics index + real intercept,0.784056296319061,426
+CPH6,2,2.0,2,real-only LightGBM,0.8684546383686939,426
+CPH6,2,2.0,2,sim+real LightGBM (balanced weights),0.7565296713242547,426
+CPH6,2,2.0,3,real-only physics index,1.920736821355046,426
+CPH6,2,2.0,3,sim physics index + real intercept,0.8075631632983297,426
+CPH6,2,2.0,3,real-only LightGBM,2.164785554963413,426
+CPH6,2,2.0,3,sim+real LightGBM (balanced weights),0.6622305705264181,426
+CPH6,2,2.0,4,real-only physics index,1.7312896845810222,426
+CPH6,2,2.0,4,sim physics index + real intercept,0.7682161786633117,426
+CPH6,2,2.0,4,real-only LightGBM,2.156207859539961,426
+CPH6,2,2.0,4,sim+real LightGBM (balanced weights),0.6910054151186434,426
+CPH6,5,5.0,0,real-only physics index,1.4245961060009866,426
+CPH6,5,5.0,0,sim physics index + real intercept,0.913439729174732,426
+CPH6,5,5.0,0,real-only LightGBM,1.8525881981605512,426
+CPH6,5,5.0,0,sim+real LightGBM (balanced weights),0.6973442602628089,426
+CPH6,5,5.0,0,real-only 1D-CNN,1.6742142402546019,426
+CPH6,5,5.0,0,sim-pretrained 1D-CNN + real fine-tuning,1.5684936772880522,426
+CPH6,5,5.0,1,real-only physics index,1.5852498761401417,426
+CPH6,5,5.0,1,sim physics index + real intercept,0.7683014053230998,426
+CPH6,5,5.0,1,real-only LightGBM,0.8444200399031194,426
+CPH6,5,5.0,1,sim+real LightGBM (balanced weights),0.7193368352799162,426
+CPH6,5,5.0,1,real-only 1D-CNN,0.8720211663498896,426
+CPH6,5,5.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.7861448254038709,426
+CPH6,5,5.0,2,real-only physics index,0.8838084409013997,426
+CPH6,5,5.0,2,sim physics index + real intercept,0.7715233483991093,426
+CPH6,5,5.0,2,real-only LightGBM,0.9387663275857946,426
+CPH6,5,5.0,2,sim+real LightGBM (balanced weights),0.8724324520269312,426
+CPH6,5,5.0,2,real-only 1D-CNN,0.8395866369020523,426
+CPH6,5,5.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.781717967827495,426
+CPH6,5,4.8,3,real-only physics index,0.7718311255947724,426
+CPH6,5,4.8,3,sim physics index + real intercept,0.7675880749254247,426
+CPH6,5,4.8,3,real-only LightGBM,0.8935909367272803,426
+CPH6,5,4.8,3,sim+real LightGBM (balanced weights),0.6632176436347815,426
+CPH6,5,4.8,3,real-only 1D-CNN,0.9516348713300727,426
+CPH6,5,4.8,3,sim-pretrained 1D-CNN + real fine-tuning,0.8283846969311917,426
+CPH6,5,5.0,4,real-only physics index,1.1715980771550651,426
+CPH6,5,5.0,4,sim physics index + real intercept,0.8126147719012952,426
+CPH6,5,5.0,4,real-only LightGBM,1.5569318827064307,426
+CPH6,5,5.0,4,sim+real LightGBM (balanced weights),0.7119824152648709,426
+CPH6,5,5.0,4,real-only 1D-CNN,1.3768501017053858,426
+CPH6,5,5.0,4,sim-pretrained 1D-CNN + real fine-tuning,1.4476080443275716,426
+CPH6,10,9.4,0,real-only physics index,0.8660674253528482,426
+CPH6,10,9.4,0,sim physics index + real intercept,0.7696645731218431,426
+CPH6,10,9.4,0,real-only LightGBM,0.746495215726179,426
+CPH6,10,9.4,0,sim+real LightGBM (balanced weights),0.6915628782786059,426
+CPH6,10,9.4,1,real-only physics index,1.0191968556232958,426
+CPH6,10,9.4,1,sim physics index + real intercept,0.7677530327931543,426
+CPH6,10,9.4,1,real-only LightGBM,0.8748213865524301,426
+CPH6,10,9.4,1,sim+real LightGBM (balanced weights),0.7849715928729378,426
+CPH6,10,10.0,2,real-only physics index,0.7473731208299224,426
+CPH6,10,10.0,2,sim physics index + real intercept,0.767798148595777,426
+CPH6,10,10.0,2,real-only LightGBM,0.6500407785499305,426
+CPH6,10,10.0,2,sim+real LightGBM (balanced weights),0.6539716893851695,426
+CPH6,10,9.3,3,real-only physics index,0.8813370845263682,426
+CPH6,10,9.3,3,sim physics index + real intercept,0.7800004005982294,426
+CPH6,10,9.3,3,real-only LightGBM,0.7704190528020977,426
+CPH6,10,9.3,3,sim+real LightGBM (balanced weights),0.718875317876686,426
+CPH6,10,10.0,4,real-only physics index,0.8705868040630919,426
+CPH6,10,10.0,4,sim physics index + real intercept,0.8015536854878692,426
+CPH6,10,10.0,4,real-only LightGBM,0.7551114817827697,426
+CPH6,10,10.0,4,sim+real LightGBM (balanced weights),0.7102775836319211,426
+CPH6,20,19.2,0,real-only physics index,0.8888544192141246,426
+CPH6,20,19.2,0,sim physics index + real intercept,0.7683791001532968,426
+CPH6,20,19.2,0,real-only LightGBM,0.7125354646149679,426
+CPH6,20,19.2,0,sim+real LightGBM (balanced weights),0.6964430889055598,426
+CPH6,20,19.2,0,real-only 1D-CNN,0.7990517113695509,426
+CPH6,20,19.2,0,sim-pretrained 1D-CNN + real fine-tuning,0.7335453407240805,426
+CPH6,20,19.9,1,real-only physics index,0.9053466132687705,426
+CPH6,20,19.9,1,sim physics index + real intercept,0.7678299097245348,426
+CPH6,20,19.9,1,real-only LightGBM,0.8277437728772091,426
+CPH6,20,19.9,1,sim+real LightGBM (balanced weights),0.7894742135511407,426
+CPH6,20,19.9,1,real-only 1D-CNN,0.7569565030062556,426
+CPH6,20,19.9,1,sim-pretrained 1D-CNN + real fine-tuning,0.727522559589243,426
+CPH6,20,19.8,2,real-only physics index,0.7786388654524886,426
+CPH6,20,19.8,2,sim physics index + real intercept,0.7697998822945792,426
+CPH6,20,19.8,2,real-only LightGBM,0.710105930574481,426
+CPH6,20,19.8,2,sim+real LightGBM (balanced weights),0.6883175322637598,426
+CPH6,20,19.8,2,real-only 1D-CNN,0.892188719326635,426
+CPH6,20,19.8,2,sim-pretrained 1D-CNN + real fine-tuning,0.7664356507517276,426
+CPH6,20,19.1,3,real-only physics index,0.9210577311435781,426
+CPH6,20,19.1,3,sim physics index + real intercept,0.770856194003414,426
+CPH6,20,19.1,3,real-only LightGBM,0.8497381896258256,426
+CPH6,20,19.1,3,sim+real LightGBM (balanced weights),0.7764594245483272,426
+CPH6,20,19.1,3,real-only 1D-CNN,0.835237394439579,426
+CPH6,20,19.1,3,sim-pretrained 1D-CNN + real fine-tuning,0.7536528385700322,426
+CPH6,20,19.4,4,real-only physics index,0.8533788978603029,426
+CPH6,20,19.4,4,sim physics index + real intercept,0.7905519593618714,426
+CPH6,20,19.4,4,real-only LightGBM,0.7088212027076856,426
+CPH6,20,19.4,4,sim+real LightGBM (balanced weights),0.7214008153500744,426
+CPH6,20,19.4,4,real-only 1D-CNN,0.8065321179317934,426
+CPH6,20,19.4,4,sim-pretrained 1D-CNN + real fine-tuning,0.6967481031935753,426
+CPH6,all,125.2,0,real-only physics index,0.8577459429970687,426
+CPH6,all,125.2,0,sim physics index + real intercept,0.7676054902279549,426
+CPH6,all,125.2,0,real-only LightGBM,0.6962963824818488,426
+CPH6,all,125.2,0,sim+real LightGBM (balanced weights),0.6900216673868143,426
+CPH6,all,125.2,0,real-only 1D-CNN,0.7363516408238953,426
+CPH6,all,125.2,0,sim-pretrained 1D-CNN + real fine-tuning,0.7943760628657927,426
+CPH6,0,0.0,0,sim-only physics index,0.9019397557699295,426
+CPH6,0,0.0,0,sim-only 1D-CNN,0.7907309454020113,426
+CPH6,0,0.0,0,sim-only LightGBM,0.6908817961621151,426
+M3,1,1.0,0,real-only physics index,0.30630431120056767,515
+M3,1,1.0,0,sim physics index + real intercept,0.1251889557660622,515
+M3,1,1.0,0,real-only LightGBM,0.35057215605241837,515
+M3,1,1.0,0,sim+real LightGBM (balanced weights),0.12419029583688404,515
+M3,1,1.0,0,real-only 1D-CNN,0.3101561381600731,515
+M3,1,1.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.446259747262495,515
+M3,1,1.0,1,real-only physics index,0.26684852440763074,515
+M3,1,1.0,1,sim physics index + real intercept,0.29932452847473223,515
+M3,1,1.0,1,real-only LightGBM,0.5811276526760386,515
+M3,1,1.0,1,sim+real LightGBM (balanced weights),0.266822102177048,515
+M3,1,1.0,1,real-only 1D-CNN,0.1901988920826203,515
+M3,1,1.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.3690061871051787,515
+M3,1,1.0,2,real-only physics index,0.47897291132861003,515
+M3,1,1.0,2,sim physics index + real intercept,0.13767373575127498,515
+M3,1,1.0,2,real-only LightGBM,1.0141859560122337,515
+M3,1,1.0,2,sim+real LightGBM (balanced weights),0.2908412225647973,515
+M3,1,1.0,2,real-only 1D-CNN,1.6013535420610012,515
+M3,1,1.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.27851957815128303,515
+M3,1,1.0,3,real-only physics index,0.15261801234689404,515
+M3,1,1.0,3,sim physics index + real intercept,0.125172021455167,515
+M3,1,1.0,3,real-only LightGBM,0.19470289036621424,515
+M3,1,1.0,3,sim+real LightGBM (balanced weights),0.13641883835915578,515
+M3,1,1.0,3,real-only 1D-CNN,0.25666321212197113,515
+M3,1,1.0,3,sim-pretrained 1D-CNN + real fine-tuning,0.29384709095469475,515
+M3,1,1.0,4,real-only physics index,2.7310285158163174,515
+M3,1,1.0,4,sim physics index + real intercept,0.35238094806263154,515
+M3,1,1.0,4,real-only LightGBM,2.9864540478852177,515
+M3,1,1.0,4,sim+real LightGBM (balanced weights),0.35330636607254107,515
+M3,1,1.0,4,real-only 1D-CNN,1.7749446761677756,515
+M3,1,1.0,4,sim-pretrained 1D-CNN + real fine-tuning,0.6099100258689624,515
+M3,2,2.0,0,real-only physics index,0.12190132646580355,515
+M3,2,2.0,0,sim physics index + real intercept,0.12645376227427726,515
+M3,2,2.0,0,real-only LightGBM,0.15172302682655386,515
+M3,2,2.0,0,sim+real LightGBM (balanced weights),0.12066221888963184,515
+M3,2,2.0,1,real-only physics index,0.37365414872180597,515
+M3,2,2.0,1,sim physics index + real intercept,0.35353112276163773,515
+M3,2,2.0,1,real-only LightGBM,0.605303551102266,515
+M3,2,2.0,1,sim+real LightGBM (balanced weights),0.29310010773044565,515
+M3,2,2.0,2,real-only physics index,0.6348372861041682,515
+M3,2,2.0,2,sim physics index + real intercept,0.15059614491669956,515
+M3,2,2.0,2,real-only LightGBM,1.4169286968306407,515
+M3,2,2.0,2,sim+real LightGBM (balanced weights),0.3148155945848306,515
+M3,2,2.0,3,real-only physics index,0.12526067721445894,515
+M3,2,2.0,3,sim physics index + real intercept,0.12974791947878497,515
+M3,2,2.0,3,real-only LightGBM,0.21748646511831107,515
+M3,2,2.0,3,sim+real LightGBM (balanced weights),0.12763845792748982,515
+M3,2,1.9,4,real-only physics index,0.34643733308318414,515
+M3,2,1.9,4,sim physics index + real intercept,0.1735975615012835,515
+M3,2,1.9,4,real-only LightGBM,1.0015382075175154,515
+M3,2,1.9,4,sim+real LightGBM (balanced weights),0.27797426352775045,515
+M3,5,5.0,0,real-only physics index,0.20509843165593822,515
+M3,5,5.0,0,sim physics index + real intercept,0.19946281272204577,515
+M3,5,5.0,0,real-only LightGBM,0.19931464664934825,515
+M3,5,5.0,0,sim+real LightGBM (balanced weights),0.14646294380826497,515
+M3,5,5.0,0,real-only 1D-CNN,0.19595336469419686,515
+M3,5,5.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.15634142294565564,515
+M3,5,5.0,1,real-only physics index,0.36597886958917114,515
+M3,5,5.0,1,sim physics index + real intercept,0.2698459797192301,515
+M3,5,5.0,1,real-only LightGBM,0.1504765528364851,515
+M3,5,5.0,1,sim+real LightGBM (balanced weights),0.16684908910003188,515
+M3,5,5.0,1,real-only 1D-CNN,0.12883634434189836,515
+M3,5,5.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.14856610343935714,515
+M3,5,4.6,2,real-only physics index,1.1071632620825806,515
+M3,5,4.6,2,sim physics index + real intercept,0.38862331746237827,515
+M3,5,4.6,2,real-only LightGBM,1.4920745439366376,515
+M3,5,4.6,2,sim+real LightGBM (balanced weights),0.3377683337280147,515
+M3,5,4.6,2,real-only 1D-CNN,7.192859512977601,515
+M3,5,4.6,2,sim-pretrained 1D-CNN + real fine-tuning,1.6843889204846425,515
+M3,5,4.2,3,real-only physics index,0.1361160308074249,515
+M3,5,4.2,3,sim physics index + real intercept,0.14820251347755684,515
+M3,5,4.2,3,real-only LightGBM,0.14018784666803863,515
+M3,5,4.2,3,sim+real LightGBM (balanced weights),0.12291804018262664,515
+M3,5,4.2,3,real-only 1D-CNN,0.15622498508205018,515
+M3,5,4.2,3,sim-pretrained 1D-CNN + real fine-tuning,0.13284842725306575,515
+M3,5,5.0,4,real-only physics index,0.2304548015268797,515
+M3,5,5.0,4,sim physics index + real intercept,0.2201397755350909,515
+M3,5,5.0,4,real-only LightGBM,0.13438055401487528,515
+M3,5,5.0,4,sim+real LightGBM (balanced weights),0.14201696429396515,515
+M3,5,5.0,4,real-only 1D-CNN,0.15560136638097583,515
+M3,5,5.0,4,sim-pretrained 1D-CNN + real fine-tuning,0.12089370795622952,515
+M3,10,9.5,0,real-only physics index,0.29609237892187606,515
+M3,10,9.5,0,sim physics index + real intercept,0.22194231768821931,515
+M3,10,9.5,0,real-only LightGBM,0.14226397423716694,515
+M3,10,9.5,0,sim+real LightGBM (balanced weights),0.12385720352395109,515
+M3,10,9.8,1,real-only physics index,0.513877474735903,515
+M3,10,9.8,1,sim physics index + real intercept,0.30952245582685445,515
+M3,10,9.8,1,real-only LightGBM,0.18881743501336942,515
+M3,10,9.8,1,sim+real LightGBM (balanced weights),0.19625849522587532,515
+M3,10,10.0,2,real-only physics index,0.5121027733103245,515
+M3,10,10.0,2,sim physics index + real intercept,0.29831945713344077,515
+M3,10,10.0,2,real-only LightGBM,0.25037747410096334,515
+M3,10,10.0,2,sim+real LightGBM (balanced weights),0.18516421328564026,515
+M3,10,8.4,3,real-only physics index,0.28810753509424214,515
+M3,10,8.4,3,sim physics index + real intercept,0.2515460500086655,515
+M3,10,8.4,3,real-only LightGBM,0.2388493768980097,515
+M3,10,8.4,3,sim+real LightGBM (balanced weights),0.13646047943590708,515
+M3,10,9.6,4,real-only physics index,0.29852747419976805,515
+M3,10,9.6,4,sim physics index + real intercept,0.18584955828592611,515
+M3,10,9.6,4,real-only LightGBM,0.15444080897193024,515
+M3,10,9.6,4,sim+real LightGBM (balanced weights),0.13293253167603383,515
+M3,20,20.0,0,real-only physics index,0.40807404364890754,515
+M3,20,20.0,0,sim physics index + real intercept,0.24971836940297698,515
+M3,20,20.0,0,real-only LightGBM,0.13567021444200814,515
+M3,20,20.0,0,sim+real LightGBM (balanced weights),0.13686843029580295,515
+M3,20,20.0,0,real-only 1D-CNN,0.16157383450032356,515
+M3,20,20.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.15056250916536162,515
+M3,20,19.4,1,real-only physics index,0.31271142374032523,515
+M3,20,19.4,1,sim physics index + real intercept,0.2677552215421898,515
+M3,20,19.4,1,real-only LightGBM,0.1478922201693622,515
+M3,20,19.4,1,sim+real LightGBM (balanced weights),0.13086071857392356,515
+M3,20,19.4,1,real-only 1D-CNN,0.16636489539609425,515
+M3,20,19.4,1,sim-pretrained 1D-CNN + real fine-tuning,0.16346096794288226,515
+M3,20,19.6,2,real-only physics index,0.5495458743508628,515
+M3,20,19.6,2,sim physics index + real intercept,0.2863735458890054,515
+M3,20,19.6,2,real-only LightGBM,0.23848341887533295,515
+M3,20,19.6,2,sim+real LightGBM (balanced weights),0.17301456364404866,515
+M3,20,19.6,2,real-only 1D-CNN,0.1407485349341141,515
+M3,20,19.6,2,sim-pretrained 1D-CNN + real fine-tuning,0.14811069322146073,515
+M3,20,19.7,3,real-only physics index,0.28944249664811283,515
+M3,20,19.7,3,sim physics index + real intercept,0.2540055568092806,515
+M3,20,19.7,3,real-only LightGBM,0.1662314240300945,515
+M3,20,19.7,3,sim+real LightGBM (balanced weights),0.13494367820879732,515
+M3,20,19.7,3,real-only 1D-CNN,0.18340922916811309,515
+M3,20,19.7,3,sim-pretrained 1D-CNN + real fine-tuning,0.19023818892629996,515
+M3,20,19.1,4,real-only physics index,0.3250382836898817,515
+M3,20,19.1,4,sim physics index + real intercept,0.2542674054716735,515
+M3,20,19.1,4,real-only LightGBM,0.13120034078861972,515
+M3,20,19.1,4,sim+real LightGBM (balanced weights),0.12667614646889377,515
+M3,20,19.1,4,real-only 1D-CNN,0.16759380317819786,515
+M3,20,19.1,4,sim-pretrained 1D-CNN + real fine-tuning,0.1515329985416224,515
+M3,all,116.3,0,real-only physics index,0.3517169284710838,515
+M3,all,116.3,0,sim physics index + real intercept,0.2479804125842667,515
+M3,all,116.3,0,real-only LightGBM,0.135742913924437,515
+M3,all,116.3,0,sim+real LightGBM (balanced weights),0.1291213933243557,515
+M3,all,116.3,0,real-only 1D-CNN,0.14176290214539614,515
+M3,all,116.3,0,sim-pretrained 1D-CNN + real fine-tuning,0.1624486472649442,515
+M3,0,0.0,0,sim-only physics index,0.3981463790973101,515
+M3,0,0.0,0,sim-only 1D-CNN,0.2016949844274926,515
+M3,0,0.0,0,sim-only LightGBM,0.26391366048659887,515
+M13,1,1.0,0,real-only physics index,0.198668434081312,228
+M13,1,1.0,0,sim physics index + real intercept,0.15331958470427173,228
+M13,1,1.0,0,real-only LightGBM,0.24797106401654337,228
+M13,1,1.0,0,sim+real LightGBM (balanced weights),0.19983274089383288,228
+M13,1,1.0,0,real-only 1D-CNN,0.24040224963865833,228
+M13,1,1.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.18622976792212773,228
+M13,1,1.0,1,real-only physics index,1.0713929629182979,228
+M13,1,1.0,1,sim physics index + real intercept,0.3805025270367573,228
+M13,1,1.0,1,real-only LightGBM,1.7067538546485062,228
+M13,1,1.0,1,sim+real LightGBM (balanced weights),0.2628741086784969,228
+M13,1,1.0,1,real-only 1D-CNN,4.438928563251598,228
+M13,1,1.0,1,sim-pretrained 1D-CNN + real fine-tuning,0.18783255855879544,228
+M13,1,1.0,2,real-only physics index,1.9788097934297344,228
+M13,1,1.0,2,sim physics index + real intercept,0.1483107718710627,228
+M13,1,1.0,2,real-only LightGBM,2.115088837752987,228
+M13,1,1.0,2,sim+real LightGBM (balanced weights),0.24738248492484552,228
+M13,1,1.0,2,real-only 1D-CNN,1.5094794787886798,228
+M13,1,1.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.18152240170784797,228
+M13,1,1.0,3,real-only physics index,0.26495994921453,228
+M13,1,1.0,3,sim physics index + real intercept,0.15768824049658925,228
+M13,1,1.0,3,real-only LightGBM,0.2839473476720523,228
+M13,1,1.0,3,sim+real LightGBM (balanced weights),0.21203336228762806,228
+M13,1,1.0,3,real-only 1D-CNN,0.24920114193185028,228
+M13,1,1.0,3,sim-pretrained 1D-CNN + real fine-tuning,0.23222249106535664,228
+M13,1,1.0,4,real-only physics index,0.2094402215587787,228
+M13,1,1.0,4,sim physics index + real intercept,0.13310404320623323,228
+M13,1,1.0,4,real-only LightGBM,0.24896104958670823,228
+M13,1,1.0,4,sim+real LightGBM (balanced weights),0.1670020929057538,228
+M13,1,1.0,4,real-only 1D-CNN,0.2170159883076459,228
+M13,1,1.0,4,sim-pretrained 1D-CNN + real fine-tuning,0.21167041469228687,228
+M13,2,2.0,0,real-only physics index,0.13652899102229293,228
+M13,2,2.0,0,sim physics index + real intercept,0.13272631428440543,228
+M13,2,2.0,0,real-only LightGBM,0.18354608029921185,228
+M13,2,2.0,0,sim+real LightGBM (balanced weights),0.15721808920405989,228
+M13,2,2.0,1,real-only physics index,0.9017199090369661,228
+M13,2,2.0,1,sim physics index + real intercept,0.43442845023780496,228
+M13,2,2.0,1,real-only LightGBM,1.0639741952142103,228
+M13,2,2.0,1,sim+real LightGBM (balanced weights),0.3053879388744399,228
+M13,2,2.0,2,real-only physics index,0.1392032999455204,228
+M13,2,2.0,2,sim physics index + real intercept,0.13813995320676595,228
+M13,2,2.0,2,real-only LightGBM,0.17328850521429223,228
+M13,2,2.0,2,sim+real LightGBM (balanced weights),0.15256618625755689,228
+M13,2,1.4,3,real-only physics index,0.256781645980223,228
+M13,2,1.4,3,sim physics index + real intercept,0.1774498280178627,228
+M13,2,1.4,3,real-only LightGBM,0.41011220284965283,228
+M13,2,1.4,3,sim+real LightGBM (balanced weights),0.24150154673935326,228
+M13,2,2.0,4,real-only physics index,0.24088420591336937,228
+M13,2,2.0,4,sim physics index + real intercept,0.13625137625265385,228
+M13,2,2.0,4,real-only LightGBM,0.22550235944572497,228
+M13,2,2.0,4,sim+real LightGBM (balanced weights),0.1721571031612232,228
+M13,5,5.0,0,real-only physics index,0.25587072455901083,228
+M13,5,5.0,0,sim physics index + real intercept,0.13569279683643903,228
+M13,5,5.0,0,real-only LightGBM,0.18336777191835588,228
+M13,5,5.0,0,sim+real LightGBM (balanced weights),0.1654984998713406,228
+M13,5,5.0,0,real-only 1D-CNN,0.17556494870421288,228
+M13,5,5.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.16987735674530913,228
+M13,5,4.8,1,real-only physics index,0.2014395118296672,228
+M13,5,4.8,1,sim physics index + real intercept,0.17086673675950015,228
+M13,5,4.8,1,real-only LightGBM,0.26789206992173586,228
+M13,5,4.8,1,sim+real LightGBM (balanced weights),0.21428748376595544,228
+M13,5,4.8,1,real-only 1D-CNN,0.21185450003079573,228
+M13,5,4.8,1,sim-pretrained 1D-CNN + real fine-tuning,0.20924559989892821,228
+M13,5,5.0,2,real-only physics index,0.44459234071628984,228
+M13,5,5.0,2,sim physics index + real intercept,0.1525409687296937,228
+M13,5,5.0,2,real-only LightGBM,0.216688929481799,228
+M13,5,5.0,2,sim+real LightGBM (balanced weights),0.18927509827775899,228
+M13,5,5.0,2,real-only 1D-CNN,0.18367843859759,228
+M13,5,5.0,2,sim-pretrained 1D-CNN + real fine-tuning,0.18427499815761794,228
+M13,5,5.0,3,real-only physics index,0.2416263399387066,228
+M13,5,5.0,3,sim physics index + real intercept,0.15012924386092485,228
+M13,5,5.0,3,real-only LightGBM,0.18122777637840992,228
+M13,5,5.0,3,sim+real LightGBM (balanced weights),0.1688093835857796,228
+M13,5,5.0,3,real-only 1D-CNN,0.1746628569289291,228
+M13,5,5.0,3,sim-pretrained 1D-CNN + real fine-tuning,0.1614317288639393,228
+M13,5,5.0,4,real-only physics index,0.16603801499914747,228
+M13,5,5.0,4,sim physics index + real intercept,0.13259623428209721,228
+M13,5,5.0,4,real-only LightGBM,0.18823722241877353,228
+M13,5,5.0,4,sim+real LightGBM (balanced weights),0.1621374743452453,228
+M13,5,5.0,4,real-only 1D-CNN,0.16552721400083864,228
+M13,5,5.0,4,sim-pretrained 1D-CNN + real fine-tuning,0.1703492331709531,228
+M13,10,9.4,0,real-only physics index,0.2675901978854149,228
+M13,10,9.4,0,sim physics index + real intercept,0.15904144551405752,228
+M13,10,9.4,0,real-only LightGBM,0.16410859280977438,228
+M13,10,9.4,0,sim+real LightGBM (balanced weights),0.15281919373348518,228
+M13,10,10.0,1,real-only physics index,0.2587200852424355,228
+M13,10,10.0,1,sim physics index + real intercept,0.17593471406452357,228
+M13,10,10.0,1,real-only LightGBM,0.18943489675887284,228
+M13,10,10.0,1,sim+real LightGBM (balanced weights),0.1712662555814549,228
+M13,10,9.8,2,real-only physics index,0.15364685722861599,228
+M13,10,9.8,2,sim physics index + real intercept,0.1746475079978844,228
+M13,10,9.8,2,real-only LightGBM,0.15794580522097734,228
+M13,10,9.8,2,sim+real LightGBM (balanced weights),0.15174645549679638,228
+M13,10,9.6,3,real-only physics index,0.30627836650241946,228
+M13,10,9.6,3,sim physics index + real intercept,0.15348946480070608,228
+M13,10,9.6,3,real-only LightGBM,0.16261585401993622,228
+M13,10,9.6,3,sim+real LightGBM (balanced weights),0.14219258305400523,228
+M13,10,10.0,4,real-only physics index,0.32788010834895187,228
+M13,10,10.0,4,sim physics index + real intercept,0.1554702916378498,228
+M13,10,10.0,4,real-only LightGBM,0.18507677697587666,228
+M13,10,10.0,4,sim+real LightGBM (balanced weights),0.16499107963393717,228
+M13,20,19.8,0,real-only physics index,0.27697961205627575,228
+M13,20,19.8,0,sim physics index + real intercept,0.15320398372083047,228
+M13,20,19.8,0,real-only LightGBM,0.17721050638402455,228
+M13,20,19.8,0,sim+real LightGBM (balanced weights),0.16710966909247124,228
+M13,20,19.8,0,real-only 1D-CNN,0.17851633356604116,228
+M13,20,19.8,0,sim-pretrained 1D-CNN + real fine-tuning,0.17682472074795866,228
+M13,20,19.9,1,real-only physics index,0.16451492138973103,228
+M13,20,19.9,1,sim physics index + real intercept,0.1473701303386748,228
+M13,20,19.9,1,real-only LightGBM,0.1558495612113783,228
+M13,20,19.9,1,sim+real LightGBM (balanced weights),0.14540845528102908,228
+M13,20,19.9,1,real-only 1D-CNN,0.16684608055805503,228
+M13,20,19.9,1,sim-pretrained 1D-CNN + real fine-tuning,0.15627770438365388,228
+M13,20,19.7,2,real-only physics index,0.19142595527968487,228
+M13,20,19.7,2,sim physics index + real intercept,0.14839286258935303,228
+M13,20,19.7,2,real-only LightGBM,0.18040519492867702,228
+M13,20,19.7,2,sim+real LightGBM (balanced weights),0.13579574548865428,228
+M13,20,19.7,2,real-only 1D-CNN,0.1836946409143534,228
+M13,20,19.7,2,sim-pretrained 1D-CNN + real fine-tuning,0.16547030057494502,228
+M13,20,19.8,3,real-only physics index,0.3519989985609184,228
+M13,20,19.8,3,sim physics index + real intercept,0.16670723525475858,228
+M13,20,19.8,3,real-only LightGBM,0.17282967222034834,228
+M13,20,19.8,3,sim+real LightGBM (balanced weights),0.1621599392521568,228
+M13,20,19.8,3,real-only 1D-CNN,0.1829551851360527,228
+M13,20,19.8,3,sim-pretrained 1D-CNN + real fine-tuning,0.18031187071675947,228
+M13,20,18.9,4,real-only physics index,0.31633443549601403,228
+M13,20,18.9,4,sim physics index + real intercept,0.19112374385735267,228
+M13,20,18.9,4,real-only LightGBM,0.17793341705264504,228
+M13,20,18.9,4,sim+real LightGBM (balanced weights),0.151144377898153,228
+M13,20,18.9,4,real-only 1D-CNN,0.18771478045844847,228
+M13,20,18.9,4,sim-pretrained 1D-CNN + real fine-tuning,0.1813464360776648,228
+M13,all,145.0,0,real-only physics index,0.24853629626226476,228
+M13,all,145.0,0,sim physics index + real intercept,0.15270659375614515,228
+M13,all,145.0,0,real-only LightGBM,0.1521093178894992,228
+M13,all,145.0,0,sim+real LightGBM (balanced weights),0.1452375069214496,228
+M13,all,145.0,0,real-only 1D-CNN,0.17184652602269815,228
+M13,all,145.0,0,sim-pretrained 1D-CNN + real fine-tuning,0.1733994352687673,228
+M13,0,0.0,0,sim-only physics index,0.3000548363113569,228
+M13,0,0.0,0,sim-only 1D-CNN,0.19099353990829845,228
+M13,0,0.0,0,sim-only LightGBM,0.21480715604967665,228

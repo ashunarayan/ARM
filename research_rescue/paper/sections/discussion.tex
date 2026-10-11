@@ -1,0 +1,37 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\textbf{What simulated drives over measured profiles provide.}
+Ranking segments within a route turned out to be the easy part: an untrained, speed-normalised vibration RMS comes within \rpAbsMax{} of every trained estimator we tested on every route.
+Simulation supplied the mapping from vibration to IRI up to a level that depended on two simulator choices, the sensor path, whose effect reached the estimator through the features carrying vibration above 10\,Hz, and the vehicle population; no variant was built to reproduce the absolute gain of this car's vibration path.
+For a road agency this suggests simulating the car type over roads it has already profiled and combining the simulation with a few kilometres of paired drives, which in our data did not need more than one pass per segment.
+At 5\,km, a level offset was the most accurate combination for the six variants whose level error differed least between road classes, but it fell behind real drives alone from 10\,km for the other three; joint training on simulated and paired passes was better than real-only training on average for every variant and every $k$ we tested, though not on every route and draw, and depended little on the variant from 5\,km on, which makes it the safer choice when the simulator's fidelity is unknown.
+Comparing the class levels after calibration, and the real and simulated spectra of the calibration roads, shows which case applies, although the spectral association was found after the fact on nine non-independent variants.
+
+\textbf{A correction to our earlier explanations.}
+Our first version attributed the transfer of V0 to the breadth of its sensor model, our second to the holder resonance in half of its passes.
+Neither is sufficient: with the same sensor mixture and one vehicle instead of 30 (V4) the bias is \vvVfourBias\,m/km, and V0's matched pooled level hides a motorway over-prediction of about \ldVzeroPctMotorwayAbs\,\%.
+V0's zero-shot accuracy is a fortunate combination of simulator choices, not a property of randomising over sensors or vehicles, and we do not report it as evidence that a simulator can be used without real data.
+
+\textbf{Speed.}
+Smooth roads are driven fast, so estimators trained on real cars can use speed as a cue for low roughness and over-correct on a fixed road; simulation-trained estimators, whose training speeds are independent of roughness, over-correct less on urban roads.
+We recommend reporting such fixed-road elasticities from repeated passes, with the within-pass speed variability as a control, instead of speed sweeps in simulation alone.
+
+\textbf{Statistics and reference.}
+Segment errors are spatially correlated: 5\,km-block intervals of paired differences were \infWidthRatioMin--\infWidthRatioMax{} times as wide as segment-level ones, and route-level intervals with four routes include zero for most comparisons (Table~\ref{S-tab:s_inference}), so the supported differences describe these four routes, not a population of routes, and benchmarks on road data should resample spatial blocks or routes, not segments.
+All errors are relative to one P79 survey; a second device (ARAN9000) agrees with it in ranking and median level but not on a few urban segments (Table~\ref{S-tab:s_aran}).
+
+\section{Limitations}
+\label{sec:limitations}
+\emph{External validity.}
+LiRA-CD contains one car model with one type of telematics unit on four routes in one city region; road class and route are confounded, and with four routes no statement about route-to-route variation is inferential.
+Whether the simulated mapping transfers up to a level, and how much paired data the level needs, for other cars, sensors, speeds and road networks is unknown.
+Transfer to other vehicles and to phones in holders was examined only in simulation (class S, Supplement~\ref{S-sec:s_controlled}): with 1,200 training passes, the error on unseen vehicles exceeded that on the training vehicles by \vsThreeRel\,\% with 3 and by \vsThirtyRel\,\% with 30 training vehicles.
+\emph{Evidence class.}
+Except for the V0 comparison, all real-data results come from analyses specified after the test routes had been used, several after a review had pointed at the result (Section~\ref{sec:method}); they generate hypotheses rather than confirm them.
+\emph{Combination methods.}
+We compared three ways of combining simulated and real data with one learner and fixed settings (equal total weight in joint training, as in our first protocol); fine-tuning of networks, domain adaptation or Bayesian calibration of the simulator might rank differently.
+\emph{Simulator.}
+The simulator is a linear half-car without roll or body flexibility, driven by the mean of the two wheel-path profiles, with parameter ranges for sensitivity rather than a calibrated fleet; its vibration differs from the real car's at 2--5\,Hz and above 10\,Hz and in its speed scaling.
+\emph{Other.}
+M7 is not a reproduction of~\cite{skar2024inversion} and the CNN is the architecture of our earlier study without tuning; the reference surveys preceded the car passes by two to fifteen months, segments are 100\,m long, and we did not train on real data from several cities.

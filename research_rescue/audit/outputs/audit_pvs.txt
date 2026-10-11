@@ -1,0 +1,43 @@
+clean windows: 1070
+windows per route: {0: 407, 1: 345, 2: 318}
+
+AUC (higher = better separation):
+score                                 asphalt vs cobble+dirt   Good vs Regular+Bad (all)   Spearman w/ quality 0/1/2
+model IRI (calibrated)                                 0.937                       0.937                       0.696
+model IRI (raw)                                        0.937                       0.937                       0.693
+-speed only                                            0.977                       0.978                       0.787
+RMS az dashboard (no model)                            0.970                       0.972                       0.758
+RMS az / speed^0.5                                     0.997                       0.999                       0.812
+
+Within non-asphalt only (Regular vs Bad; the paper's claimed 'minor inversion'):
+  model IRI (calibrated)           AUC Bad-vs-Regular = 0.326  (n_bad=72, n_reg=280)
+  model IRI (raw)                  AUC Bad-vs-Regular = 0.331  (n_bad=72, n_reg=280)
+  -speed only                      AUC Bad-vs-Regular = 0.841  (n_bad=72, n_reg=280)
+  RMS az dashboard (no model)      AUC Bad-vs-Regular = 0.491  (n_bad=72, n_reg=280)
+  RMS az / speed^0.5               AUC Bad-vs-Regular = 0.659  (n_bad=72, n_reg=280)
+
+Asphalt Regular windows (the only within-asphalt quality evidence):
+     trip_num  route  latitude  longitude  avg_speed_kmh  iri_calibrated  rms_az
+193         2      1  -27.6924   -51.1281        25.8811          5.3426  1.3403
+544         5      1  -27.6984   -51.1260        25.4120          2.5972  0.4556
+551         5      1  -27.6925   -51.1281        32.3095          4.5197  1.1725
+808         7      0  -27.6881   -51.1213        41.0202          3.7108  2.3513
+909         8      1  -27.6925   -51.1281        27.4368          5.3998  1.8067
+923         8      1  -27.6882   -51.1212        37.3713          3.7108  1.7122
+
+Leave-one-route-out logistic AUC, asphalt vs non-asphalt:
+  speed only: 0.970 | speed + RMS az: 0.997 | speed + RMS az + model IRI: 0.998
+
+Spearman(model IRI calibrated, speed) = -0.557 | Spearman(model IRI, RMS az) = 0.663
+Mean speed by surface (km/h): {'Asphalt': 71.6, 'Cobblestone': 24.6, 'Dirt': 20.9}
+
+Cross-trip repeatability at matched locations (<25 m), same route:
+  route 0 trips 1-4: n=135  Spearman model=0.891  RMS az=0.871  speed=0.914
+  route 0 trips 1-7: n= 73  Spearman model=0.785  RMS az=0.717  speed=0.772
+  route 0 trips 4-7: n= 91  Spearman model=0.911  RMS az=0.759  speed=0.805
+  route 1 trips 2-5: n=115  Spearman model=0.791  RMS az=0.846  speed=0.969
+  route 1 trips 2-8: n=115  Spearman model=0.901  RMS az=0.836  speed=0.971
+  route 1 trips 5-8: n=115  Spearman model=0.859  RMS az=0.876  speed=0.978
+  route 2 trips 3-6: n=105  Spearman model=0.837  RMS az=0.860  speed=0.959
+  route 2 trips 3-9: n=106  Spearman model=0.945  RMS az=0.879  speed=0.949
+  route 2 trips 6-9: n= 43  Spearman model=0.767  RMS az=0.927  speed=0.942

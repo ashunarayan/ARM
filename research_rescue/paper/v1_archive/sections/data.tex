@@ -1,0 +1,52 @@
+\section{Data and Simulation}
+\label{sec:data}
+Table~\ref{tab:datasets} summarises the data sources and their role in the study.
+
+\textbf{LiRA-CD (real cars, primary evidence).}
+LiRA-CD~\cite{skar2023lira,lira_data} contains GreenMobility Renault Zoe car-sharing cars instrumented with an AutoPi telematics unit (three-axis accelerometer, GPS) connected to the CAN bus, and surveys of the same lanes by the Danish Road Directorate's P79 profilometer.
+We use the four routes with car data: two urban roads in Copenhagen (CPH1, part of the O2 ring road, and CPH6) and two motorways (M3, M13), each in both directions.
+The P79 files provide the wheel-path laser elevations at 0.1\,m with GPS and the profilometer's IRI per 10\,m.
+In the \liraSensorPasses{} car passes with accelerometer data, the accelerometer is logged at a nominal \liraRateLow\,Hz (\liraRateLowShare\,\% of passes) or \liraRateHigh\,Hz with gaps (effective mean rates \liraRateMeanMin--\liraRateMeanMax\,Hz), quantised to 0.01\,g in \liraLsbShare\,\% of passes (otherwise \liraLsbMin\,g), and mounted with a median tilt of \liraTiltMedian$^\circ$ (95th percentile \liraTiltPninetyfive$^\circ$, one trip \liraTiltMax$^\circ$; angle between the static acceleration and the device's $z$ axis); speed comes from the CAN bus at \liraCanHz\,Hz and position from GPS at \liraGpsHzMin--\liraGpsHzMax\,Hz.
+\liraSkipped{} passes lack accelerometer or speed data (\liraGpsOnly{} contain GPS only) and were skipped, and \liraNoUnits{} of the remaining \liraAllSignals{} passes yield no valid unit.
+After map matching (Section~\ref{sec:method}), the dataset contains \liraUnits{} segment-passes over \liraSegments{} distinct 100\,m segments (\liraKm{}\,km) from \liraPasses{} car passes recorded by at least \liraDevices{} telematics units.
+Urban segments have mean IRI \liraIriUrban{}\,m/km and are driven at \liraSpeedUrban\,km/h on average; motorway segments have mean IRI \liraIriMotorway{}\,m/km and are driven at \liraSpeedMotorway\,km/h.
+
+\textbf{Earlier BeamNG corpus (game-engine simulation).}
+The corpus of the earlier study comprises \bngTrips{} manually driven trips (one driver) of \bngCars{} BeamNG.tech vehicles on \bngMaps{} maps (\bngKm{}\,km of evaluation segments).
+Elevation was sampled by downward ray casts next to the wheels; IMU, position and elevation were polled by unsynchronised threads, which produced exact sample-and-hold duplicates in \bngImuDupMin--\bngImuDupMax\,\% of consecutive IMU rows per trip.
+Labels were computed from the ray-cast profile after a ``curvature-adaptive mesh correction'' that low-passes the profile where the 10\,m-smoothed curvature exceeds a threshold.
+We use this corpus to answer RQ1--RQ3, not as a source of IRI ground truth.
+
+\textbf{Parametric vehicle simulator.}
+A linear four-degree-of-freedom half-car (bounce, pitch, front and rear unsprung masses) is driven by a road profile under the front axle and the same profile delayed by the wheelbase under the rear axle, after a 250\,mm tyre-envelope moving average.
+The system is discretised exactly under a first-order hold and solved in modal coordinates; the solution deviates by at most \simModalDev{} (relative) from a direct state-space recursion and by \simRkDev{} from a fine-step Runge--Kutta integration of the continuous system, and the 500 sampled vehicles have body modes at \simBodyHzLo--\simBodyHzHi\,Hz and wheel-hop modes at \simHopHzLo--\simHopHzHi\,Hz.
+Vehicle parameters are drawn from ranges for passenger cars~\cite{gillespie1992} that contain the Golden-Car reference vehicle~\cite{sayers1986tp45} (sprung mass 1000--1800\,kg, wheelbase 2.4--3.0\,m, body frequency 1.0--1.6\,Hz, damping ratio 0.20--0.45; Table~S1).
+Speed is drawn independently of roughness (base speed 20--110\,km/h with Ornstein--Uhlenbeck fluctuations and random braking events).
+The sensor model applies, in this order, an optional phone-holder resonance, the device's anti-aliasing filter, a mounting rotation, irregular sampling with jitter, scale and bias errors, white noise, quantisation and sample loss.
+A telematics-like configuration (55--62\,Hz, 0.01\,g) and a smartphone-like configuration (90--210\,Hz, 0.6\,mg, holder resonance) are mixed 50/50.
+The telematics configuration was set from a preliminary inspection of the unlabelled LiRA-CD streams, which was less accurate than the statistics above (Section~S1); it was not changed afterwards, and no LiRA-CD label was used to set any simulator parameter.
+Two profile sources are used: the measured P79 profiles and ISO-8608-type synthetic profiles~\cite{iso8608} with displacement PSD $\propto n^{-2}$, roughness varying in 200--1000\,m sections and random potholes.
+On measured profiles the half-car is driven by the mean of the two wheel-path profiles (no roll excitation), and units are labelled with the mean of the two wheel-path IRIs, exactly as the real units; on synthetic profiles the label is the IRI of the single driven profile.
+All labels are computed with the validated IRI code (Section~\ref{sec:method}).
+
+\textbf{PVS.}
+The Passive Vehicular Sensors dataset~\cite{menegazzo2020pvs,menegazzo2021pvs} contains nine trips (three routes, each driven with three vehicles and drivers) with annotated surface type (asphalt, cobblestone, dirt) and subjective quality (good, regular, bad), but no IRI.
+We use it only as ordinal, crowdsourcing-like evidence.
+
+\begin{table}[t]
+\centering
+\caption{Data used in this study.}
+\label{tab:datasets}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\columnwidth}>{\raggedright\arraybackslash}p{0.5\columnwidth}>{\raggedright\arraybackslash}p{0.27\columnwidth}@{}}
+\toprule
+Dataset & Content & Label; role \\
+\midrule
+LiRA-CD & Renault Zoe cars, AutoPi + CAN; 4 routes, \liraKm\,km of 100\,m segments, \liraUnits{} segment-passes & P79 IRI; training and test \\
+Parametric simulator & randomised half-cars and sensors on measured (P79) and synthetic profiles & IRI of profile; training, controlled tests \\
+BeamNG corpus & \bngCars{} game vehicles, \bngMaps{} maps, \bngTrips{} trips, \bngKm\,km & ray-cast profile IRI; RQ1--RQ3 \\
+PVS & 3 cars, dashboard IMUs; 3 routes, \pvsWindows{} windows of 100\,m & surface type, quality; RQ3 \\
+\bottomrule
+\end{tabular}
+\end{table}

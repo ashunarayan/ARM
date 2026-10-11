@@ -1,0 +1,37 @@
+\section{Discussion}
+\label{sec:discussion}
+\textbf{What the earlier result measured.}
+Three ingredients produced the earlier headline numbers: labels that are a low-passed variant of IRI, a test track that was also used for early stopping and isotonic calibration, and a reporting rule that discarded exploding predictions.
+Each is invisible in a summary table; together they turned an estimator whose raw outputs diverge on unseen maps into one that appeared to work.
+None of these problems is specific to BeamNG: any study that derives labels from authored 3-D geometry, calibrates on data from the test environment or filters test predictions is exposed to them.
+Validating the label computation against a profilometer and reporting unfiltered predictions on held-out routes are cheap safeguards.
+
+\textbf{Speed is both a signal and a shortcut.}
+Body acceleration grows with speed at fixed roughness, so an estimator needs speed to normalise vibration; but in naturalistic driving speed also encodes road class (urban roads are slower and rougher), and a speed-only model looks competitive on pooled metrics without sensing roughness at all (Section~\ref{sec:res_speed}).
+Within routes, the vibration-based estimators rank segments far better than speed does, so they do sense roughness.
+The controlled sweeps show that a learned speed correction is tied to the road spectrum it was trained on: corrections learned on synthetic $n^{-2}$ profiles over-predict on measured profiles at high speed, whereas LightGBM trained on measured profiles meets the invariance criterion.
+Claims of speed invariance therefore need a controlled test on realistic profiles, and accuracy claims need a speed-only baseline and within-route analyses.
+
+\textbf{Simple models suffice; simulation helps where labels are scarce.}
+On real cars, gradient boosting and an MLP on hand-crafted vibration and speed features are more accurate than the CNN, and a three-parameter vibration index with a fitted speed exponent is a reasonable fallback; architecture is not where the gains are.
+Simulated responses to measured road profiles transfer to real cars without any real vehicle data, and pooling simulated with few real units reduces error when little real data is available (Section~\ref{sec:res_sim}).
+All randomised parts of the simulator contribute: replacing measured by synthetic profiles raises the zero-shot MAE from \zsPsevenGbmMae{} to \zsIsoGbmMae\,m/km, an ideal sensor to \zsIdealGbmMae{} and a single vehicle to \zsFixVehGbmMae\,m/km.
+The profile source has the largest effect, and a post-hoc check shows that the breadth of the sensor model matters more than matching the target sensor.
+Both favour simulators driven by measured profiles with randomised vehicles and sensors, whereas a game engine's authored road meshes provide neither realistic roughness nor valid labels.
+In practice this changes what has to be collected: simulation over measured profiles needs profiled roads, which road agencies survey anyway, but no instrumented drives over them with every vehicle type, and our few-shot results show how many kilometres of such drives it replaces for one vehicle type.
+The remaining gap is concentrated on smooth motorways, where the simulation-trained model over-predicts (bias \zsPsevenGbmBiasMwThree{} and \zsPsevenGbmBiasMwThirteen\,m/km on M3 and M13, against \liraGbmBiasMwThree{} and \liraGbmBiasMwThirteen\,m/km after real training); simulated and real vibration differ in level, IRI dependence and speed dependence (Fig.~\ref{fig:simreal}), and we have not isolated which difference causes the bias.
+
+\textbf{Reference uncertainty.}
+On urban roads the ARAN9000 and the P79 disagree by \aranUrbanMae\,m/km on average ($r=$\,\aranUrbanR), against \aranMotorwayMae\,m/km ($r=$\,\aranMotorwayR) on motorways.
+Errors of real-car estimators relative to the P79 must be read against this: on urban roads they are smaller than the disagreement between two professional devices surveyed on different dates, so they are errors relative to one reference survey, not to a device-independent truth.
+
+\section{Limitations}
+\label{sec:limitations}
+LiRA-CD contains one car model (Renault Zoe) with one telematics unit type, four routes in one region, and reference surveys that were not simultaneous with the car passes; with four route folds the number of independent test routes is small, and urban and motorway routes differ systematically.
+Generalisation to other vehicles and to smartphones in holders was tested only in simulation, where no accurate estimator met the unseen-vehicle criterion.
+The simulator is a linear half-car without roll, tyre lift-off or suspension non-linearity, driven by the mean of the two wheel-path profiles; its parameter ranges are sensitivity ranges rather than a calibrated fleet.
+Its telematics sensor configuration (55--62\,Hz) was set from a preliminary inspection of the unlabelled LiRA-CD streams and differs from the rates measured later (\liraRateLow{} and \liraRateHigh\,Hz); we did not change it after seeing results; in a post-hoc re-run with the telematics half matched to the measured statistics the zero-shot LightGBM MAE is \phMixGbmMae{} instead of \phPrimGbmMae\,m/km, but with a single matched telematics sensor it is \phMeasGbmMae\,m/km (Section~\ref{sec:res_sim}), so the transfer result depends on the breadth of the sensor model.
+The CNN is the earlier architecture with hyper-parameters fixed in advance; a tuned or larger network might rank differently.
+The BeamNG corpus was not re-collected with synchronised sampling; its results are used only to diagnose the earlier protocol.
+PVS labels are subjective and contain no IRI.
+Finally, we did not test window lengths other than 100\,m or estimators trained on real data from several cities.

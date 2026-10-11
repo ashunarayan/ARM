@@ -1,0 +1,17 @@
+{
+ "n_segments": 1569,
+ "log_pearson": 0.9413550891150846,
+ "median_ratio": 0.9827727279998795,
+ "median_ratio_urban": 0.9969275333453743,
+ "median_ratio_motorway": 0.9550930080855591,
+ "pooled": {
+  "M7 quarter-car inversion (uncalibrated)": {
+   "mae": 0.5198985697382381,
+   "bias": -0.0933960144897758
+  },
+  "M7cal quarter-car inversion + log-linear calibration": {
+   "mae": 0.6352705358116967,
+   "bias": 0.08652368653756659
+  }
+ }
+}

@@ -1,0 +1,42 @@
+\section{Estimators and Evaluation}
+\label{sec:method}
+
+\textbf{Preprocessing and features.}
+Real and simulated accelerometer streams go through the same code: interpolation to 200\,Hz, zero-phase 20\,Hz low-pass, decimation to 50\,Hz, projection on the pass-mean acceleration direction (removing the mounting tilt), and a 0.3\,Hz high-pass.
+LiRA-CD GPS fixes are matched to the P79 track of the same route and direction with a heading constraint.
+A unit is a 100\,m segment traversed once by one pass ($\ge$90\,\% coverage).
+Each unit is described by speed (log mean, coefficient of variation) and vibration features of the dynamic vertical acceleration (log RMS, 95th percentile and maximum of the magnitude, crest factor, kurtosis, band RMS in 0.5--2, 2--5, 5--10 and 10--15\,Hz, RMS above 1\,Hz, RMS at wavelengths below 5\,m).
+
+\textbf{Estimators.}
+All learned estimators predict log IRI.
+\emph{Without vibration}: M0, the training median; M0b, a road-class prior that predicts each held-out route with the median IRI of the other route of the same class (needs only a map); M1, LightGBM~\cite{ke2017lightgbm} on the two speed features.
+\emph{Physics-based}: M2c, a vibration index $\log \mathrm{IRI} = a + b \log(\mathrm{RMS}/v^{\alpha})$ with $\alpha$ fitted; M7, a calibrated quarter-car inversion: the empirical transmissibility of the car and sensor (acceleration spectrum divided by the road displacement spectrum at the pass speed) is estimated on the training routes, a quarter car with sensor gain is fitted to it, each test unit's road spectrum is obtained by spectral division, and IRI follows from the Golden-Car response to that spectrum under a Gaussian assumption (the formula reproduces the validated IRI from true profile spectra with $r=$\,\invCheckR{} in log scale); M7 is also reported with a log-linear output calibration fitted on the training routes.
+\emph{Learned}: M3, LightGBM on all features (also without speed inputs); M4, an MLP; M5, a 1D-CNN on the resampled acceleration (the architecture of our earlier study); neural nets are averaged over five seeds.
+\emph{Simulation-trained}: M3 and M2c fitted only to simulated units of a simulator variant (zero-shot). LightGBM uses one of six fixed configurations chosen by inner leave-one-route-out validation when real training routes are available, and its first configuration otherwise.
+
+\textbf{Level calibration and value of simulation.}
+A simulation-trained estimator is calibrated with $k$\,km of real data from the training routes (contiguous 1\,km blocks, 20 random draws per $k$): either a level offset only (the median log ratio of label to prediction over the calibration passes) or an affine map in log space.
+To measure what simulation replaces, real-only and simulation-only training are compared at \emph{equal profile budget}: for the same draw of $k$\,km, LightGBM is trained either on the real passes over those blocks (which need the profiles and paired car drives) or on simulated passes over the profiles of the same blocks (which need the profiles only).
+
+\textbf{Speed on a fixed road.}
+Each segment is driven about ten times at different speeds, so the speed dependence of an estimator can be measured on real roads without confounding by roughness: the within-segment elasticity is the slope of the pass-level log prediction on log speed with segment fixed effects.
+A roughness estimator should have elasticity 0; our earlier criterion of $\pm$10\,\% between 40 and 100\,km/h corresponds to $|$elasticity$|\le$0.104.
+For the raw vibration RMS the elasticity is the car's physical speed exponent.
+
+\textbf{Simulated vs real vibration.}
+Welch spectra of the preprocessed acceleration (2.56\,s windows) are compared between real passes and re-simulated passes of four sensor variants and the ideal sensor over the same P79 segments, on cells of segment $\times$ 10\,km/h speed band present in both.
+For all nine measured-profile variants we compare the band RMS features on the same cells (real/simulated amplitude ratio) and the within-segment speed elasticity of the raw RMS, using only simulated passes within the speed range of the real passes over each segment.
+
+\textbf{Evaluation and inference.}
+The outer split is leave-one-route-out over \{CPH1, CPH6, M3, M13\}; both directions of the test route are held out together, and no test-route data enter training, calibration or model selection.
+The evaluation unit is the 100\,m segment, predicted by the mean of its pass predictions.
+We report MAE (primary), bias and Spearman's $\rho$ within each route and averaged over routes, and pooled values; partial $\rho$ given segment speed measures ranking beyond speed.
+Segment errors are spatially correlated (residual autocorrelation \acfGbmHundred{} at 100\,m, \acfGbmKm{} at 1\,km), so paired differences between estimators are bootstrapped over 5\,km blocks (40 clusters, 2000 resamples), and a difference is called supported only if that interval excludes zero; segment- and 1\,km-level intervals and a route-level interval ($t$ with 3 degrees of freedom) are in Table~\ref{S-tab:s_inference}.
+With four routes, no claim about route-to-route variation is inferential.
+All intervals are conditional on the trained models (one per fold); training variability enters only through the seeds of the neural nets and the draws of the calibration analyses.
+
+\textbf{Evidence classes.}
+The estimators, simulator V0, splits and metrics were fixed before any test result (class C1).
+After an independent review we wrote a second protocol and only then ran the analyses of the simulator variants, calibration, equal-budget comparison, fixed-road speed analysis, spectra and baselines M0b and M7.
+These analyses use routes whose results were already known, so we label them as re-analyses (R) or diagnostics (E) and do not use them to select a configuration; the vehicle-number experiment in Section~\ref{sec:res_vehicles} uses freshly simulated test data (S).
+Four diagnostics were added to that protocol after some of its results were known (the equal-budget comparison for V1--V8, draw-by-draw comparisons with real-only training, the speed scaling of raw vibration and paired elasticity differences); they are reported for every variant (Supplement~\ref{S-sec:s_protocol}).

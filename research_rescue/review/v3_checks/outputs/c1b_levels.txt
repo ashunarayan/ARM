@@ -1,0 +1,19 @@
+      level_CPH1  level_CPH6  level_M3  level_M13  bias_urban  bias_motorway   bias  lvl_urban  lvl_motorway  lvl_mean  lvl_spread
+vid                                                                                                                               
+REAL      -0.090       0.064     0.001      0.031      -0.191         -0.015 -0.113     -0.013         0.016     0.002       0.029
+V0        -0.024       0.037     0.160      0.129      -0.116          0.168  0.010      0.006         0.145     0.075       0.138
+V1         0.121       0.152     0.427      0.368       0.324          0.556  0.427      0.137         0.398     0.267       0.261
+V2        -0.056       0.005     0.075      0.049      -0.219          0.063 -0.094     -0.025         0.062     0.018       0.087
+V3         0.109       0.155     0.428      0.376       0.274          0.557  0.399      0.132         0.402     0.267       0.270
+V4         0.143       0.177     0.337      0.251       0.389          0.407  0.397      0.160         0.294     0.227       0.134
+V5         0.095       0.147     0.456      0.389       0.249          0.602  0.405      0.121         0.423     0.272       0.302
+V6        -0.040      -0.026     0.178      0.196      -0.245          0.217 -0.041     -0.033         0.187     0.077       0.220
+V7        -0.014       0.062     0.210      0.160      -0.052          0.229  0.072      0.024         0.185     0.104       0.161
+V8         0.066       0.136     0.276      0.247       0.208          0.340  0.267      0.101         0.262     0.181       0.161
+V9         0.034       0.106     0.477      0.506       0.086          0.698  0.357      0.070         0.491     0.280       0.421
+V10       -0.054      -0.017     0.215      0.178      -0.256          0.233 -0.040     -0.036         0.197     0.080       0.232
+log_band_0.5_2   Spearman with mean log level +0.083  with urban/motorway level spread -0.300
+log_band_10_15   Spearman with mean log level +0.900  with urban/motorway level spread +0.617
+log_band_2_5     Spearman with mean log level +0.333  with urban/motorway level spread +0.283
+log_band_5_10    Spearman with mean log level +0.800  with urban/motorway level spread +0.700
+log_rms          Spearman with mean log level +0.833  with urban/motorway level spread +0.350

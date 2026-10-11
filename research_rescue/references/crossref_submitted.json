@@ -1,0 +1,559 @@
+[
+ {
+  "key": "1",
+  "cited": "Ministry of Road Transport and Highways (MoRTH), Basic Road Statistics of India, Government of India, New Delhi, 2023.",
+  "cited_title": "Ministry of Road Transport and Highways (MoRTH), Basic Road Statistics of India, Government of India, New Delhi, 2023.",
+  "best_match": {
+   "doi": "10.56294/sctconf20251350",
+   "title": "Enhancing Road Safety: A Study of iRAD and eDAR Initiatives by the Ministry of Road Transport and Highways, Government of India",
+   "container": "Salud, Ciencia y Tecnolog\u00eda - Serie de Conferencias",
+   "year": 2025,
+   "volume": "4",
+   "issue": null,
+   "page": "1350",
+   "authors": [
+    "Gijja Srinivasa Rao"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.49
+ },
+ {
+  "key": "2",
+  "cited": "World Bank Group, Road Asset Management Systems: Principles and Practice, Transportation Global Practice Technical Report, Washington, DC, 2021.",
+  "cited_title": "World Bank Group, Road Asset Management Systems: Principles and Practice, Transportation Global Practice Technical Repor",
+  "best_match": {
+   "doi": "10.1515/9783110669763",
+   "title": "Bank Asset Liability Management Best Practice",
+   "container": "",
+   "year": 2021,
+   "volume": null,
+   "issue": null,
+   "page": null,
+   "authors": [
+    "Polina Bardaeva"
+   ],
+   "type": "book"
+  },
+  "title_similarity": 0.4
+ },
+ {
+  "key": "3",
+  "cited": "M. W. Sayers, T. D. Gillespie, and C. A. Queiroz, \"The International Road Roughness Experiment: Establishing correlation and a calibration standard for measurements,\" World Bank Technical Paper No. 45, Washington, DC, 1986.",
+  "cited_title": "The International Road Roughness Experiment: Establishing correlation and a calibration standard for measurements",
+  "best_match": {
+   "doi": "10.1520/stp884-eb",
+   "title": "Measuring Road Roughness and Its Effects on User Cost and Comfort",
+   "container": "",
+   "year": 1985,
+   "volume": null,
+   "issue": null,
+   "page": null,
+   "authors": [
+    "TD Gillespie",
+    "M Sayers"
+   ],
+   "type": "book"
+  },
+  "title_similarity": 0.416
+ },
+ {
+  "key": "4",
+  "cited": "N. D. Lane, E. Miluzzo, H. Lu, D. Peebles, T. Choudhury, and A. T. Campbell, \"A survey of mobile phone sensing,\" IEEE Commun. Mag., vol. 48, no. 9, pp. 140--150, 2010.",
+  "cited_title": "A survey of mobile phone sensing",
+  "best_match": {
+   "doi": "10.1109/mcom.2010.5560598",
+   "title": "A survey of mobile phone sensing",
+   "container": "IEEE Communications Magazine",
+   "year": 2010,
+   "volume": "48",
+   "issue": "9",
+   "page": "140-150",
+   "authors": [
+    "Nicholas Lane",
+    "Emiliano Miluzzo",
+    "Hong Lu",
+    "Daniel Peebles",
+    "Tanzeem Choudhury",
+    "Andrew Campbell"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "5",
+  "cited": "P. Mohan, V. N. Padmanabhan, and R. Ramjee, \"Nericell: Rich monitoring of road and traffic conditions using mobile smartphones,\" in Proc. 6th ACM SenSys, 2008, pp. 323--336.",
+  "cited_title": "Nericell: Rich monitoring of road and traffic conditions using mobile smartphones",
+  "best_match": {
+   "doi": "10.1145/1460412.1460444",
+   "title": "Nericell",
+   "container": "Proceedings of the 6th ACM conference on Embedded network sensor systems",
+   "year": 2008,
+   "volume": null,
+   "issue": null,
+   "page": "323-336",
+   "authors": [
+    "Prashanth Mohan",
+    "Venkata N. Padmanabhan",
+    "Ramachandran Ramjee"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 0.18
+ },
+ {
+  "key": "6",
+  "cited": "J. Eriksson, L. Girod, B. Hull, R. Newton, S. Madden, and H. Balakrishnan, \"The pothole patrol: Using a participatory sensor network for road surface monitoring,\" in Proc. 6th ACM MobiSys, 2008, pp. 29--39.",
+  "cited_title": "The pothole patrol: Using a participatory sensor network for road surface monitoring",
+  "best_match": {
+   "doi": "10.1145/1378600.1378605",
+   "title": "The pothole patrol",
+   "container": "Proceedings of the 6th international conference on Mobile systems, applications, and services",
+   "year": 2008,
+   "volume": null,
+   "issue": null,
+   "page": "29-39",
+   "authors": [
+    "Jakob Eriksson",
+    "Lewis Girod",
+    "Bret Hull",
+    "Ryan Newton",
+    "Samuel Madden",
+    "Hari Balakrishnan"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 0.353
+ },
+ {
+  "key": "7",
+  "cited": "S. Sattar, S. Li, and M. Chapman, \"Road surface monitoring using smartphone sensors: A review,\" Sensors, vol. 18, no. 11, p. 3845, 2018.",
+  "cited_title": "Road surface monitoring using smartphone sensors: A review",
+  "best_match": {
+   "doi": "10.3390/s18113845",
+   "title": "Road Surface Monitoring Using Smartphone Sensors: A Review",
+   "container": "Sensors",
+   "year": 2018,
+   "volume": "18",
+   "issue": "11",
+   "page": "3845",
+   "authors": [
+    "Shahram Sattar",
+    "Songnian Li",
+    "Michael Chapman"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "8",
+  "cited": "M. Alqaydi, A. Al-Khatib, and H. Al-Yami, \"Continuous International Roughness Index (IRI) estimation using smartphone inertial sensors and deep learning,\" IEEE Trans. Intell. Transp. Syst., vol. 24, no. 5, pp. 4812--4825, 2023.",
+  "cited_title": "Continuous International Roughness Index (IRI) estimation using smartphone inertial sensors and deep learning",
+  "best_match": {
+   "doi": "10.1109/tits.2023.3239190",
+   "title": "Automatic Vehicle Pollution Detection Using Feedback Based Iterative Deep Learning",
+   "container": "IEEE Transactions on Intelligent Transportation Systems",
+   "year": 2023,
+   "volume": "24",
+   "issue": "5",
+   "page": "4804-4814",
+   "authors": [
+    "Ujjwal Maulik",
+    "Srimanta Kundu"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.482
+ },
+ {
+  "key": "aashto_r56",
+  "cited": "AASHTO Standard Practice R 56-14, Standard Practice for Certification of Inertial Profiling Systems, American Association of State Highway and Transportation Officials, Washington, DC, 2014.",
+  "cited_title": "AASHTO Standard Practice R 56-14, Standard Practice for Certification of Inertial Profiling Systems, American Associatio",
+  "best_match": {
+   "doi": "10.17226/27182",
+   "title": "Enhancement of the Practice for Certification of Inertial Profiling Systems",
+   "container": "",
+   "year": 2023,
+   "volume": null,
+   "issue": null,
+   "page": null,
+   "authors": [
+    "Amy L. Simpson",
+    "Pedro Serigos",
+    "George K. Chang",
+    "David K. Merritt",
+    "",
+    "",
+    ""
+   ],
+   "type": "edited-book"
+  },
+  "title_similarity": 0.667
+ },
+ {
+  "key": "10",
+  "cited": "ASTM E1926-08, Standard Practice for Computing International Roughness Index of Roads from Longitudinal Profile Measurements, ASTM International, West Conshohocken, PA, 2021.",
+  "cited_title": "ASTM E1926-08, Standard Practice for Computing International Roughness Index of Roads from Longitudinal Profile Measurem",
+  "best_match": {
+   "doi": "10.1520/e1926-98r03",
+   "title": "Practice for Computing International Roughness Index of Roads from Longitudinal Profile Measurements",
+   "container": "",
+   "year": null,
+   "volume": null,
+   "issue": null,
+   "page": null,
+   "authors": [
+    ""
+   ],
+   "type": "standard"
+  },
+  "title_similarity": 0.873
+ },
+ {
+  "key": "11",
+  "cited": "ISO 8608:2016, Mechanical Vibration\u2014Road Surface Profiles\u2014Reporting of Measured Data, International Organization for Standardization, Geneva, Switzerland, 2016.",
+  "cited_title": "ISO 8608:2016, Mechanical Vibration\u2014Road Surface Profiles\u2014Reporting of Measured Data, International Organization for Sta",
+  "best_match": {
+   "doi": "10.3403/30341600",
+   "title": "Mechanical vibration. Road surface profiles. Reporting of measured data",
+   "container": "",
+   "year": null,
+   "volume": null,
+   "issue": null,
+   "page": null,
+   "authors": [],
+   "type": "standard"
+  },
+  "title_similarity": 0.702
+ },
+ {
+  "key": "12",
+  "cited": "A. Mednis, G. Strazdins, R. Zviedris, G. Kanonirs, and L. Selavo, \"Real time pothole detection using Android smartphones with accelerometers,\" in Proc. DCOSS, 2011, pp. 1--6.",
+  "cited_title": "Real time pothole detection using Android smartphones with accelerometers",
+  "best_match": {
+   "doi": "10.1109/dcoss.2011.5982206",
+   "title": "Real time pothole detection using Android smartphones with accelerometers",
+   "container": "2011 International Conference on Distributed Computing in Sensor Systems and Workshops (DCOSS)",
+   "year": 2011,
+   "volume": null,
+   "issue": null,
+   "page": "1-6",
+   "authors": [
+    "Artis Mednis",
+    "Girts Strazdins",
+    "Reinholds Zviedris",
+    "Georgijs Kanonirs",
+    "Leo Selavo"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "13",
+  "cited": "J. Menegazzo and A. von Wangenheim, \"Multi-contextual and multi-aspect analysis for road surface type classification through inertial sensors and deep learning,\" in Proc. X Brazilian Symp. Computing Systems Engineering (SBESC), Florianopolis, Brazil, Nov. 2020, pp. 1--8, doi: 10.1109/SBESC51047.2020.9277846.",
+  "cited_title": "Multi-contextual and multi-aspect analysis for road surface type classification through inertial sensors and deep learning",
+  "best_match": {
+   "doi": "10.1109/sbesc51047.2020.9277846",
+   "title": "Multi-Contextual and Multi-Aspect Analysis for Road Surface Type Classification Through Inertial Sensors and Deep Learning",
+   "container": "2020 X Brazilian Symposium on Computing Systems Engineering (SBESC)",
+   "year": 2020,
+   "volume": null,
+   "issue": null,
+   "page": "1-8",
+   "authors": [
+    "Jeferson Menegazzo",
+    "Aldo von Wangenheim"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "14",
+  "cited": "V. M. Allu, S. R. Ch, and B. K. R, \"Continuous road roughness estimation using smartphone acceleration and GPS signals,\" IEEE Sensors J., vol. 22, no. 8, pp. 8192--8201, 2022.",
+  "cited_title": "Continuous road roughness estimation using smartphone acceleration and GPS signals",
+  "best_match": {
+   "doi": "10.1109/mits.2021.3049382",
+   "title": "Road Roughness Estimation Through Smartphone-Measured Acceleration",
+   "container": "IEEE Intelligent Transportation Systems Magazine",
+   "year": 2022,
+   "volume": "14",
+   "issue": "2",
+   "page": "209-220",
+   "authors": [
+    "Karol R. Opara",
+    "Karol Brzezinski",
+    "Marek Bukowicki",
+    "Katarzyna Kaczmarek-Majer"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.703
+ },
+ {
+  "key": "15",
+  "cited": "BeamNG GmbH, BeamNG.tech Research and ADAS Simulation Platform Documentation, Bremen, Germany, 2024. [Online]. Available: https://beamng.tech",
+  "cited_title": "BeamNG GmbH, BeamNG.tech Research and ADAS Simulation Platform Documentation, Bremen, Germany, 2024. [Online]. Available",
+  "best_match": {
+   "doi": "10.1365/s40112-016-1166-z",
+   "title": "Integration of ADAS Into One Central Platform Controller",
+   "container": "Auto Tech Review",
+   "year": 2016,
+   "volume": "5",
+   "issue": "7",
+   "page": "32-35",
+   "authors": [
+    "Marc Lang"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.341
+ },
+ {
+  "key": "16",
+  "cited": "R. Bridgelall, \"Connected vehicle approach for pavement roughness evaluation,\" J. Infrastructure Syst., vol. 20, no. 4, p. 04014017, 2014.",
+  "cited_title": "Connected vehicle approach for pavement roughness evaluation",
+  "best_match": {
+   "doi": "10.1061/(asce)is.1943-555x.0000167",
+   "title": "Connected Vehicle Approach for Pavement Roughness Evaluation",
+   "container": "Journal of Infrastructure Systems",
+   "year": 2014,
+   "volume": "20",
+   "issue": "1",
+   "page": "04013001",
+   "authors": [
+    "Raj Bridgelall"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "17",
+  "cited": "D. Nguyen, B. Widyatama, and A. Y. Nugraha, \"Optimal speed for pavement roughness measurement using a smartphone,\" Sensors, vol. 19, no. 9, p. 2168, 2019.",
+  "cited_title": "Optimal speed for pavement roughness measurement using a smartphone",
+  "best_match": {
+   "doi": "10.1080/10298436.2026.2678485",
+   "title": "Impact of vehicle speed and load on road roughness measurement using vehicle-mounted smartphone",
+   "container": "International Journal of Pavement Engineering",
+   "year": 2026,
+   "volume": "27",
+   "issue": "1",
+   "page": "2678485",
+   "authors": [
+    "Ashalakshmi V. M.",
+    "M. Sivakumar",
+    "M. V. L. R. Anjaneyulu"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.667
+ },
+ {
+  "key": "18",
+  "cited": "A. Islam, M. Chowdhury, and H. Khan, \"Deep learning-based road damage detection and classification for multiple countries,\" Autom. Constr., vol. 132, p. 103935, 2021.",
+  "cited_title": "Deep learning-based road damage detection and classification for multiple countries",
+  "best_match": {
+   "doi": "10.1016/j.autcon.2021.103935",
+   "title": "Deep learning-based road damage detection and classification for multiple countries",
+   "container": "Automation in Construction",
+   "year": 2021,
+   "volume": "132",
+   "issue": null,
+   "page": "103935",
+   "authors": [
+    "Deeksha Arya",
+    "Hiroya Maeda",
+    "Sanjay Kumar Ghosh",
+    "Durga Toshniwal",
+    "Alexander Mraz",
+    "Takehiro Kashiyama",
+    "Yoshihide Sekimoto"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "19",
+  "cited": "S. Pawar, V. R. Vaidya, and S. R. Chiddarwar, \"Road roughness estimation using smartphone IMU and GPS: A machine learning approach,\" in Proc. IEEE Int. Conf. Intell. Transp. Syst. (ITSC), 2022, pp. 3812--3817.",
+  "cited_title": "Road roughness estimation using smartphone IMU and GPS: A machine learning approach",
+  "best_match": {
+   "doi": "10.1109/mits.2021.3049382",
+   "title": "Road Roughness Estimation Through Smartphone-Measured Acceleration",
+   "container": "IEEE Intelligent Transportation Systems Magazine",
+   "year": 2022,
+   "volume": "14",
+   "issue": "2",
+   "page": "209-220",
+   "authors": [
+    "Karol R. Opara",
+    "Karol Brzezinski",
+    "Marek Bukowicki",
+    "Katarzyna Kaczmarek-Majer"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 0.658
+ },
+ {
+  "key": "20",
+  "cited": "M. Perttunen, O. Mazhelis, F. Cong, M. Kauppila, T. Lepp\u00e4nen, J. Kantola, J. Collin, S. Pirttikangas, J. Haverinen, T. Ristaniemi, and J. Riekki, \"Distributed road surface condition monitoring using mobile phones,\" in Proc. Ubiquitous Intelligence and Computing (UIC), 2011, pp. 64--78.",
+  "cited_title": "Distributed road surface condition monitoring using mobile phones",
+  "best_match": {
+   "doi": "10.1007/978-3-642-23641-9_8",
+   "title": "Distributed Road Surface Condition Monitoring Using Mobile Phones",
+   "container": "Lecture Notes in Computer Science",
+   "year": 2011,
+   "volume": null,
+   "issue": null,
+   "page": "64-78",
+   "authors": [
+    "Mikko Perttunen",
+    "Oleksiy Mazhelis",
+    "Fengyu Cong",
+    "Mikko Kauppila",
+    "Teemu Lepp\u00e4nen",
+    "Jouni Kantola",
+    "Jussi Collin",
+    "Susanna Pirttikangas"
+   ],
+   "type": "book-chapter"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "21",
+  "cited": "T. Hanson, C. Cameron, and E. Hildebrand, \"Evaluation of low-cost consumer-level mobile phone technology for measuring international roughness index (IRI) values,\" Can. J. Civ. Eng., vol. 41, no. 9, pp. 819--827, 2014.",
+  "cited_title": "Evaluation of low-cost consumer-level mobile phone technology for measuring international roughness index (IRI) values",
+  "best_match": {
+   "doi": "10.1139/cjce-2014-0183",
+   "title": "Evaluation of low-cost consumer-level mobile phone technology for measuring international roughness index (IRI) values",
+   "container": "Canadian Journal of Civil Engineering",
+   "year": 2014,
+   "volume": "41",
+   "issue": "9",
+   "page": "819-827",
+   "authors": [
+    "Trevor Hanson",
+    "Coady Cameron",
+    "Eric Hildebrand"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "22",
+  "cited": "S. M. R. Babu and S. K. S, \"Evaluation of Pavement Roughness Using Smartphones,\" in Proc. IEEE Int. Conf. on Computation System and Information Technology for Sustainable Solutions (CSITSS), 2021, pp. 1--5.",
+  "cited_title": "Evaluation of Pavement Roughness Using Smartphones",
+  "best_match": {
+   "doi": "10.1109/csitss54238.2021.9682804",
+   "title": "Evaluation of Pavement Roughness Using Smartphones",
+   "container": "2021 IEEE International Conference on Computation System and Information Technology for Sustainable Solutions (CSITSS)",
+   "year": 2021,
+   "volume": null,
+   "issue": null,
+   "page": "1-7",
+   "authors": [
+    "Ram Thilak",
+    "Anjaneyappa",
+    "Jeet Mehta",
+    "Vivikt Pharle",
+    "Chaturi Rajapur",
+    "Sabina Borah"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "23",
+  "cited": "Y. Chen, J. Lu, and Y. Li, \"Algorithm for Estimating International Roughness Index by Response-Based Measuring Device,\" J. Transp. Eng., Part B: Pavements, vol. 146, no. 4, p. 04020054, 2020.",
+  "cited_title": "Algorithm for Estimating International Roughness Index by Response-Based Measuring Device",
+  "best_match": {
+   "doi": "10.1061/jpeodx.0000183",
+   "title": "Algorithm for Estimating International Roughness Index by Response-Based Measuring Device",
+   "container": "Journal of Transportation Engineering, Part B: Pavements",
+   "year": 2020,
+   "volume": "146",
+   "issue": "3",
+   "page": "04020031",
+   "authors": [
+    "Chia-Pei Chou",
+    "Guan-Jhen Siao",
+    "Ai-Chin Chen",
+    "Cheng-Chun Lee"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "24",
+  "cited": "A. Al Noman, M. R. Islam, and M. H. Ali, \"Development of pavement roughness regression models based on smartphone measurements,\" J. Eng. Design Tech., vol. 20, no. 6, pp. 1469--1486, 2022.",
+  "cited_title": "Development of pavement roughness regression models based on smartphone measurements",
+  "best_match": {
+   "doi": "10.1108/jedt-12-2021-0723",
+   "title": "Development of pavement roughness regression models based on smartphone measurements",
+   "container": "Journal of Engineering, Design and Technology",
+   "year": 2022,
+   "volume": "22",
+   "issue": "4",
+   "page": "1136-1157",
+   "authors": [
+    "Turki I. Al-Suleiman (Obaidat)",
+    "Yazan Ibrahim Alatoom"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "25",
+  "cited": "Y. Sang, Q. Yu, Y. Fang, V. Vo, and R. Wix, \"Smartphone-Based IRI Estimation for Pavement Roughness Monitoring: A Data-Driven Approach,\" IEEE Internet Things J., vol. 11, no. 14, pp. 24823--24835, 2024.",
+  "cited_title": "Smartphone-Based IRI Estimation for Pavement Roughness Monitoring: A Data-Driven Approach",
+  "best_match": {
+   "doi": "10.1109/jiot.2024.3369109",
+   "title": "Smartphone-Based IRI Estimation for Pavement Roughness Monitoring: A Data-Driven Approach",
+   "container": "IEEE Internet of Things Journal",
+   "year": 2024,
+   "volume": "11",
+   "issue": "11",
+   "page": "19708-19720",
+   "authors": [
+    "Ye Sang",
+    "Qiqin Yu",
+    "Yihai Fang",
+    "Viet Vo",
+    "Richard Wix"
+   ],
+   "type": "journal-article"
+  },
+  "title_similarity": 1.0
+ },
+ {
+  "key": "26",
+  "cited": "A. Gambi, T. Huynh, and G. Fraser, \"Generating Effective Test Cases for Self-Driving Cars from Police Reports,\" in Proc. 27th ACM Joint Meeting on Eur. Softw. Eng. Conf. and Symp. on the Foundations of Softw. Eng. (ESEC/FSE), 2019, pp. 257--267.",
+  "cited_title": "Generating Effective Test Cases for Self-Driving Cars from Police Reports",
+  "best_match": {
+   "doi": "10.1145/3338906.3338942",
+   "title": "Generating effective test cases for self-driving cars from police reports",
+   "container": "Proceedings of the 2019 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
+   "year": 2019,
+   "volume": null,
+   "issue": null,
+   "page": "257-267",
+   "authors": [
+    "Alessio Gambi",
+    "Tri Huynh",
+    "Gordon Fraser"
+   ],
+   "type": "proceedings-article"
+  },
+  "title_similarity": 1.0
+ }
+]

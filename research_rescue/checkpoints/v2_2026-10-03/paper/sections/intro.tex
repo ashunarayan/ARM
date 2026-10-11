@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:intro}
+The International Roughness Index (IRI) is the standard summary of longitudinal road roughness~\cite{sayers1986tp45,astm_e1926}.
+Measuring it requires a longitudinal profile from a profilometer, so minor roads are surveyed rarely.
+Production cars that already carry accelerometers could fill the gap~\cite{sattar2018review,sang2024iri,levenberg2021lira}, but their vibration depends on the vehicle, the sensor mounting and the speed, so the mapping from vibration to IRI has to be established for each car type from paired data: drives of that car over road sections whose profile was measured~\cite{sayers1986tp46}.
+Collecting such paired drives is the expensive step.
+
+Vehicle simulation offers another source of pairs.
+Driving a vehicle model over profiles that road agencies already survey yields vibration with exact IRI labels, at any speed and for many vehicle parameter sets.
+Estimators trained this way have been validated in simulation~\cite{jeong2020cnn,rcnn2023sim} or, for roughness classes, with a real-vehicle test~\cite{speedadaptive2025}, and calibrated physical vehicle models can invert real car vibration into road profiles~\cite{skar2024inversion,agebjar2025fusion}.
+What is missing is evidence on real cars, on roads not used for training, of what a simulation-trained IRI estimator actually transfers and how much paired real data it still needs.
+
+We study this question on LiRA-CD~\cite{skar2023lira}, public data of one car model on four routes with profilometer references.
+Estimators trained on real cars are compared with the same estimators trained only on simulated drives over the measured profiles of the other routes.
+We vary the sensor and vehicle model of the simulator, calibrate its output with $k$\,km of real data, compare simulated and real drives at equal profile budget, measure speed dependence on real roads with repeated passes over the same segments, and compare simulated and real vibration spectra on the same road segments at the same speeds.
+
+The answer has three parts.
+Ranking segments within a route does not discriminate: simulation-trained gradient boosting ranks them as well as the real-trained model under every simulator variant, but so does an untrained, speed-normalised vibration RMS.
+What has to be learned is the level, and it does not transfer reliably: it depends on the simulated sensor path and follows a deficit of simulated vibration at 10--15\,Hz, and the pre-specified simulator matched it only through a sensor component (a phone-holder resonance) that was not designed to model the car's sensor.
+A few kilometres of paired drives fix the level: with a level offset from 5\,km of paired drives, simulation over all profiled roads beats training on those 5\,km for every variant, and for six of the nine variants it comes close to real training on all routes; with 10\,km or more, real drives alone beat the variants whose vibration matches the car worst.
+Speed dependence transfers only in part, and the simulated vibration scales with speed differently from the real car's.
+
+Our contributions are:
+(i) a route-disjoint benchmark on public profilometer-referenced car data with dependence-aware inference and baselines from response-type physics (a calibrated quarter-car inversion), learned estimators and simulation-trained estimators (Section~\ref{sec:res_real});
+(ii) a decomposition of what simulation transfers to a real car across nine sensor and vehicle models (for most of them the vibration-to-IRI mapping up to a level offset, not the level), with a sensor factorial and a spectral comparison on the same road segments that locate the level error (Sections~\ref{sec:res_zero} and~\ref{sec:res_mech});
+(iii) the amount of paired real data that simulation replaces, at equal profile budget and with level calibration, for every simulator variant (Section~\ref{sec:res_value});
+(iv) fixed-road speed elasticities of real- and simulation-trained estimators measured on real roads (Section~\ref{sec:res_speed}).
+The study revises an earlier, unpublished pipeline of ours trained on a game engine; its label and protocol problems are documented in Supplement~\ref{S-sec:s_earlier}, and its corpus serves here only as a negative reference.
+Code, protocols, configurations and all predictions are provided with the paper.

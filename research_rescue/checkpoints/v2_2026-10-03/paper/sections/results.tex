@@ -1,0 +1,127 @@
+\section{Results}
+\label{sec:results}
+
+\input{../tables/v2_real.tex}
+
+\subsection{Real cars}
+\label{sec:res_real}
+Table~\ref{tab:real} lists every estimator on the held-out routes (per-route values in Table~\ref{S-tab:s_routes}).
+A map alone (M0b) or speed alone (M1) gives within-route MAEs of \vrMapMaeWithin{} and \vrSpeedMaeWithin\,m/km; speed ranks segments only weakly within a route ($\rho=$\,\vrSpeedRhoWithin).
+The calibrated quarter-car inversion M7 ranks segments as well as the learned estimators ($\rho=$\,\vrInvRhoWithin) but has a larger error (paired difference to LightGBM \vrInvDfive{} [\vrInvDfiveLo, \vrInvDfiveHi]\,m/km), and its output calibration on the training routes made it worse.
+LightGBM and the MLP differ negligibly (\vrMlpDfive{} [\vrMlpDfiveLo, \vrMlpDfiveHi], although the MLP is worse on all four routes); the 1D-CNN of our earlier study is worse by \vrCnnDfive{} [\vrCnnDfiveLo, \vrCnnDfiveHi], almost entirely on CPH1 (\vrCnnDeficitCphOne\,m/km there, between \vrCnnDeficitCphSix{} and \vrCnnDeficitMwThree{} on the other routes).
+Errors differ by a factor of four to five between road classes: LightGBM has MAE \vrGbmMaeCphOne{} and \vrGbmMaeCphSix\,m/km on the urban routes and \vrGbmMaeMwThree{} and \vrGbmMaeMwThirteen\,m/km on the motorways.
+
+Two checks concern the benchmark itself.
+Because the same telematics units drive several routes, we retrained LightGBM only on units that never drove the held-out route; its MAE (CPH1 \udCphOneDis, CPH6 \udCphSixDis, M13 \udMwThirteenDis\,m/km) equals that of size-matched random subsets (\udCphOneCtrl, \udCphSixCtrl, \udMwThirteenCtrl; Table~\ref{S-tab:s_unit}), so vehicle overlap did not measurably favour the real-trained estimators (the M3 fold is not interpretable: only urban training units remain).
+On the within-road split of Bajic et al.~\cite{bajic2021ml} (first 80\,\% of M3 for training, last 20\,\% for testing), LightGBM reaches MAE \bjGbmMae\,m/km and $R^2=$\,\bjGbmRtwo{} (Table~\ref{S-tab:s_bajic}); the numbers of that and our protocol answer different questions and are not compared further.
+
+\subsection{Zero-shot transfer: the level does not transfer}
+\label{sec:res_zero}
+Trained only on simulated drives over the profiles of the three training routes, the pre-specified simulator V0 reaches a within-route MAE of \vrSimVzeroMaeWithin\,m/km against \vrGbmMaeWithin{} for the real-trained model.
+The paired difference, \vrSimVzeroDfive\,m/km, has a 5\,km-block interval of [\vrSimVzeroDfiveLo, \vrSimVzeroDfiveHi]; at the segment level, which ignores spatial dependence, the interval [\vrSimVzeroDsegLo, \vrSimVzeroDsegHi] would have declared the real-trained model better (Table~\ref{S-tab:s_inference}).
+The ranking of segments within routes is the same ($\rho=$\,\vrSimVzeroRhoWithin{} vs \vrGbmRhoWithin; partial $\rho$ given speed \vrSimVzeroPrhoWithin{} vs \vrGbmPrhoWithin).
+Within-route ranking does not discriminate between estimators, however: the untrained statistic RMS$/v^{0.5}$ ranks segments as well ($\rho=$\,\rkHalfRho, partial \rkHalfPrho; Table~\ref{S-tab:s_routes}), since a Spearman correlation within a route is unaffected by any monotone calibration.
+What training has to supply is the level of the mapping from vibration to IRI.
+
+\input{../tables/v2_variants.tex}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{v2_variants.pdf}
+\caption{Simulator variants, LightGBM trained on simulated drives only and tested on the held-out real routes. (a) Within-route Spearman $\rho$ (real-trained model in blue; dashed: the untrained statistic RMS$/v^{0.5}$). (b) Zero-shot bias on urban and motorway segments. (c) Pooled segment MAE zero-shot (open circles) and after a level offset estimated from 5\,km of real passes of the training routes (filled; bars: 2.5--97.5\,\% range over 20 draws); solid line: trained on all real training data; dashed: trained on 5\,km of real data.}
+\label{fig:variants}
+\end{figure*}
+
+V0's agreement in level is not a robust property of simulating over measured profiles (Table~\ref{tab:variants}, Fig.~\ref{fig:variants}).
+Across the nine variants on measured profiles (V0--V8), the within-route $\rho$ stays between \vvRhoMin{} and \vvRhoMax, the partial $\rho$ between \vvPrhoMin{} and \vvPrhoMax{} and the scale $b$ between \vvScaleMin{} and \vvScaleMax{} (real-trained: \vvRealScaleB), whereas the pooled zero-shot bias ranges from \vvBiasMin{} to \vvBiasMax\,m/km and the MAE from \vvMaeMin{} to \vvMaeMax.
+The 2$\times$2 sensor design shows what set V0's level: adding the holder resonance changes the bias by \vvHolderEffTele\,m/km for the telematics-like and by \vvHolderEffPhone\,m/km for the phone-like sensor, switching the sensor family by \vvFamilyEffRigid{} (rigid) and \vvFamilyEffHolder\,m/km (with holder).
+V0 thus owes its level mainly to the holder resonance of its phone-like half, a component meant to model phone holders rather than the car's telematics unit.
+An ideal sensor (V3) and a telematics sensor matched to the rates, quantisation, noise and tilt measured on the LiRA-CD streams (V5) both overestimate by about 0.4\,m/km, and so does a single mid-range vehicle (V4).
+Synthetic profiles alone (V9) still rank segments ($\rho=$\,\vvVnineRhoWithin) but overestimate on motorways (bias \vvVnineBiasMotorway\,m/km); adding them to the measured profiles (V10) changes little.
+The earlier game-engine corpus does not transfer under this protocol (within-route $\rho=$\,\vvBcorrRhoWithin, MAE \vvBcorrMae\,m/km; Supplement~\ref{S-sec:s_earlier}).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{v2_spectra.pdf}
+\caption{(a) Mean difference of log$_{10}$ power spectral density, real minus simulated, on the same segments in the same 10\,km/h speed bands (re-simulated passes of four sensor variants and the ideal sensor; bands: 95\,\% intervals from a 1\,km-block bootstrap). (b) Zero-shot bias of the nine measured-profile variants against the real/simulated amplitude ratio of the 10--15\,Hz band (log$_{10}$).}
+\label{fig:spectra}
+\end{figure*}
+
+\subsection{Where the simulated vibration differs}
+\label{sec:res_mech}
+
+On the same segments and speed bands, the real car's vibration differs from all simulated variants in the same way below 10\,Hz and differently above (Fig.~\ref{fig:spectra}a, Table~\ref{S-tab:s_spectra}): all variants lack energy at 2--5\,Hz (real/simulated power \spVoneMidPow--\spVfiveMidPow) and match it at 5--10\,Hz, whereas at 10--15\,Hz the real car has \spVthreeHighPow{} and \spVoneHighPow{} times the power of the ideal and the rigid telematics-like sensor but only \spVtwoHighPow{} times that of the phone-like sensor with holder resonance.
+Across the nine variants the zero-shot bias orders like this 10--15\,Hz deficit (Spearman \bgRhoHigh; Fig.~\ref{fig:spectra}b), as expected if an estimator trained on too little simulated vibration reads the car's extra vibration as roughness, not like the deficits at 0.5--2 or 2--5\,Hz (\bgRhoLow{} and \bgRhoMid), and the deficit is larger on motorway than on urban segments for \bgcMotorwayLarger{} of \bgcNvar{} variants (amplitude ratio \bgcMotorwayMin--\bgcMotorwayMax{} vs \bgcUrbanMin--\bgcUrbanMax; Table~\ref{S-tab:s_gap}), as is the bias.
+The real car's empirical transmissibility peaks at \invPeakHz\,Hz (Fig.~\ref{S-fig:s_acf}b).
+Passes logged at 333\,Hz contain more, not less, 10--15\,Hz power than passes logged at 52.6\,Hz on the same cells (\spAliasHigh{} in log$_{10}$, confounded with the device), so the excess is not an aliasing artefact of the slower logging; its physical source is not identified (the half-car has no roll or body flexibility, and the mounting of the telematics unit and the unsprung dynamics of the car are unknown).
+
+A second mismatch is common to all variants: on a fixed road the real car's vibration RMS rises with speed with elasticity \ssRealUrban{} [\ssRealUrbanLo, \ssRealUrbanHi] on urban and \ssRealMotorway{} [\ssRealMotorwayLo, \ssRealMotorwayHi] on motorway segments, the simulated vibration over the same segments at the same speeds with \ssSimUrbanMin--\ssSimUrbanMax{} and \ssSimMotorwayMin--\ssSimMotorwayMax{} (Table~\ref{S-tab:s_gap}).
+The simulator does not reproduce how the car's vibration scales with speed; as this mismatch is similar for all variants, it does not explain their different levels.
+
+\subsection{How much paired real data is needed}
+\label{sec:res_value}
+
+Fig.~\ref{fig:value} and Table~\ref{tab:value} compare simulation with paired real drives on the same 20 draws of $k$\,km of training-route road; Table~\ref{S-tab:s_value_variants} gives every variant.
+Two real-only comparators are used, LightGBM and the three-parameter vibration index, which suits very small samples better (\vbRealIdxOne{} vs \vbRealOnlyOne\,m/km at 1\,km).
+The ranges over draws reflect which $k$\,km are drawn, not the uncertainty of the test routes.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{v2_value.pdf}
+\caption{Simulation against paired real drives on the same 20 draws of $k$\,km of training-route road (pooled segment MAE on the held-out routes). Blue: trained on the real passes over the $k$\,km, LightGBM (band: 2.5--97.5\,\% of draws, clipped at the top) or the three-parameter vibration index (dashed). (a) Equal profile budget: LightGBM trained on simulated passes over the profiles of the same $k$\,km (bold: V0; thin: V1--V8). (b) LightGBM trained on simulated passes over all training-route profiles, with a level offset estimated from the real passes over the $k$\,km.}
+\label{fig:value}
+\end{figure*}
+
+\input{../tables/v2_value.tex}
+
+\emph{Equal profile budget} (Fig.~\ref{fig:value}a).
+Simulated drives over the profiles of the $k$\,km are not a general substitute for the real drives over them.
+With 1--2\,km, simulated LightGBM beats real-trained LightGBM for every variant but not the real-trained index (simulation better in \pcSameWinsIdxOneMin--\pcSameWinsIdxOneMax{} of 20 draws at 1\,km), and all these errors exceed \pcSameMaeTwoMin\,m/km.
+From 5\,km on the answer depends on the simulator: at 20\,km the difference to real-only LightGBM ranges from \pcSameDiffTwentyMin{} to \pcSameDiffTwentyMax\,m/km over the nine variants, small for V0 and V2 (\pcSameVzeroDiffTwenty{} and \pcSameVtwoDiffTwenty) and largest for V1, V3 and V5, the variants with the largest 10--15\,Hz deficit (\pcSameHiDefDiffTwentyMin--\pcSameHiDefDiffTwentyMax).
+A level offset from the same $k$\,km closes the gap of the single-vehicle variant V4 (\pcSameCalVfourDiffTwenty\,m/km at 20\,km) but not that of these three.
+
+\emph{Paired drives used only for the level} (Fig.~\ref{fig:value}b).
+Trained on simulated drives over all profiled training roads and calibrated with a level offset from 5\,km of paired drives, every variant reaches \pcCalMaeFiveMin--\pcCalMaeFiveMax\,m/km, better than real-only LightGBM on those 5\,km (\vbRealOnlyFive\,m/km) in \pcCalWinsFiveMin--\pcCalWinsFiveMax{} of 20 draws and better than the real-only index (\vbRealIdxFive\,m/km) in \pcCalWinsIdxFiveMin--\pcCalWinsIdxFiveMax; real training on all data of the training routes reaches \vrGbmMae\,m/km, the six variants other than V1, V3 and V5 \pcCalLoDefMaeFiveMin--\pcCalLoDefMaeFiveMax\,m/km.
+The advantage at 5\,km holds on each held-out route for every variant (mean difference per route \pcRouteFiveDiffMin{} to \pcRouteFiveDiffMax\,m/km).
+With more paired data, real-only LightGBM overtakes V1, V3 and V5: the calibrated simulation is better in only \pcCalHiDefWinsTenMin--\pcCalHiDefWinsTenMax{} of 20 draws at 10\,km and in none at 20\,km, while for the other six variants it is still better in \pcCalLoDefWinsTwentyMin--\pcCalLoDefWinsTwentyMax{} of 20 draws at 20\,km.
+For these three variants a level offset is not enough; an affine calibration from 20\,km brings them to \pcAffHiDefMaeTwentyMin--\pcAffHiDefMaeTwentyMax\,m/km.
+Simulation over all profiled roads plus a level from a few kilometres of paired drives was thus the most data-efficient option for every variant; how long it stays ahead of real drives depends on how closely the simulated vibration matches the car's.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{v2_speed.pdf}
+\caption{Speed elasticity of each estimate on a fixed real road (slope of log estimate on log speed with segment fixed effects; 95\,\% intervals from a 1\,km-block bootstrap; urban and motorway segments). Grey band: $\pm$10\,\% change between 40 and 100\,km/h. Top row: raw vibration RMS of the real car.}
+\label{fig:speed}
+\end{figure}
+
+\input{../tables/v2_general.tex}
+
+\subsection{Speed dependence on a fixed road}
+\label{sec:res_speed}
+
+Each segment was driven about ten times at different speeds (median within-segment SD of log speed \elSdLogv), so the speed dependence of every estimate can be measured on a road of constant roughness (Fig.~\ref{fig:speed}, Table~\ref{S-tab:s_speed}).
+The real car's vibration RMS rises by \elRawPooledPct\,\% between 40 and 100\,km/h (elasticity \elRawPooled{} [\elRawPooledLo, \elRawPooledHi]).
+The learned estimators and the vibration index trained on real cars over-correct for it: LightGBM's estimate falls by \elRealGbmPooledPct\,\% over the same range (\elRealGbmPooled{} [\elRealGbmPooledLo, \elRealGbmPooledHi]), and without speed inputs it still falls (\elRealGbmNoSpeedPooled); the MLP and CNN behave alike (\elRealMlpPooled{} and \elRealCnnPooled) and the vibration index over-corrects most (\elRealIdxPooled).
+Simulation-trained LightGBM V0 changes by \elSimGbmPooledPct\,\% (\elSimGbmPooled{} [\elSimGbmPooledLo, \elSimGbmPooledHi]).
+Paired on the same passes, its elasticity exceeds that of the real-trained model by \epVzeroPooled{} [\epVzeroPooledLo, \epVzeroPooledHi] (5\,km blocks), entirely on urban roads (\epVzeroUrban{} [\epVzeroUrbanLo, \epVzeroUrbanHi]; motorways \epVzeroMotorway{} [\epVzeroMotorwayLo, \epVzeroMotorwayHi]).
+Across the nine variants the pooled elasticity ranges from \elSimGbmMeasPooledMin{} to \elSimGbmMeasPooledMax{} (\elSimGbmMeasInside{} of 9 inside the $\pm$10\,\% band), the paired difference from \epMeasPooledMin{} to \epMeasPooledMax{} (interval excluding zero for \epMeasPooledExcl{} of 9); on motorways every estimate falls with speed (simulation-trained \elSimGbmMeasMotorwayMin{} to \elSimGbmMeasMotorwayMax, real-trained \elRealGbmMotorway).
+Simulation thus removes part of the over-correction that real-trained estimators show on urban roads, but it does not make estimates speed-invariant, and the simulation-trained vibration index still over-corrects strongly (\elSimIdxPooled).
+Given the speed-scaling mismatch of Section~\ref{sec:res_mech}, this is a property of the learned estimators, not evidence that the simulator reproduces the car's speed response.
+
+\subsection{Other vehicles and sensors: simulation only}
+\label{sec:res_vehicles}
+LiRA-CD contains one car model, so transfer to other vehicles can be examined only in simulation (class S, Table~\ref{tab:general}, Fig.~\ref{fig:vehicles}).
+With the amount of training data fixed at 1,200 passes, the MAE on 30 unseen vehicles exceeds that on the training vehicles by \vsThreeRel\,\% with 3 training vehicles, \vsThirtyRel\,\% with 30 (the number used in V0) and \vsHundredRel\,\% with 100.
+The criterion of our earlier study (upper bound $\le$10\,\%) is met from 100 vehicles with a segment bootstrap but not with a route bootstrap (upper bounds \vsHundredRelHiRoute{} and \vsThreeHundredRelHiRoute\,\% for 100 and 300 vehicles).
+The gap closes from both sides: the error on unseen vehicles falls (\vsThreeUnseen{} to \vsHundredUnseen\,m/km from 3 to 100 vehicles) and the error on training vehicles rises as each gets fewer passes (\vsThreeSeen{} to \vsHundredSeen\,m/km).
+At $N=30$, a vehicle's error is only weakly related to its parameter distance from the nearest training vehicle (Spearman \vsDistRho{} over 30 vehicles).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{v2_vehicles.pdf}
+\caption{Number of training vehicles at a fixed 1,200 training passes (simulation only). Left: MAE on seen and unseen vehicles. Right: relative increase from seen to unseen vehicles with 95\,\% interval (segment bootstrap) and the upper bound of a route bootstrap; dashed: 10\,\% criterion.}
+\label{fig:vehicles}
+\end{figure}
+
+Sensor perturbations at test time (Table~\ref{tab:general}, bottom) reproduce in simulation what the variants showed on the real car: the sensor path moves the level.
+A holder resonance at 15\,Hz turns a bias of \rbvGbmBiasMountRigid{} into \rbvGbmBiasMountFifteen\,m/km; 25\,Hz sampling and a speed error of $+$20\,\% are the most harmful perturbations (MAE \rbvGbmMaeRateTwentyFive{} and \rbvGbmMaeSpeedPlus\,m/km), white noise, tilt and lost samples the least.

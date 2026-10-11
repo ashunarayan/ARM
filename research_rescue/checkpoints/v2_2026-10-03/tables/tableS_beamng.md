@@ -1,0 +1,48 @@
+| Split | Label | Model | MAE (m/km) | Spearman | R2 |
+|---|---|---|---|---|---|
+| S3: earlier split (val. and test on test track) | legacy | M0 constant (training median) | 2.68 [2.04, 3.39] | -- | -0.07 [-0.19, -0.00] |
+| S3: earlier split (val. and test on test track) | legacy | M1 speed-only (LightGBM on speed features) | 2.20 [1.65, 2.85] | 0.47 [0.32, 0.59] | 0.14 [-0.01, 0.26] |
+| S3: earlier split (val. and test on test track) | legacy | M2a RMS only (alpha=0) | 2.25 [1.71, 2.85] | 0.67 [0.55, 0.75] | 0.11 [-0.25, 0.34] |
+| S3: earlier split (val. and test on test track) | legacy | M2b RMS/v^0.5 | 2.10 [1.60, 2.65] | 0.71 [0.60, 0.79] | 0.23 [-0.04, 0.42] |
+| S3: earlier split (val. and test on test track) | legacy | M2c RMS/v^alpha (alpha fitted on training data) | 2.03 [1.56, 2.55] | 0.72 [0.62, 0.79] | 0.30 [0.16, 0.41] |
+| S3: earlier split (val. and test on test track) | legacy | M2d RMS*(v_ref/v)^2 (legacy exponent, gravity removed) | 2.02 [1.55, 2.53] | 0.68 [0.57, 0.76] | 0.29 [0.20, 0.36] |
+| S3: earlier split (val. and test on test track) | legacy | M3 LightGBM (all features) | 1.88 [1.45, 2.36] | 0.74 [0.63, 0.81] | 0.40 [0.18, 0.53] |
+| S3: earlier split (val. and test on test track) | legacy | M3 LightGBM (no speed features) | 1.97 [1.50, 2.48] | 0.72 [0.60, 0.80] | 0.35 [0.20, 0.50] |
+| S3: earlier split (val. and test on test track) | legacy | M4 MLP | 1.79 [1.34, 2.27] | 0.76 [0.67, 0.83] | 0.41 [0.31, 0.54] |
+| S3: earlier split (val. and test on test track) | legacy | M5 1D-CNN | 2.39 [1.47, 3.58] | 0.75 [0.65, 0.82] | -3.28 [-14.77, 0.43] |
+| S3: earlier split (val. and test on test track) | legacy | M5 1D-CNN (no speed input) | 3.20 [1.69, 5.72] | 0.69 [0.59, 0.77] | -17.73 [-75.41, 0.35] |
+| S3: earlier split (val. and test on test track) | legacy | Legacy recipe (calibrated on val) | 1.67 [1.29, 2.11] | 0.80 [0.72, 0.85] | 0.44 [0.02, 0.68] |
+| S3: earlier split (val. and test on test track) | legacy | Legacy recipe (uncalibrated) | 330.85 [1.43, 1043.50] | 0.80 [0.72, 0.85] | -5902105.16 [-24835354.32, 0.63] |
+| S1: leave-one-map-out | legacy | M0 constant (training median) | 3.01 [2.61, 3.48] | -0.37 [-0.48, -0.25] | -0.21 [-0.30, -0.16] |
+| S1: leave-one-map-out | legacy | M1 speed-only (LightGBM on speed features) | 2.60 [2.26, 3.00] | 0.31 [0.22, 0.39] | 0.05 [-0.05, 0.13] |
+| S1: leave-one-map-out | legacy | M2a RMS only (alpha=0) | 2.33 [1.98, 2.74] | 0.56 [0.51, 0.61] | 0.10 [0.02, 0.18] |
+| S1: leave-one-map-out | legacy | M2b RMS/v^0.5 | 2.15 [1.83, 2.52] | 0.66 [0.61, 0.70] | 0.22 [0.14, 0.31] |
+| S1: leave-one-map-out | legacy | M2c RMS/v^alpha (alpha fitted on training data) | 2.10 [1.79, 2.46] | 0.67 [0.61, 0.71] | 0.26 [0.18, 0.35] |
+| S1: leave-one-map-out | legacy | M2d RMS*(v_ref/v)^2 (legacy exponent, gravity removed) | 2.13 [1.83, 2.49] | 0.64 [0.58, 0.69] | 0.28 [0.20, 0.36] |
+| S1: leave-one-map-out | legacy | M3 LightGBM (all features) | 2.06 [1.77, 2.41] | 0.68 [0.63, 0.72] | 0.30 [0.22, 0.38] |
+| S1: leave-one-map-out | legacy | M3 LightGBM (no speed features) | 2.07 [1.77, 2.42] | 0.67 [0.62, 0.71] | 0.30 [0.23, 0.38] |
+| S1: leave-one-map-out | legacy | M4 MLP | 1.90 [1.64, 2.22] | 0.73 [0.69, 0.77] | 0.37 [0.31, 0.43] |
+| S1: leave-one-map-out | legacy | M5 1D-CNN | 2.23 [1.79, 2.77] | 0.70 [0.66, 0.74] | -3.33 [-13.32, 0.35] |
+| S1: leave-one-map-out | legacy | M5 1D-CNN (no speed input) | 2.64 [1.98, 3.60] | 0.62 [0.56, 0.67] | -15.92 [-60.71, 0.22] |
+| S1: leave-one-map-out | legacy | Legacy recipe (calibrated on val) | 1.99 [1.76, 2.25] | 0.66 [0.59, 0.72] | 0.45 [0.37, 0.50] |
+| S1: leave-one-map-out | legacy | Legacy recipe (uncalibrated) | 251.39 [1.82, 773.08] | 0.68 [0.62, 0.73] | -17368673.46 [-65761393.61, 0.37] |
+| S1: leave-one-map-out | raw profile | M0 constant (training median) | 7.60 [6.67, 8.67] | -0.25 [-0.36, -0.14] | -0.15 [-0.23, -0.09] |
+| S1: leave-one-map-out | raw profile | M1 speed-only (LightGBM on speed features) | 7.49 [6.64, 8.46] | 0.21 [0.12, 0.30] | -0.10 [-0.23, 0.00] |
+| S1: leave-one-map-out | raw profile | M2a RMS only (alpha=0) | 6.68 [5.90, 7.58] | 0.49 [0.42, 0.55] | 0.08 [-0.03, 0.17] |
+| S1: leave-one-map-out | raw profile | M2b RMS/v^0.5 | 6.36 [5.62, 7.23] | 0.54 [0.47, 0.60] | 0.16 [0.05, 0.25] |
+| S1: leave-one-map-out | raw profile | M2c RMS/v^alpha (alpha fitted on training data) | 6.34 [5.60, 7.20] | 0.54 [0.46, 0.60] | 0.17 [0.06, 0.25] |
+| S1: leave-one-map-out | raw profile | M2d RMS*(v_ref/v)^2 (legacy exponent, gravity removed) | 6.50 [5.72, 7.40] | 0.48 [0.38, 0.56] | 0.13 [0.01, 0.22] |
+| S1: leave-one-map-out | raw profile | M3 LightGBM (all features) | 6.02 [5.37, 6.73] | 0.57 [0.50, 0.63] | 0.26 [0.14, 0.35] |
+| S1: leave-one-map-out | raw profile | M3 LightGBM (no speed features) | 6.01 [5.38, 6.75] | 0.58 [0.51, 0.63] | 0.26 [0.15, 0.35] |
+| S1: leave-one-map-out | raw profile | M4 MLP | 5.70 [5.15, 6.30] | 0.59 [0.52, 0.64] | 0.34 [0.19, 0.44] |
+| S1: leave-one-map-out | raw profile | M5 1D-CNN | 8.77 [5.82, 14.01] | 0.51 [0.44, 0.58] | -110.29 [-387.20, 0.22] |
+| S1: leave-one-map-out | raw profile | M5 1D-CNN (no speed input) | 9.75 [5.90, 16.77] | 0.52 [0.44, 0.59] | -214.49 [-752.26, 0.13] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M0 constant (training median) | 7.60 [6.67, 8.67] | -0.23 [-0.34, -0.12] | -0.15 [-0.23, -0.09] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M1 speed-only (LightGBM on speed features) | 7.61 [6.80, 8.55] | 0.21 [0.11, 0.29] | -0.11 [-0.25, -0.00] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M2a RMS only (alpha=0) | 7.27 [6.54, 8.09] | 0.42 [0.36, 0.47] | -0.02 [-0.15, 0.07] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M2b RMS/v^0.5 | 6.88 [6.18, 7.68] | 0.48 [0.41, 0.54] | 0.07 [-0.07, 0.17] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M2c RMS/v^alpha (alpha fitted on training data) | 6.88 [6.18, 7.69] | 0.47 [0.40, 0.52] | 0.07 [-0.07, 0.16] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M2d RMS*(v_ref/v)^2 (legacy exponent, gravity removed) | 6.70 [5.94, 7.57] | 0.45 [0.36, 0.53] | 0.09 [-0.04, 0.18] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M3 LightGBM (all features) | 7.25 [6.64, 7.90] | 0.46 [0.39, 0.51] | 0.02 [-0.17, 0.15] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M3 LightGBM (no speed features) | 7.39 [6.77, 8.05] | 0.45 [0.39, 0.51] | -0.01 [-0.21, 0.12] |
+| S2: leave-one-vehicle-and-map-out | raw profile | M5 1D-CNN | 11.06 [8.13, 16.02] | 0.43 [0.36, 0.49] | -173.32 [-605.45, -0.78] |

@@ -1,0 +1,51 @@
+CPH1: alpha_car(label-free, train routes)=0.724; sim index coef a=4.659 b=0.871 alpha_sim=1.201
+CPH6: alpha_car(label-free, train routes)=0.697; sim index coef a=4.829 b=0.908 alpha_sim=1.193
+M3: alpha_car(label-free, train routes)=0.594; sim index coef a=4.989 b=0.897 alpha_sim=1.258
+M13: alpha_car(label-free, train routes)=0.677; sim index coef a=4.866 b=0.877 alpha_sim=1.248
+
+Pooled segment MAE (m/km), mean over the same 20 draws:
+k_km                1      2      5      10     20
+arm                                               
+V0               0.493  0.454  0.425  0.425  0.422
+V1               0.592  0.544  0.528  0.548  0.542
+V2               0.480  0.449  0.420  0.416  0.413
+V3               0.604  0.560  0.539  0.560  0.554
+V4               0.497  0.457  0.435  0.436  0.432
+V5               0.621  0.579  0.562  0.585  0.579
+V6               0.520  0.478  0.447  0.456  0.449
+V7               0.502  0.459  0.432  0.437  0.433
+V8               0.514  0.473  0.453  0.461  0.456
+idx05_affine     1.244  1.100  0.919  0.936  0.883
+idx05_level      1.038  0.977  0.978  1.026  1.012
+idxcar_affine    1.092  0.925  0.781  0.817  0.756
+real_only        1.632  1.140  0.678  0.523  0.461
+real_only_index  1.303  0.942  0.722  0.713  0.687
+simidx_level     0.572  0.536  0.516  0.522  0.519
+
+Draw-by-draw: idxcar_affine minus each sim_all_cal variant (mean diff, #draws sim better):
+k= 1: V0:-0.600(20)  V1:-0.500(20)  V2:-0.612(20)  V3:-0.488(20)  V4:-0.596(20)  V5:-0.471(20)  V6:-0.572(20)  V7:-0.591(20)  V8:-0.579(20)
+k= 2: V0:-0.470(20)  V1:-0.381(20)  V2:-0.476(20)  V3:-0.364(20)  V4:-0.467(20)  V5:-0.346(20)  V6:-0.446(20)  V7:-0.466(20)  V8:-0.451(20)
+k= 5: V0:-0.357(20)  V1:-0.253(20)  V2:-0.361(20)  V3:-0.242(20)  V4:-0.346(20)  V5:-0.219(20)  V6:-0.334(20)  V7:-0.349(20)  V8:-0.328(20)
+k=10: V0:-0.391(20)  V1:-0.269(20)  V2:-0.401(20)  V3:-0.256(20)  V4:-0.381(20)  V5:-0.232(20)  V6:-0.361(20)  V7:-0.379(20)  V8:-0.355(20)
+k=20: V0:-0.334(20)  V1:-0.214(20)  V2:-0.343(20)  V3:-0.202(20)  V4:-0.325(20)  V5:-0.177(20)  V6:-0.307(20)  V7:-0.323(20)  V8:-0.300(20)
+
+Draw-by-draw: idxcar_affine minus real_only LightGBM (mean, #idx better):
+k= 1: -0.539 (20/20)   vs real_only_index: -0.210 (17/20)
+k= 2: -0.215 (16/20)   vs real_only_index: -0.018 (14/20)
+k= 5: +0.103 (5/20)   vs real_only_index: +0.059 (8/20)
+k=10: +0.294 (0/20)   vs real_only_index: +0.103 (1/20)
+k=20: +0.295 (0/20)   vs real_only_index: +0.069 (1/20)
+
+Fitted slope b (affine arms), mean over folds/draws:
+                     mean    min    max
+arm           k_km                     
+idx05_affine  1     0.878 -0.233  1.558
+              2     1.156 -0.072  2.233
+              5     1.147 -0.390  2.032
+              10    1.090  0.119  1.676
+              20    1.159  0.619  1.577
+idxcar_affine 1     0.865 -0.229  1.425
+              2     1.091 -0.054  1.947
+              5     1.097 -0.299  1.750
+              10    1.066  0.249  1.531
+              20    1.116  0.699  1.429

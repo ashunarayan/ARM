@@ -1,0 +1,46 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\textbf{What simulated drives over measured profiles provide.}
+Ranking segments within a route turned out to be the easy part: an untrained, speed-normalised vibration RMS does it as well as any trained estimator, real or simulated.
+What training has to supply is the mapping from vibration to IRI in m/km across roads and speeds.
+For six of nine simulator variants, simulation supplied this mapping up to a level offset; the level itself depends on the absolute gain of the car's vibration path, which none of the variants was built to reproduce for this car.
+For a road agency this suggests a two-step recipe: simulate the car type over roads it has already profiled, then fix the level with a few kilometres of paired drives.
+Before trusting a zero-shot level, the real and simulated spectra of the same calibration roads can be compared; in our data the 10--15\,Hz amplitude ratio ordered the level errors of nine variants, but this relation was found after the fact on non-independent variants and needs confirmation on other cars.
+
+\textbf{A correction to our earlier explanation.}
+Our earlier study attributed the transfer of V0 to the breadth of its sensor model.
+The 2$\times$2 design contradicts this: V0's level came from the holder resonance in half of its passes, which happened to supply part of the 10--15\,Hz energy that the simulated car lacks.
+V0's zero-shot accuracy is therefore a fortunate match, not a property of randomising over sensors, and we no longer report it as evidence that a simulator can be used without real data.
+
+\textbf{Speed.}
+In naturalistic driving smooth roads are driven fast, so estimators trained on real cars can use speed as a cue for low roughness, and on a fixed road their estimates fall with speed (Section~\ref{sec:res_speed}).
+Simulated speeds are drawn independently of roughness, and simulation-trained estimators over-correct less on urban roads; on motorways they over-correct as much as real-trained ones, and the simulated vibration itself scales with speed differently from the real car's.
+Repeated passes over the same segments make this measurable on real roads, and we recommend reporting such fixed-road elasticities instead of speed-sweep tests in simulation alone.
+
+\textbf{Statistics.}
+Segment errors are spatially correlated, and 5\,km-block intervals of paired differences were \infWidthRatioMin--\infWidthRatioMax{} times as wide as segment-level ones.
+A segment bootstrap would have declared V0 worse than the real-trained model; the block bootstrap does not, and the route-level interval with four routes is wider still ([\vrSimVzeroDrouteLo, \vrSimVzeroDrouteHi]\,m/km).
+Even 5\,km blocks leave some correlation (\acfGbmFiveKm{} at 5\,km), mostly from route-level offsets, and route-level intervals include zero for most comparisons (Table~\ref{S-tab:s_inference}); the supported differences therefore describe these four routes, not a population of routes.
+Benchmarks on road data should resample spatial blocks or routes, not segments.
+
+\textbf{Reference uncertainty.}
+All errors are relative to one P79 survey.
+A second device (ARAN9000, surveyed on other dates) agrees with it in ranking (Spearman \arUrbanRho{} urban, \arMotorwayRho{} motorway) and in median level (ratio \arUrbanMedRatio{} and \arMotorwayMedRatio), but disagrees strongly on a few urban segments (\arUrbanShareFifteen\,\% above 15\,m/km), which dominate its mean disagreement (Table~\ref{S-tab:s_aran}).
+We therefore do not compare estimator errors with device disagreement.
+
+\section{Limitations}
+\label{sec:limitations}
+\emph{External validity.}
+LiRA-CD contains one car model with one type of telematics unit on four routes in one city region; road class and route are confounded, and with four routes no statement about route-to-route variation is inferential.
+Whether the simulated mapping transfers up to a level offset, and how much paired data the level needs, for other cars, sensors, speeds and road networks is unknown.
+Transfer to other vehicles and to phones in holders was examined only in simulation.
+\emph{Evidence class.}
+Except for the V0 comparison, all real-data results of Sections~\ref{sec:res_zero}--\ref{sec:res_speed} come from analyses specified after the test routes had been used, some (the sensor factorial, the spectral diagnosis, the speed scaling) after an independent review had pointed at the sensor model; we report every variant and draw, but these analyses generate hypotheses rather than confirm them.
+\emph{Simulator.}
+The simulator is a linear half-car without roll or body flexibility, driven by the mean of the two wheel-path profiles, with parameter ranges for sensitivity rather than a calibrated fleet.
+Its vibration differs from the real car's at 2--5\,Hz and 10--20\,Hz and in its speed scaling, and we could not identify the physical source of the 10--15\,Hz excess (sensor mounting, unsprung dynamics, tyre enveloping and roll are all candidates).
+\emph{Baselines.}
+M7 follows the idea of calibrated quarter-car inversion~\cite{skar2024inversion} but is not a reproduction, because the vehicle parameters calibrated in that study are not available; the CNN is the architecture of our earlier study without tuning.
+\emph{Other.}
+The reference surveys were not simultaneous with the car passes, segments are 100\,m long, and we did not train on real data from several cities.

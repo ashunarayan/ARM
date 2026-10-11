@@ -1,0 +1,28 @@
+D:\Coding\Hackathon\GFG\ARM\ARM\research_rescue\audit\audit_labels.py:117: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  print(R.groupby("pair").apply(lambda q: pd.Series(dict(n=len(q), r_cor=np.corrcoef(q.iri_a_cor, q.iri_b_cor)[0, 1],
+=== (a) Correction coverage over the whole corpus (0.25 m grid points) ===
+alpha == 0 (untouched): 7.1%   alpha >= 0.5: 78.5%   alpha == 1 (fully smoothed): 63.9%
+
+=== (b) Label sensitivity to correction hyperparameters (per 100 m segment) ===
+        raw  paper     r3  thr2x
+mean  12.08   4.42   3.89   4.96
+50%    9.18   3.13   2.82   3.83
+max   71.97  44.96  40.69  44.96
+paper vs r3    : mean |diff| = 0.53 m/km, Spearman = 0.991, class change (bins 0-4/4-8/8-14/14+): 7.7%
+paper vs thr2x : mean |diff| = 0.54 m/km, Spearman = 0.929, class change (bins 0-4/4-8/8-14/14+): 8.4%
+paper vs raw   : mean |diff| = 7.67 m/km, Spearman = 0.846, class change (bins 0-4/4-8/8-14/14+): 74.3%
+
+=== (c) Label repeatability: same 100 m stretch, different runs (automation_test_track) ===
+matched 100 m stretches: 80
+raw: Pearson r = 0.954, mean |diff| = 1.54 m/km, median |diff| = 0.86, rel |diff| median = nan%, agreement-R2 = 0.938
+cor: Pearson r = 0.899, mean |diff| = 0.80 m/km, median |diff| = 0.42, rel |diff| median = nan%, agreement-R2 = 0.865
+Spearman(|label diff| corrected, |speed diff|) = -0.192
+Spearman(|label diff| raw, |speed diff|)       = -0.076
+per-pair Pearson r (corrected):
+                       n  r_cor  mad_cor  r_raw
+pair                                           
+hopper1-vivace1     17.0  0.831    1.134  0.950
+hopper2-hopper1     11.0  0.987    0.275  0.972
+hopper2-vivace1     13.0  0.966    1.176  0.994
+vivace2-sunburst21  20.0  0.948    0.613  0.983
+vivace2-vivace1     19.0  0.897    0.736  0.934

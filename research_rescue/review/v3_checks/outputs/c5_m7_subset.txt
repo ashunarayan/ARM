@@ -1,0 +1,15 @@
+       n_seg  iri_mean   v_kmh  dur_s  psd_share
+in_m7                                           
+False    109     1.043  92.107  4.016      0.996
+True     119     1.040  92.478  3.985      0.996
+direction  in_m7
+HH         True     119
+VH         False    109
+dtype: int64
+real LightGBM MAE on M13 by M7 inclusion:
+ in_m7
+False    0.152
+True     0.147
+Name: ae, dtype: float64
+M7 MAE on its 119: 0.169
+units: total M13 2028  with psd: 2020

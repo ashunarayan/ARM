@@ -1,0 +1,32 @@
+\section{Method}
+\label{sec:method}
+
+\textbf{IRI computation.}
+We implement the quarter-car algorithm of~\cite{sayers1995iri,astm_e1926}: the profile slope over a 250\,mm base (equivalent to a 250\,mm moving average), the Golden-Car state equations discretised with the matrix exponential for $\Delta t = \Delta x/(80\,\mathrm{km/h})$, initialisation with the average slope of the first 11\,m, and the rectified suspension-velocity slope accumulated along the profile.
+The model is run once over a whole profile; the IRI of any window is the mean rectified slope inside it, which gives exact labels for overlapping windows and avoids per-window initialisation artefacts.
+Two solvers (a reference loop and a linear-filter implementation) agree to \iriSolverDev\,m/km, a sinusoidal profile reproduces the analytical Golden-Car gain to a relative error of \iriSineDev, and a constant grade gives an IRI of \iriRampIri\,m/km.
+Labels are the mean of the left and right wheel-path IRI per 100\,m.
+
+\textbf{Shared preprocessing.}
+Real and simulated accelerometer streams go through the same code: linear interpolation of the irregular samples to 200\,Hz, zero-phase 20\,Hz low-pass, decimation to 50\,Hz, projection on the pass-mean acceleration direction (which removes the static mounting tilt and gravity's orientation), conversion to m/s$^2$ and a zero-phase 0.3\,Hz high-pass that removes gravity, grade and slow attitude changes.
+LiRA-CD GPS fixes are matched to the P79 track of the same route and direction (nearest vertex with a heading constraint, lateral distance $<$20\,m), split into runs of physically plausible progression (needed on the ring road) and interpolated in time.
+A unit is a 100\,m segment of the P79 chainage traversed once and contiguously by one pass, with at least 90\,\% coverage and mean speed of at least 2\,m/s.
+
+\textbf{Features and estimators.}
+Every unit is described by speed (log mean speed, coefficient of variation) and vibration features of the dynamic vertical acceleration $a_z$: log RMS, 95th percentile and maximum of $|a_z|$, crest factor, kurtosis, band RMS in 0.5--2, 2--5, 5--10 and 10--15\,Hz, RMS after a 1\,Hz high-pass, and RMS at spatial wavelengths below 5\,m; the CNN receives $a_z$ resampled to 400 points over the 100\,m.
+The estimators form a ladder of increasing flexibility:
+M0, the training median;
+M1, LightGBM~\cite{ke2017lightgbm} on the two speed features only;
+M2, vibration indices $\log \mathrm{IRI} = a + b \log(\mathrm{RMS}\,a_z / v^{\alpha})$ with $\alpha = 0$ (M2a), $\alpha = 0.5$ (M2b, the exponent of body-acceleration RMS for a random road with displacement PSD $\propto n^{-2}$), $\alpha$ fitted by least squares on the training data (M2c), and $\alpha = 2$ (M2d, the exponent of the earlier study's kinetic normalisation, here applied after gravity removal);
+M3, LightGBM on all features (and without the speed features);
+M4, an MLP (64 and 32 units) on all features;
+M5, the earlier study's dual-branch 1D-CNN (depthwise convolution, 48 and 64 filters, global average and max pooling, speed branch) re-implemented in PyTorch, with and without the speed branch;
+M6, the member of \{M2c, M3, M4, M5\} with the lowest inner leave-one-route-out error on the training routes.
+All learned estimators predict $\log(\mathrm{IRI})$.
+Neural nets use a Huber loss, Adam, early stopping on a grouped 20\,\% hold-out of training segments, and five training seeds; on LiRA-CD and BeamNG we report the mean of the per-seed metrics, in the controlled simulation experiments the metrics of the seed-averaged prediction.
+LightGBM selects one of six configurations, fixed in advance, by inner leave-one-route-out validation; without real training routes to validate on (zero- and few-shot), it uses the first configuration (7 leaves, at least 20 samples per leaf).
+For RQ2 we also re-implement the earlier study's complete recipe (kinetic normalisation $a_z (v_{\mathrm{ref}}/v)^2$ of the gravity-including signal, asymmetric Huber loss, oversampling, two-dimensional inverse-frequency weights, isotonic calibration); on the earlier study's own tensors our re-implementation reaches MAE \legacyFidMae{}\,m/km and $R^2$ \legacyFidRtwo{} against the 1.650 and 0.521 reported in the earlier manuscript.
+
+\textbf{Using simulation.}
+\emph{Zero-shot}: an estimator is trained only on simulated units (synthetic profiles, measured P79 profiles of the three training routes, or both) and applied to the held-out real route; the held-out route's profile is never simulated for training.
+\emph{Few-shot}: $k \in \{1,2,5,10,20\}$\,km of real labelled road (contiguous 1\,km blocks drawn from the training routes, five draws) or all training routes (one draw) are used (i) alone, (ii) pooled with simulated units of both profile sources at equal total weight (LightGBM), (iii) to fine-tune a simulation-pretrained CNN (40 epochs, all layers, three seeds, $k \in \{1,5,20\}$ and all), or (iv) to re-estimate only the intercept of a simulation-fitted vibration index.

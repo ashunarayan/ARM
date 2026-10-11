@@ -1,0 +1,22 @@
+segments: 1360
+
+How much of each label is explained by the IMU (log-linear OLS)?
+  iri_raw: R2[speed only]=0.114  R2[rms_az + speed]=0.311  R2[rms_az + rms_wx + speed]=0.323
+  iri_cor: R2[speed only]=0.237  R2[rms_az + speed]=0.482  R2[rms_az + rms_wx + speed]=0.511
+
+Within-speed-bin Spearman(rms_az, label):
+  (0, 30]      n= 127  raw: 0.429   corrected: 0.253
+  (30, 50]     n= 363  raw: 0.455   corrected: 0.432
+  (50, 70]     n= 268  raw: 0.542   corrected: 0.650
+  (70, 90]     n= 238  raw: 0.457   corrected: 0.657
+  (90, 200]    n= 339  raw: 0.494   corrected: 0.717
+
+Speed-roughness confound: Spearman(speed, corrected IRI) = -0.494 | Spearman(speed, raw IRI) = -0.348
+
+Kinetic normalisation applied to gravity-including az:
+  Spearman(mean of normalised az, speed) = 0.995
+  mean normalised az at <20 km/h: -151.4 m/s^2 | 40-60 km/h: -31.6 | >80 km/h: -6.2
+  Spearman(label, mean normalised az) = -0.493  vs Spearman(label, rms_az raw) = 0.599
+
+Empirical scaling: rms_az ~ speed^-0.04 * IRI_raw^0.42   (paper assumes speed^2)
+Empirical scaling: rms_az ~ speed^0.19 * IRI_cor^0.60
