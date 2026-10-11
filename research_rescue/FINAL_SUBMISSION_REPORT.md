@@ -10,9 +10,15 @@ existing result changed. The audit report is unchanged (SHA-256 identical to its
   the audit rebuilt and inspected (no source was edited between the audit and this round).
 * Checkpoint before any change: `checkpoints/v3_2026-10-11/` (170 files: paper sources and PDFs, tables, figures,
   `results/v3/`, `experiments/v3/`, generators, v3 documents, audit report; `MANIFEST.sha256` verified).
-* Version control: `research_rescue/` is not tracked in git, and no commit was made (the authors' standing
-  instruction is not to commit without being asked). The record of changes is the checkpoint, `CHANGELOG.md`
-  (2026-10-11 entry) and the file list in section 3.
+* Version control (added after the corrections, at the authors' request): local branch
+  `paper/final-audit-corrections`, not pushed. Commit `9c0b6e0` adds `research_rescue/` in its audited state (the
+  content of `checkpoints/v3_2026-10-11/` plus the unchanged files around it); commit `45a9b85` contains exactly the
+  corrections (20 files modified, 182 added, of which 168 are the checkpoint copy), so `git show 45a9b85` is the
+  reviewable diff. Not committed: `data/` (raw and processed, ~7.6 GB), uncompressed prediction CSVs, `*.npz`
+  caches, logs and LaTeX build artefacts (existing ignore rules; three checkpoint files listed in its manifest are
+  therefore absent from git: two LaTeX logs and `results/v3/pooled_segpred.npz`), and
+  `results/predictions/lira_fewshot.csv.gz` (50 MB of first-round predictions that no v2/v3 analysis reads). A
+  build from the committed tree alone reproduces both PDFs (identical text).
 
 ## 2. Audit issues and their resolution
 
@@ -25,7 +31,7 @@ existing result changed. The audit report is unchanged (SHA-256 identical to its
 | B5 | Speed: Sec. V-E's closing sentence and the Discussion state the urban result without its caveat; 1 km-block intervals unlabelled | V-E now says the urban advantage of simulation-trained LightGBM holds in the main design and with the telematics-unit and speed-SD controls but not with the speed-CV control, so it is not established. The Discussion speed paragraph says that with the CV control the difference changes sign and that with the speed-SD control the real-trained urban elasticity's interval includes zero. V-E labels single elasticities (1 km blocks) and paired differences / robustness rows (5 km). The Method says intervals use 5 km blocks except single-estimator speed elasticities and spectra (1 km). | `speed_real.py` (1 km), `speed_paired.py`, `speed_robustness.py`, `speed_scaling_sim.py` (5 km); `results/v3/speed_robustness.csv` | Resolved |
 | E5 / C-13 | Nitsche 2014 and Ngwangwa 2014 described from secondary sources only | Ngwangwa 2014: accepted manuscript read (University of Pretoria repository). The network was trained on responses of a full Land Rover model over slightly modified measured profiles and tested on that vehicle's measured responses; Related Work now says so. Nitsche 2014: abstract read (AIT repository). It confirms simulated-response training, probe-vehicle validation and the wLP target, but not the measured profile, the profilometer reference or the speed condition; those three details are now attributed to Bajic et al., whose full text states them. | `references/REFERENCE_AUDIT.md` section F | Ngwangwa resolved; Nitsche partly (full text not read) |
 | E4 / C-17 | Venue requirements unverified | No target venue is specified in the repository or the conversation (only candidate venue types in `FINAL_REPORT.md` §I). Venue-dependent formatting left unchanged; nothing cut. | - | Unverified (needs the venue) |
-| C-14 | No version control / public freeze | See B3 and section 1. | - | Open (authors' decision) |
+| C-14 | No version control / public freeze | Local commits on branch `paper/final-audit-corrections` (section 1); nothing pushed or published. The commits date from 2026-10-11 and cannot attest the earlier protocol-freeze times. | - | Partly resolved (local only) |
 | C-18 | Upstream pipeline (map matching, features, simulation) not re-run by the audit | Outside the corrections; unchanged. | - | Unverified, as in the audit |
 
 ## 3. Files modified
@@ -69,7 +75,8 @@ the co-author's agreement. When a release exists, replace the intro sentence wit
 
 1. Target venue not specified, so page limit, abstract length (about 266 words) and anonymity rules are unchecked.
    The main paper is 11 pages.
-2. No public release yet (section 5), and `research_rescue/` is not under version control.
+2. No public release yet (section 5). The work is committed locally on branch `paper/final-audit-corrections`
+   (not merged into `main`, not pushed).
 3. Nitsche et al. 2014 full text not read; three details rest on Bajic et al. and are attributed to them. `mounting2026`,
    `hanson2014iri` and `ngwangwa2010ann` remain title-level citations from earlier rounds.
 4. The upstream data and simulation pipeline was not re-executed by the audit (unchanged).
